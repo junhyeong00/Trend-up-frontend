@@ -59,6 +59,12 @@ const server = setupServer(
 
     return res(ctx.status(400));
   }),
+
+  rest.get(`${baseUrl}/products/1`, async (req, res, ctx) => res(ctx.json(
+    {
+      id: 1, name: '상품 1', proudctCount: 3, price: 500, description: '좋다',
+    },
+  ))),
 );
 
 export default server;

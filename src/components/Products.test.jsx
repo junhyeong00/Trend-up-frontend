@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import ProductsStore, { productsStore } from '../stores/ProductsStore';
+import { productsStore } from '../stores/ProductsStore';
 
 import Products from './Products';
 
@@ -8,6 +8,14 @@ import Products from './Products';
 // jest.mock('../hooks/useProductsStore', () => () => ({
 //   fetchProducts,
 // }));
+
+const navigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  useNavigate: () => (
+    navigate
+  ),
+}));
 
 describe('Products', () => {
   it('1페이지 상품 목록 확인 - 8개(총 9개)', async () => {

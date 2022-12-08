@@ -1,18 +1,18 @@
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { productsStore } from '../stores/ProductsStore';
 import ProductsPage from './ProductsPage';
 
-// const fetchProducts = jest.fn();
+const navigate = jest.fn();
 
-// jest.mock('../hooks/useProductsStore', () => () => ({
-//   fetchProducts,
-// }));
+jest.mock('react-router-dom', () => ({
+  useNavigate: () => (
+    navigate
+  ),
+}));
 
 describe('ProductsPage', () => {
-  it('render screen', () => {
+  it('render screen', async () => {
     render(<ProductsPage />);
     productsStore.fetchProducts(1);
-
-    // expect(fetchProducts).toBeCalled();
   });
 });

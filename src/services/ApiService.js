@@ -18,6 +18,12 @@ export default class ApiService {
       totalPageCount: data.totalPageCount,
     };
   }
+
+  async fetchProduct(productId) {
+    const url = `${baseUrl}/products/${productId}`;
+    const { data } = await axios.get(url);
+    return data;
+  }
 }
 
 export const apiService = new ApiService();

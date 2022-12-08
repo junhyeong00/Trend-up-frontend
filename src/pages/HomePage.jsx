@@ -1,3 +1,7 @@
+import Category from '../components/Category';
+
 export default function HomePage() {
-  return null;
+  return (
+    <Category />
+  );
 }

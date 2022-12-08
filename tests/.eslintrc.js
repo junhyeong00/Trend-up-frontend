@@ -1,4 +1,3 @@
 module.exports = {
-    extends: ['plugin:codeceptjs/recommended'],
-  };
-  
+  extends: ['plugin:codeceptjs/recommended'],
+};

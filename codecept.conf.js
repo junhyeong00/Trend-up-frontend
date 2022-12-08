@@ -14,11 +14,11 @@ exports.config = {
     Playwright: {
       url: 'http:localhost:8080',
       show: true,
-      browser: 'chromium'
-    }
+      browser: 'chromium',
+    },
   },
   include: {
-    I: './steps_file.js'
+    I: './steps_file.js',
   },
-  name: 'shopping-mall-frontend'
-}
+  name: 'shopping-mall-frontend',
+};

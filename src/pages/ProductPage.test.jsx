@@ -1,11 +1,15 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import { Navigate } from 'react-router-dom';
 import { productStore } from '../stores/ProductStore';
 import ProductPage from './ProductPage';
+
+const navigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
   useLocation: () => ({
     pathname: '/products/1',
   }),
+  useNavigate: () => navigate,
 }));
 
 describe('ProductPage', () => {

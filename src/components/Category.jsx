@@ -1,8 +1,22 @@
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Container = styled.nav`
+  padding: .8em 1em;
+  border-bottom: 1px solid rgb(217,217,217);
+
+  ul {
+    display: flex;
+  }
+
+  li {
+    margin-left: 2em;
+  }
+`;
 
 export default function Category() {
   return (
-    <nav>
+    <Container>
       <ul>
         <li>
           <Link to="/products">전체</Link>
@@ -14,6 +28,6 @@ export default function Category() {
           <Link to="/products">화장품/미용</Link>
         </li>
       </ul>
-    </nav>
+    </Container>
   );
 }

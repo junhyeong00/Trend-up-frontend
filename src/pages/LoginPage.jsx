@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import Product from '../components/Product';
+import LoginForm from '../components/LoginForm';
 
-export default function ProductPage() {
+export default function LoginPage() {
   const navigate = useNavigate();
 
   return (
-    <Product
+    <LoginForm
       navigate={navigate}
     />
   );

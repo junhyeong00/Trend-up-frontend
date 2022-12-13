@@ -1,15 +1,16 @@
-Feature('리뷰 작성');
+Feature('상품 주문 - 상품을 구매하려는 사람은 상품을 구매하기 위해 주문 / 결제를 완료할 수 있다.');
 
-Scenario('내용을 입력하지 않고 리뷰를 작성한 경우', ({ I }) => {
-  // Given
-
-  // When
-
-  // Then
+beforeEach(({ I }) => {
 
 });
 
-Scenario('내용 입력 후 리뷰를 작성한 경우', ({ I }) => {
+Scenario('상품 주문 완료', ({ I }) => {
+  // When
+
+  // Then
+});
+
+Scenario('', ({ I }) => {
   // Given
 
   // When

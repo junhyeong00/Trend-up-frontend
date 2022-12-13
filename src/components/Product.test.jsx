@@ -5,10 +5,13 @@ import { productStore } from '../stores/ProductStore';
 
 import Product from './Product';
 
+const navigate = jest.fn();
+
 jest.mock('react-router-dom', () => ({
   useLocation: () => ({
     pathname: '/products/1',
   }),
+  useNavigate: () => navigate,
 }));
 
 describe('Product', () => {

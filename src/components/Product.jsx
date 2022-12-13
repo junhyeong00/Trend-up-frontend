@@ -1,9 +1,16 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 import useProductStore from '../hooks/useProductStore';
 import numberFormat from '../utils/NumberFormat';
 
-export default function Product() {
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+`;
+
+export default function Product({ navigate }) {
   const location = useLocation();
 
   const productId = location.pathname.split('/')[2];
@@ -16,8 +23,12 @@ export default function Product() {
 
   const { product, totalPrice, selectedCount } = productStore;
 
+  const handlePurchaseClick = () => {
+    navigate('/order');
+  };
+
   return (
-    <div>
+    <Container>
       <img src="" alt="product" />
       <div>
         <p>{product.name}</p>
@@ -26,12 +37,12 @@ export default function Product() {
           원
         </p>
         <div>
-          {/* <div>
-            <dt>옵션</dt>
-            <dd>
-              .
-            </dd>
-          </div> */}
+          <div>
+            <p>옵션</p>
+            <select>
+              <option value="none"> 선택 </option>
+            </select>
+          </div>
           <div>
             <dt>구매수량</dt>
             <dd>
@@ -62,12 +73,17 @@ export default function Product() {
             </span>
           </p>
         </div>
-        <button type="button">구매하기</button>
+        <button
+          type="button"
+          onClick={handlePurchaseClick}
+        >
+          구매하기
+        </button>
         <div>
           <button type="button">찜</button>
           <button type="button">장바구니</button>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

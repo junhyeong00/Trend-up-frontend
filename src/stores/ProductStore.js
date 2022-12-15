@@ -9,6 +9,13 @@ export default class ProductStore extends Store {
     this.product = {};
     this.selectedCount = 1;
     this.totalPrice = 0;
+
+    this.options = [];
+    this.selectedOptionId = 0;
+    this.selectedOptionName = '';
+    this.selectedOptionPrice = 0;
+
+    this.errorMessage = '';
   }
 
   async fetchProduct(productId) {
@@ -16,12 +23,21 @@ export default class ProductStore extends Store {
     this.product = product;
     this.selectedCount = 1;
     this.totalPrice = product.price;
+    this.selectedOptionId = 0;
+    this.errorMessage = '';
+    this.publish();
+  }
+
+  async fetchOptions(productId) {
+    const { options } = await apiService.fetchOptions(productId);
+    this.options = options;
+
     this.publish();
   }
 
   increaseCount() {
     this.selectedCount += 1;
-    this.totalPrice += this.product.price;
+    this.totalPrice += this.product.price + this.selectedOptionPrice;
     this.publish();
   }
 
@@ -31,7 +47,28 @@ export default class ProductStore extends Store {
     }
 
     this.selectedCount -= 1;
-    this.totalPrice -= this.product.price;
+    this.totalPrice -= this.product.price + this.selectedOptionPrice;
+    this.publish();
+  }
+
+  changeOption(optionId) {
+    this.selectedOptionId = optionId;
+
+    this.publish();
+    if (optionId === 'none') {
+      return;
+    }
+    const option = this.options
+      .find((element) => element.id === Number(optionId));
+
+    this.selectedOptionName = option.name;
+    this.selectedOptionPrice = option.optionPrice;
+    this.totalPrice = (this.product.price + this.selectedOptionPrice) * this.selectedCount;
+    this.publish();
+  }
+
+  notChoiceOption() {
+    this.errorMessage = '옵션을 선택해주세요';
     this.publish();
   }
 }

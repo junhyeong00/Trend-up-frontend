@@ -1,5 +1,4 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { Navigate } from 'react-router-dom';
 import { productStore } from '../stores/ProductStore';
 import ProductPage from './ProductPage';
 

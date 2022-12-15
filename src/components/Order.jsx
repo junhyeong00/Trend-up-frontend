@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useOrderFormStore from '../hooks/useOrderFormStore';
 
@@ -35,13 +36,20 @@ const Form = styled.form`
 
 export default function Orders() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const orderFormStore = useOrderFormStore();
 
+  const orderProducts = location.state;
+
+  useEffect(() => {
+    orderFormStore.setOrderProducts(orderProducts);
+  }, []);
+
   const {
-    orderProducts, totalPrice, payment, deliveryFee,
+    totalPrice, payment, deliveryFee,
     errorMessage,
   } = orderFormStore;
 

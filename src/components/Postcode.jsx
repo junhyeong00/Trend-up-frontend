@@ -82,10 +82,10 @@ export default function Postcode({ register, errors }) {
         <input
           id="input-detail-address"
           placeholder="상세주소"
-          value={detailAddress}
-          onChange={(event) => (
-            orderFormStore.changeDetailAddress(event.target.value)
-          )}
+          // value={detailAddress}
+          // onChange={(event) => (
+          //   orderFormStore.changeDetailAddress(event.target.value)
+          // )}
           {...register('detailAddress')}
         />
       </div>

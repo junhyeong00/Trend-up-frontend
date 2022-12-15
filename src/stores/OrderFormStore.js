@@ -6,21 +6,15 @@ export default class OrderFormStore extends Store {
   constructor() {
     super();
 
-    this.orderProducts = [{
-      productId: 1, name: '사과', optionId: 1, optionName: '미니', optionPrice: 500, price: 3000, quantity: 10,
-    },
-    {
-      productId: 2, name: '귤', optionId: 1, optionName: '미니', optionPrice: 300, price: 2000, quantity: 2,
-    }];
+    this.orderProducts = [];
 
     // this.phoneNumber = '';
     // this.receiver = '';
     // this.deliveryRequest = '';
 
     this.deliveryFee = 3000;
-    this.totalPrice = this.orderProducts
-      .reduce((acc, product) => acc + product.price * product.quantity, 0);
-    this.payment = this.totalPrice + this.deliveryFee;
+    this.totalPrice = 0;
+    this.payment = 0;
 
     this.zipCode = '';
     this.roadAddress = '';
@@ -54,11 +48,26 @@ export default class OrderFormStore extends Store {
       return data;
     } catch (error) {
       this.errorMessage = error.response.data.message;
-      console.log(this.errorMessage);
 
       this.publish();
       return '';
     }
+  }
+
+  initialize() {
+    this.zipCode = '';
+    this.roadAddress = '';
+  }
+
+  setOrderProducts(orderProducts) {
+    this.orderProducts = orderProducts;
+
+    this.totalPrice = this.orderProducts
+      .reduce((acc, product) => acc + (product.price + product.optionPrice) * product.quantity, 0);
+
+    this.payment = this.totalPrice + this.deliveryFee;
+
+    this.publish();
   }
 
   changeZipCode(zipCode) {
@@ -72,11 +81,11 @@ export default class OrderFormStore extends Store {
     this.publish();
   }
 
-  changeDetailAddress(detailAddress) {
-    this.detailAddress = detailAddress;
+  // changeDetailAddress(detailAddress) {
+  //   this.detailAddress = detailAddress;
 
-    this.publish();
-  }
+  //   this.publish();
+  // }
 
   // changePhoneNumber(phoneNumber) {
   //   this.phoneNumber = phoneNumber;

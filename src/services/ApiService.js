@@ -33,6 +33,12 @@ export default class ApiService {
     return data;
   }
 
+  async fetchOptions(productId) {
+    const url = `${baseUrl}/products/${productId}/options`;
+    const { data } = await axios.get(url);
+    return data;
+  }
+
   async postSession({ userName, password }) {
     const url = `${baseUrl}/session`;
     const { data } = await axios.post(url, { userName, password });

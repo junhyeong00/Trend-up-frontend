@@ -66,6 +66,25 @@ const server = setupServer(
     },
   ))),
 
+  rest.get(`${baseUrl}/products/1/options`, async (req, res, ctx) => res(ctx.json(
+    {
+      options: [
+        {
+          id: 1,
+          name: '기본',
+          optionPrice: 0,
+          productId: 1,
+        },
+        {
+          id: 2,
+          name: '두툼한',
+          optionPrice: 1000,
+          productId: 1,
+        },
+      ],
+    },
+  ))),
+
   rest.post(`${baseUrl}/session`, async (req, res, ctx) => {
     const { userName, password } = await req.json();
     if (userName === 'test123' && password === 'Password1234!') {

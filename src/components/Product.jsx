@@ -2,7 +2,9 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import useProductStore from '../hooks/useProductStore';
+import { orderFormStore } from '../stores/OrderFormStore';
 import numberFormat from '../utils/NumberFormat';
+import Error from './ui/Error';
 
 const Container = styled.div`
   display: flex;
@@ -19,12 +21,40 @@ export default function Product({ navigate }) {
 
   useEffect(() => {
     productStore.fetchProduct(productId);
+    productStore.fetchOptions(productId);
   }, []);
 
-  const { product, totalPrice, selectedCount } = productStore;
+  const {
+    product, totalPrice, selectedCount, options,
+    selectedOptionId, selectedOptionName, selectedOptionPrice,
+    errorMessage,
+  } = productStore;
+
+  const orderProducts = [{
+    productId: product.id,
+    name: product.name,
+    optionId: selectedOptionId,
+    optionName: selectedOptionName,
+    optionPrice: selectedOptionPrice,
+    price: product.price,
+    quantity: selectedCount,
+  }];
 
   const handlePurchaseClick = () => {
-    navigate('/order');
+    if (selectedOptionId === 'none' || !selectedOptionId) {
+      productStore.notChoiceOption();
+      return;
+    }
+
+    orderFormStore.initialize();
+    navigate(
+      '/order',
+      { state: orderProducts },
+    );
+  };
+
+  const handleChangeOption = (e) => {
+    productStore.changeOption(e.target.value);
   };
 
   return (
@@ -39,8 +69,27 @@ export default function Product({ navigate }) {
         <div>
           <div>
             <p>옵션</p>
-            <select>
-              <option value="none"> 선택 </option>
+            <select
+              id="options"
+              onChange={handleChangeOption}
+            >
+              <option
+                value="none"
+              >
+                {' '}
+                선택
+                {' '}
+              </option>
+              {options.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
+                  {' '}
+                  ( +
+                  {option.optionPrice}
+                  원
+                  )
+                </option>
+              ))}
             </select>
           </div>
           <div>
@@ -83,6 +132,7 @@ export default function Product({ navigate }) {
           <button type="button">찜</button>
           <button type="button">장바구니</button>
         </div>
+        <Error>{errorMessage}</Error>
       </div>
     </Container>
   );

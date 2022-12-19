@@ -13,6 +13,7 @@ import ProductPage from './pages/ProductPage';
 import OrderPage from './pages/OrderPage';
 import LoginPage from './pages/LoginPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import MyPage from './pages/MyPage';
 
 import { apiService } from './services/ApiService';
 
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/order" element={<OrderPage />} />
           <Route path="/order/success" element={<OrderSuccessPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/my" element={<MyPage />} />
         </Routes>
       </main>
     </div>

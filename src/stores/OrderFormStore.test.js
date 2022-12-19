@@ -2,13 +2,6 @@ import OrderFormStore from './OrderFormStore';
 
 const context = describe;
 
-// const orderProducts = [{
-//   productId: 1, name: '사과', optionId: 1, optionName: '미니', optionPrice: 500, price: 3000, quantity: 10,
-// },
-// {
-//   productId: 2, name: '귤', optionId: 1, optionName: '미니', optionPrice: 300, price: 2000, quantity: 2,
-// }];
-
 describe('OrderFormStore', () => {
   let orderFormStore;
 

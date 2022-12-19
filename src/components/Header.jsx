@@ -87,9 +87,7 @@ export default function Header() {
           <button type="button">
             장바구니
           </button>
-          <button type="button">
-            My
-          </button>
+          <Link to="/my">My</Link>
         </div>
       </Menu>
     </Container>

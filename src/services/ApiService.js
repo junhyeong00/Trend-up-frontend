@@ -39,6 +39,24 @@ export default class ApiService {
     return data;
   }
 
+  async fetchOrders(page, size, startDate, endDate, keyword) {
+    const url = `${baseUrl}/orders`;
+    const { data } = await axios.get(
+      url,
+      {
+        headers: { Authorization: `Bearer ${this.accessToken}` },
+
+        params: {
+          page, size, startDate, endDate, keyword,
+        },
+      },
+    );
+    return {
+      orders: data.orders,
+      totalPageCount: data.totalPageCount,
+    };
+  }
+
   async postSession({ userName, password }) {
     const url = `${baseUrl}/session`;
     const { data } = await axios.post(url, { userName, password });

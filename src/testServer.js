@@ -155,6 +155,72 @@ const server = setupServer(
       }),
     );
   }),
+
+  rest.get(`${baseUrl}/orders`, async (req, res, ctx) => {
+    const startDate = await req.url.searchParams.get('startDate');
+    const endDate = await req.url.searchParams.get('endDate');
+
+    if (startDate === '2022년 12월 14일' && endDate === '2022년 12월 17일') {
+      return res(ctx.json({
+        orders: [
+          {
+            id: 1,
+            payment: 10000,
+            createAt: 2022 - 12 - 15,
+            orderProducts: [{ productId: 1, productName: '가디건' }],
+          },
+          {
+            id: 2,
+            payment: 20000,
+            createAt: 2022 - 12 - 16,
+            orderProducts: [{ productId: 2, productName: '귤' }],
+          },
+        ],
+        totalPageCount: 2,
+      }));
+    }
+
+    if (startDate === '2022년 12월 16일' && endDate === '2022년 12월 17일') {
+      return res(ctx.json({
+        orders: [
+          {
+            id: 2,
+            payment: 20000,
+            createAt: 2022 - 12 - 16,
+            orderProducts: [{ productId: 2, productName: '귤' }],
+          },
+        ],
+        totalPageCount: 2,
+      }));
+    }
+    if (startDate === null && endDate === null) {
+      return res(ctx.json({
+        orders: [
+          {
+            id: 1,
+            payment: 10000,
+            createAt: 2022 - 12 - 15,
+            orderProducts: [{ productId: 1, productName: '가디건' }],
+          },
+          {
+            id: 2,
+            payment: 20000,
+            createAt: 2022 - 12 - 16,
+            orderProducts: [{ productId: 2, productName: '귤' }],
+          },
+          {
+            id: 3,
+            payment: 30000,
+            createAt: 2022 - 12 - 19,
+            orderProducts: [{ productId: 3, productName: '사과' }],
+          },
+        ],
+        totalPageCount: 2,
+      }));
+    }
+
+    return res(ctx.status(400));
+  }),
 );
 
 export default server;

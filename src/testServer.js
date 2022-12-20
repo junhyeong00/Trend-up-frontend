@@ -221,6 +221,16 @@ const server = setupServer(
 
     return res(ctx.status(400));
   }),
+
+  rest.get(`${baseUrl}/orders/1`, async (req, res, ctx) => res(ctx.json(
+    {
+      id: 1,
+      payment: 10000,
+      receiver: '배준형',
+      createAt: 2022 - 12 - 15,
+      orderProducts: [{ productId: 1, productName: '가디건' }],
+    },
+  ))),
 );
 
 export default server;

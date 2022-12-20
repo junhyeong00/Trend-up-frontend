@@ -1,7 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import My from '../components/My';
 import MyPageNavigation from '../components/MyPageNavigation';
+import OrderDetail from '../components/OrderDetail';
 
 const Container = styled.div`
   display: grid;
@@ -9,15 +8,11 @@ const Container = styled.div`
   padding: 1em;
 `;
 
-export default function MyPage() {
-  const navigate = useNavigate();
-
+export default function OrderDetailPage() {
   return (
     <Container>
       <MyPageNavigation />
-      <My
-        navigate={navigate}
-      />
+      <OrderDetail />
     </Container>
   );
 }

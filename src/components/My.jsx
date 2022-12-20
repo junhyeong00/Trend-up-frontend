@@ -7,7 +7,6 @@ import ReactDatePicker from 'react-datepicker';
 import useOrdersStore from '../hooks/useOrdersStore';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import MyPageNavigation from './MyPageNavigation';
 
 import numberFormat from '../utils/NumberFormat';
 
@@ -17,8 +16,6 @@ import PageNumbers from './PageNumbers';
 import { useLocalStorage } from 'usehooks-ts';
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 5fr;
 `;
 
 const List = styled.ul`
@@ -35,7 +32,7 @@ export default function My({ navigate }) {
   const ordersStore = useOrdersStore();
 
   const {
-    orders, dateRange, totalPageCount, currentPage, keyword,
+    orders, dateRange, totalPageCount, currentPage,
   } = ordersStore;
 
   const [startDate, endDate] = dateRange;
@@ -56,9 +53,12 @@ export default function My({ navigate }) {
     ordersStore.changePage(page);
   };
 
+  const handleOrderClick = (orderId) => {
+    navigate(`/orders/${orderId}`);
+  };
+
   return (
     <Container>
-      <MyPageNavigation />
       <div>
         <h3>주문 목록</h3>
         <div>
@@ -96,7 +96,13 @@ export default function My({ navigate }) {
             <li key={order.id}>
               <div>
                 <p>{order.createAt}</p>
-                <p>주문 상세보기</p>
+                <button
+                  type="button"
+                  onClick={() => handleOrderClick(order.id)}
+                >
+                  주문 상세보기
+
+                </button>
                 <p>
                   {order.orderProducts[0].productName}
                   {' '}

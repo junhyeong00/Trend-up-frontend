@@ -57,6 +57,16 @@ export default class ApiService {
     };
   }
 
+  async fetchOrder(orderId) {
+    const url = `${baseUrl}/orders/${orderId}`;
+    const { data } = await axios.get(
+      url,
+      { headers: { Authorization: `Bearer ${this.accessToken}` } },
+    );
+
+    return data;
+  }
+
   async postSession({ userName, password }) {
     const url = `${baseUrl}/session`;
     const { data } = await axios.post(url, { userName, password });

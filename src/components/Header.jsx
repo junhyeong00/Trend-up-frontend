@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -33,8 +34,25 @@ const Menu = styled.div`
   justify-content: space-around;
 
   button {
-    padding: .8em 1em;
+    padding: .6em .8em;
   }
+`;
+
+const Search = styled.div`
+  display: flex;
+
+  input {
+    margin-bottom: .6em;
+    padding: 1em 1.5em;
+    width: 80%;
+    :focus {
+      outline: 1px solid #22DAAB;
+    }
+
+    button {
+      
+    }
+}
 `;
 
 export default function Header() {
@@ -49,6 +67,12 @@ export default function Header() {
     navigate('/');
   };
 
+  useEffect(() => {
+    userStore.fetchUserInformation();
+  }, []);
+
+  const { name } = userStore;
+
   return (
     <Container>
       <ul>
@@ -56,7 +80,7 @@ export default function Header() {
           <>
             <li>
               <p>
-                {userStore.name}
+                {name}
                 님
               </p>
             </li>
@@ -79,10 +103,10 @@ export default function Header() {
         <h1>
           <Link to="/">쇼핑몰</Link>
         </h1>
-        <div>
+        <Search>
           <input />
           <button type="button">검색</button>
-        </div>
+        </Search>
         <div>
           <button type="button">
             장바구니

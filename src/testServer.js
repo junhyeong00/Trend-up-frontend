@@ -231,6 +231,12 @@ const server = setupServer(
       orderProducts: [{ productId: 1, productName: '가디건' }],
     },
   ))),
+
+  rest.get(`${baseUrl}/user/me`, async (req, res, ctx) => res(ctx.json({
+    name: '배준형',
+    phoneNumber: '01012341234',
+    userName: 'test123',
+  }))),
 );
 
 export default server;

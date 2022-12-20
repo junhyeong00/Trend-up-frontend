@@ -1,32 +1,47 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import useUserStore from '../hooks/useUserStore';
 
 const Container = styled.div`
-  
 `;
 
 const Profile = styled.div`
-    border: 1px solid black;
+  padding: 1em;
+  border: 1px solid black;
 `;
 
 const Menu = styled.div`
-    border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+  border: 1px solid black;
+
+  li {
+    margin-block: .3em;
+  }
 `;
 
 const Navigation = styled.nav`
   width: 10em;
+  margin-top: .5em;
 `;
 
 export default function MyPageNavigation() {
+  const userStore = useUserStore();
+
+  const { name, userName } = userStore;
+
   return (
     <Container>
       <h2>마이페이지</h2>
       <Navigation>
         <Profile>
           <p>
-            배준형님
+            {name}
+            님
           </p>
-          <p>test123</p>
+          <p>{userName}</p>
         </Profile>
         <Menu>
           <h3>메뉴</h3>

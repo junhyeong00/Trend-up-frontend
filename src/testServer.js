@@ -237,6 +237,12 @@ const server = setupServer(
     phoneNumber: '01012341234',
     userName: 'test123',
   }))),
+
+  rest.post(`${baseUrl}/review`, async (req, res, ctx) => res(
+    ctx.json({
+      reviewId: 1,
+    }),
+  )),
 );
 
 export default server;

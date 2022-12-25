@@ -2,8 +2,9 @@
 
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { nanoid } from 'nanoid';
 import useOrderFormStore from '../hooks/useOrderFormStore';
 
 import numberFormat from '../utils/NumberFormat';
@@ -34,8 +35,7 @@ const Form = styled.form`
   }
 `;
 
-export default function Orders() {
-  const navigate = useNavigate();
+export default function Order({ navigate }) {
   const location = useLocation();
 
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -56,15 +56,11 @@ export default function Orders() {
   const onSubmit = async (data) => {
     const {
       receiver, phoneNumber, deliveryRequest,
-      zipCode, roadAddress, detailAddress,
     } = data;
     const { orderId } = await orderFormStore.order({
       receiver,
       phoneNumber,
       deliveryRequest,
-      zipCode,
-      roadAddress,
-      detailAddress,
     });
 
     if (orderId) {
@@ -86,8 +82,7 @@ export default function Orders() {
         </thead>
         <tbody>
           {orderProducts.map((order) => (
-            // TOTO 유니크한 값으로 바꾸기
-            <tr key={order.productId}>
+            <tr key={nanoid()}>
               <td>
                 <a href="/products">
                   <img src="" alt={order.name} />

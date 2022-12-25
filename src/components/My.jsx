@@ -95,13 +95,13 @@ export default function My({ navigate }) {
           {orders.map((order) => (
             <li key={order.id}>
               <div>
+                <p>{order.deliveryStatus}</p>
                 <p>{order.createAt}</p>
                 <button
                   type="button"
                   onClick={() => handleOrderClick(order.id)}
                 >
                   주문 상세보기
-
                 </button>
                 <p>
                   {order.orderProducts[0].productName}

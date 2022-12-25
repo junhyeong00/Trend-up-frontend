@@ -15,7 +15,6 @@ export default class UserStore extends Store {
 
   async fetchUserInformation() {
     const { name, userName, phoneNumber } = await apiService.fetchUserInformation();
-
     this.name = name;
     this.userName = userName;
     this.phoneNumber = phoneNumber;

@@ -46,7 +46,7 @@ const Search = styled.div`
     padding: 1em 1.5em;
     width: 80%;
     :focus {
-      outline: 1px solid #22DAAB;
+      outline: 1px solid #99CCFF;
     }
 
     button {
@@ -72,6 +72,12 @@ export default function Header() {
   }, []);
 
   const { name } = userStore;
+
+  if (accessToken && !name) {
+    return (
+      <p>loading...</p>
+    );
+  }
 
   return (
     <Container>

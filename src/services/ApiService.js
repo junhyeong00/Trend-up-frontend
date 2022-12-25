@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import config from '../../config';
 
+const { cloudinaryName, cloudinaryKey } = config;
+
 const baseUrl = config.apiBaseUrl;
 
 export default class ApiService {
@@ -94,6 +96,7 @@ export default class ApiService {
       deliveryRequest,
     }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
 
+    console.log(data);
     return data;
   }
 
@@ -106,6 +109,46 @@ export default class ApiService {
     const { name, userName, phoneNumber } = data;
 
     return { name, userName, phoneNumber };
+  }
+
+  async createReview({
+    rating, content, orderId, orderProduct,
+  }) {
+    const url = `${baseUrl}/review`;
+    const { data } = await axios.post(url, {
+      rating,
+      content,
+      orderId,
+      ...orderProduct,
+    }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
+
+    return data;
+  }
+
+  async upload(imageFile) {
+    const url = `https://api.cloudinary.com/v1_1/${cloudinaryName}/image/upload/`;
+
+    const formData = new FormData();
+
+    formData.append('api_key', cloudinaryKey);
+    formData.append('upload_preset', 'qvnby8qv');
+    formData.append('timestamp', (Date.now() / 1000) || 0);
+    formData.append('file', imageFile);
+
+    const configOfUpload = {
+      header: { 'Content-Type': 'multipart/form-data' },
+    };
+
+    const { data } = await axios.post(url, formData, configOfUpload);
+
+    return data.url;
+  }
+
+  async fetchReviews(productId, page) {
+    const url = `${baseUrl}/products/${productId}/reviews`;
+    const { data } = axios.get(url, {
+      params: { page },
+    });
   }
 }
 

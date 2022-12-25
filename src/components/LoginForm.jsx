@@ -42,7 +42,7 @@ const Input = styled.input`
   width: 100%;
   border: ${(props) => (props.error ? '1px solid #ff0000' : '1px solid #a29f9f')};
   :focus {
-    outline: 1px solid #22DAAB;
+    outline: 1px solid #99CCFF;
   }
 `;
 

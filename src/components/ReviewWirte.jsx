@@ -68,7 +68,7 @@ export default function ReviewWrite({ navigate }) {
 
   const { orderId, product } = location.state;
 
-  const { rating, imageUrl } = reviewFormStore;
+  const { rating, imageUrl, content } = reviewFormStore;
 
   const handleClick = async () => {
     const { reviewId } = await reviewFormStore
@@ -110,6 +110,8 @@ export default function ReviewWrite({ navigate }) {
           <label htmlFor="input-content">내용</label>
           <Input
             id="input-content"
+            value={content}
+            onChange={(e) => reviewFormStore.changeContent(e.target.value)}
           />
         </div>
         <PhotoUpload>

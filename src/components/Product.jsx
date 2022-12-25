@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import useProductStore from '../hooks/useProductStore';
 import { orderFormStore } from '../stores/OrderFormStore';
@@ -12,11 +11,7 @@ const Container = styled.div`
   padding: 1em;
 `;
 
-export default function Product({ navigate }) {
-  const location = useLocation();
-
-  const productId = location.pathname.split('/')[2];
-
+export default function Product({ navigate, productId }) {
   const productStore = useProductStore();
 
   useEffect(() => {
@@ -59,7 +54,7 @@ export default function Product({ navigate }) {
 
   return (
     <Container>
-      <img src="" alt="product" />
+      <img src={product.image} alt="product" />
       <div>
         <p>{product.name}</p>
         <p>

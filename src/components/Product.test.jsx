@@ -8,15 +8,6 @@ import Product from './Product';
 
 const navigate = jest.fn();
 
-jest.mock('react-router-dom', () => ({
-  useLocation: () => ({
-    pathname: '/products/1',
-  }),
-  // useNavigate: () => (
-  //   navigate
-  // ),
-}));
-
 const context = describe;
 
 describe('Product', () => {
@@ -24,10 +15,13 @@ describe('Product', () => {
     cleanup();
   });
 
+  const productId = 1;
+
   it('renders product information', async () => {
     render(
       <Product
         navigate={navigate}
+        productId={productId}
       />,
     );
 
@@ -47,6 +41,7 @@ describe('Product', () => {
     render(
       <Product
         navigate={navigate}
+        productId={productId}
       />,
     );
 
@@ -66,6 +61,7 @@ describe('Product', () => {
     render(
       <Product
         navigate={navigate}
+        productId={productId}
       />,
     );
 
@@ -84,6 +80,7 @@ describe('Product', () => {
     render(
       <Product
         navigate={navigate}
+        productId={productId}
       />,
     );
 
@@ -106,6 +103,7 @@ describe('Product', () => {
       render(
         <Product
           navigate={navigate}
+          productId={productId}
         />,
       );
 
@@ -125,6 +123,7 @@ describe('Product', () => {
       render(
         <Product
           navigate={navigate}
+          productId={productId}
         />,
       );
 

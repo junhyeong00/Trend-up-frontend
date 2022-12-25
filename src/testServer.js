@@ -243,6 +243,34 @@ const server = setupServer(
       reviewId: 1,
     }),
   )),
+
+  rest.get(`${baseUrl}/products/1/reviews`, async (req, res, ctx) => {
+    const page = await req.url.searchParams.get('page');
+
+    return res(ctx.json({
+      reviews: [
+        {
+          id: 1,
+          rating: 5,
+          createAt: 2022 - 12 - 15,
+          content: '좋아요',
+          productId: 1,
+          productName: '가디건',
+        },
+        {
+          id: 2,
+          rating: 5,
+          createAt: 2022 - 12 - 16,
+          content: '맛있어요',
+          productId: 2,
+          productName: '귤',
+        },
+      ],
+      totalPageCount: 2,
+      totalRating: 4.2,
+      totalReviewCount: 2,
+    }));
+  }),
 );
 
 export default server;

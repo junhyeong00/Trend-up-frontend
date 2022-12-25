@@ -112,7 +112,7 @@ export default class ApiService {
   }
 
   async createReview({
-    rating, content, orderId, orderProduct,
+    rating, content, orderId, orderProduct, imageUrl,
   }) {
     const url = `${baseUrl}/review`;
     const { data } = await axios.post(url, {
@@ -120,6 +120,7 @@ export default class ApiService {
       content,
       orderId,
       ...orderProduct,
+      imageUrl,
     }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
 
     return data;
@@ -144,11 +145,18 @@ export default class ApiService {
     return data.url;
   }
 
-  async fetchReviews(productId, page) {
+  async fetchReviews(page, productId) {
     const url = `${baseUrl}/products/${productId}/reviews`;
-    const { data } = axios.get(url, {
+    const { data } = await axios.get(url, {
       params: { page },
     });
+
+    return {
+      reviews: data.reviews,
+      totalPageCount: data.totalPageCount,
+      totalReviewCount: data.totalReviewCount,
+      totalRating: data.totalRating,
+    };
   }
 }
 

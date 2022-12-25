@@ -35,6 +35,12 @@ export default class ReviewFormStore extends Store {
     this.publish();
   }
 
+  changeContent(content) {
+    this.content = content;
+
+    this.publish();
+  }
+
   async uploadImage(imageFile) {
     const imageUrl = await apiService.upload(imageFile);
 

@@ -1,4 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import {
+  cleanup, render, screen, waitFor,
+} from '@testing-library/react';
 import { productStore } from '../stores/ProductStore';
 import ProductPage from './ProductPage';
 
@@ -8,10 +10,16 @@ jest.mock('react-router-dom', () => ({
   useLocation: () => ({
     pathname: '/products/1',
   }),
-  useNavigate: () => navigate,
+  useNavigate: () => (
+    navigate
+  ),
 }));
 
 describe('ProductPage', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('render screen', async () => {
     render(<ProductPage />);
     productStore.fetchProduct(1);

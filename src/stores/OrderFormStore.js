@@ -27,24 +27,21 @@ export default class OrderFormStore extends Store {
     receiver,
     phoneNumber,
     deliveryRequest,
-    zipCode,
-    roadAddress,
-    detailAddress,
   }) {
     try {
       const data = await apiService.order({
         orderProducts: this.orderProducts,
         receiver,
         phoneNumber,
-        zipCode,
-        roadAddress,
-        detailAddress,
+        zipCode: this.zipCode,
+        roadAddress: this.roadAddress,
+        detailAddress: this.detailAddress,
         payment: this.payment,
         totalPrice: this.totalPrice,
         deliveryFee: this.deliveryFee,
         deliveryRequest,
       });
-
+      console.log(data);
       return data;
     } catch (error) {
       this.errorMessage = error.response.data.message;

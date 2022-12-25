@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import useOrderStore from '../hooks/useOrderStore';
 
 import numberFormat from '../utils/NumberFormat';
+import useReviewFormStore from '../hooks/useReviewFormStore';
 
 const Container = styled.div`
   display: flex;
@@ -35,10 +36,12 @@ const PaymentInformation = styled.dl`
     row-gap: .5em;
 `;
 
-export default function OrderDetail() {
+export default function OrderDetail({ navigate }) {
   const location = useLocation();
 
   const orderId = location.pathname.split('/')[2];
+
+  const reviewFormStore = useReviewFormStore();
 
   const orderStore = useOrderStore();
 
@@ -56,6 +59,13 @@ export default function OrderDetail() {
     );
   }
 
+  const handleReviewWriteClick = (product) => {
+    navigate('/my/review/write', {
+      state: { product, orderId: order.id },
+    });
+    reviewFormStore.initialize();
+  };
+
   return (
     <Container>
       <h3>주문 상세정보</h3>
@@ -71,6 +81,15 @@ export default function OrderDetail() {
                 개
               </p>
               <p>{product.productPrice}</p>
+              {product.writable
+                ? (
+                  <button
+                    type="button"
+                    onClick={() => handleReviewWriteClick(product)}
+                  >
+                    리뷰 작성
+                  </button>
+                ) : null}
             </li>
           ))}
         </List>

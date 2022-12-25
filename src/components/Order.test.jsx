@@ -1,45 +1,58 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { productsStore } from '../stores/ProductsStore';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 
-import Products from './Products';
-
-// const fetchProducts = jest.fn();
-
-// jest.mock('../hooks/useProductsStore', () => () => ({
-//   fetchProducts,
-// }));
+import Order from './Order';
 
 const navigate = jest.fn();
 
+jest.mock('nanoid', () => ({ nanoid: () => '1234' }));
+
 jest.mock('react-router-dom', () => ({
-  useNavigate: () => (
-    navigate
-  ),
+  useLocation: () => ({
+    state: [
+      { name: '가디건' },
+    ],
+  }),
 }));
 
-describe('Products', () => {
-  it('1페이지 상품 목록 확인 - 8개(총 9개)', async () => {
+describe('Order', () => {
+  it('renders screen', async () => {
     render(
-      <Products />,
+      <Order
+        navigate={navigate}
+      />,
     );
 
-    productsStore.fetchProducts(1);
-
-    await waitFor(() => {
-      screen.getByText('상품 1');
-      screen.getByText('상품 8');
-    });
+    screen.getByText('주문 / 결제');
+    screen.getByText('배송지 정보');
+    screen.getByText('결제 상세');
+    screen.getByText('가디건');
   });
 
-  it('2페이지 상품 목록 확인 - 1개(총 9개)', async () => {
+  it('listens for order event', async () => {
     render(
-      <Products />,
+      <Order
+        navigate={navigate}
+      />,
     );
 
-    productsStore.fetchProducts(2);
+    fireEvent.change(screen.getByLabelText('받는 분 성함', {
+      target: { value: '배준형' },
+    }));
+
+    fireEvent.change(screen.getByLabelText('받는 분 번호', {
+      target: { value: '01012341234' },
+    }));
+
+    fireEvent.change(screen.getByLabelText('도로명주소', {
+      target: { value: '인천' },
+    }));
+
+    fireEvent.submit(screen.getByText('결제하기'));
 
     await waitFor(() => {
-      screen.getByText('상품 9');
+      expect(navigate).toBeCalledWith('/order/success');
     });
   });
 });

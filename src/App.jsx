@@ -15,6 +15,7 @@ import LoginPage from './pages/LoginPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import MyPage from './pages/MyPage';
 import OrderDetailPage from './pages/OrderDetailPage';
+import ReviewWritePage from './pages/ReviewWritePage';
 
 import { apiService } from './services/ApiService';
 
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/order/success" element={<OrderSuccessPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/my" element={<MyPage />} />
+          <Route path="/my/review/write" element={<ReviewWritePage />} />
           <Route path="/orders/:orderId" element={<OrderDetailPage />} />
         </Routes>
       </main>

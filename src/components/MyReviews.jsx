@@ -34,7 +34,7 @@ const Content = styled.div`
   display: grid;
 `;
 
-export default function MyReviews() {
+export default function MyReviews({ navigate }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const reviewsStore = useReviewsStore();
@@ -53,9 +53,15 @@ export default function MyReviews() {
     reviewsStore.changePage(page);
   };
 
-  const handleClickDelete = (reviewId) => {
+  const handleClickDelete = async (reviewId) => {
     setModalOpen(true);
-    reviewsStore.changeReviewId(reviewId);
+    await reviewsStore.changeReviewId(reviewId);
+  };
+
+  const handleClickEdit = async (reviewId) => {
+    navigate('/my/review/edit', {
+      state: { reviewId },
+    });
   };
 
   const handleReviewDelete = () => {
@@ -108,7 +114,12 @@ export default function MyReviews() {
             </Content>
             <img src={review.image} alt="" />
             <div>
-              <button type="button">수정</button>
+              <button
+                type="button"
+                onClick={() => handleClickEdit(review.id)}
+              >
+                수정
+              </button>
               <button
                 type="button"
                 onClick={() => handleClickDelete(review.id)}

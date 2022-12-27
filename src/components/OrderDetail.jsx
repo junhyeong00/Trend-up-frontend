@@ -54,18 +54,18 @@ export default function OrderDetail({ navigate }) {
 
   const products = order.orderProducts;
 
-  if (!Object.keys(order).length) {
-    return (
-      <p>Now loading</p>
-    );
-  }
-
   const handleReviewWriteClick = (product) => {
     navigate('/my/review/write', {
       state: { product, orderId: order.id },
     });
     reviewFormStore.initialize();
   };
+
+  if (!Object.keys(order).length) {
+    return (
+      <p>Now loading</p>
+    );
+  }
 
   return (
     <Container>

@@ -184,6 +184,13 @@ export default class ApiService {
 
     return data;
   }
+
+  async editReview(reviewId, rating, content, imageUrl) {
+    const url = `${baseUrl}/reviews/${reviewId}`;
+    await axios.patch(url, {
+      rating, content, imageUrl,
+    });
+  }
 }
 
 export const apiService = new ApiService();

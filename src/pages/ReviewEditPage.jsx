@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyPageNavigation from '../components/MyPageNavigation';
-import MyReviews from '../components/MyReviews';
+import ReviewEdit from '../components/ReviewEdit';
 
 const Container = styled.div`
   display: grid;
@@ -9,14 +9,19 @@ const Container = styled.div`
   padding: 1em;
 `;
 
-export default function ReviewManagementPage() {
+export default function ReviewEditPage() {
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const { reviewId } = location.state;
 
   return (
     <Container>
       <MyPageNavigation />
-      <MyReviews
+      <ReviewEdit
         navigate={navigate}
+        reviewId={reviewId}
       />
     </Container>
   );

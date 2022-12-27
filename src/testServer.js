@@ -293,7 +293,7 @@ const server = setupServer(
   rest.get(`${baseUrl}/reviews/1`, async (req, res, ctx) => res(ctx.json(
     {
       id: 1,
-      rating: 5,
+      rating: 4,
       createAt: 2022 - 12 - 15,
       content: '좋아요',
       productId: 1,

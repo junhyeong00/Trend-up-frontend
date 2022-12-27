@@ -9,7 +9,7 @@ describe('ReviewFormStore', () => {
     reviewFormStore = new ReviewFormStore();
   });
 
-  describe('Review', () => {
+  describe('ReviewWrite', () => {
     context('when review success', () => {
       it('confirm reviewId', async () => {
         const { reviewId } = await reviewFormStore.reviewWrite({

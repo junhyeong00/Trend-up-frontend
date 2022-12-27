@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
 import StarRatings from 'react-star-ratings';
+import { Link } from 'react-router-dom';
 import PageNumbers from './PageNumbers';
 
 import useReviewsStore from '../hooks/useReviewsStore';
+import Modal from './Modal';
 
 const Container = styled.div`
   padding: 1em;
@@ -20,74 +22,52 @@ const List = styled.ul`
   button {
     padding: 1em;
   }
+
+  img {
+    background-size: contain;
+    width: 9em;
+    height: 9em;
+  }
 `;
 
 const Content = styled.div`
   display: grid;
 `;
 
-const ReviewsInformation = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding-left: 2em;
-  padding-top: 2em;
-  padding-bottom: 1em;
-`;
+export default function MyReviews() {
+  const [modalOpen, setModalOpen] = useState(false);
 
-const TotalRating = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  p {
-    padding-bottom: 1em;
-  }
-  p:first-child {
-    color: #727272;
-  }
-  p:last-child {
-    font-weight: bold;
-    font-size: 2em;
-  }
-`;
-
-const TotalReviews = styled.div`
-   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  
-  p {
-    padding-bottom: 1em;
-  }
-
-  p:first-child {
-    color: #727272;
-  }
-
-  p:last-child {
-    padding-top: .5em;
-    font-weight: bold;
-    font-size: 2em;
-  }
-`;
-
-export default function Reviews({ productId }) {
   const reviewsStore = useReviewsStore();
 
   const {
-    reviews, totalPageCount, totalReviewCount, totalRating,
+    reviews, totalPageCount,
   } = reviewsStore;
 
   const { currentPage } = reviewsStore;
 
   useEffect(() => {
-    reviewsStore.fetchProductReviews(currentPage, productId);
+    reviewsStore.fetchMyReviews(currentPage);
   }, []);
 
   const handlePageClick = (page) => {
     reviewsStore.changePage(page);
+  };
+
+  const handleClickDelete = (reviewId) => {
+    setModalOpen(true);
+    reviewsStore.changeReviewId(reviewId);
+  };
+
+  const handleReviewDelete = () => {
+    const id = reviewsStore.delete();
+
+    if (id) {
+      setModalOpen(false);
+    }
+  };
+
+  const handleCancelClick = () => {
+    setModalOpen(false);
   };
 
   if (!reviews.length) {
@@ -96,35 +76,9 @@ export default function Reviews({ productId }) {
 
   return (
     <Container>
-      <h3>상품 리뷰</h3>
-      <ReviewsInformation>
-        <TotalRating>
-          <p>
-            사용자 총 평점
-          </p>
-          <StarRatings
-            rating={totalRating}
-            starRatedColor="blue"
-            starDimension="20px"
-            starSpacing="3px"
-          />
-          <p>
-            {totalRating}
-            {' '}
-            /
-            {' '}
-            5
-          </p>
-        </TotalRating>
-        <TotalReviews>
-          <p>
-            전체 리뷰 수
-          </p>
-          <p>
-            {totalReviewCount}
-          </p>
-        </TotalReviews>
-      </ReviewsInformation>
+      <h3>리뷰 관리</h3>
+      <Link to="/my/review/writeable">리뷰 작성</Link>
+      <Link to="/my/reviews">작성한 리뷰</Link>
       <List>
         {reviews.map((review) => (
           <li key={review.id}>
@@ -153,6 +107,15 @@ export default function Reviews({ productId }) {
               <p>{review.content}</p>
             </Content>
             <img src={review.image} alt="" />
+            <div>
+              <button type="button">수정</button>
+              <button
+                type="button"
+                onClick={() => handleClickDelete(review.id)}
+              >
+                삭제
+              </button>
+            </div>
           </li>
         ))}
       </List>
@@ -160,6 +123,15 @@ export default function Reviews({ productId }) {
         totalPageCount={totalPageCount}
         handlePageClick={handlePageClick}
       />
+      {modalOpen ? (
+        <Modal
+          titleMessage="삭제 시 복구나 재등록이 불가능합니다. 정말 삭제하시겠습니까?"
+          firstButtonName="취소"
+          firstHandleClick={handleCancelClick}
+          secondButtonName="삭제"
+          secondHandleClick={handleReviewDelete}
+        />
+      ) : null}
     </Container>
   );
 }

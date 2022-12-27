@@ -34,10 +34,8 @@ describe('Reviews', () => {
     renderReviews(1);
 
     await waitFor(() => {
-      screen.getByText(/가디건/);
+      screen.getAllByText(/가디건/);
       screen.getByText('좋아요');
-      screen.getByText(/귤/);
-      screen.getByText('맛있어요');
     });
   });
 });

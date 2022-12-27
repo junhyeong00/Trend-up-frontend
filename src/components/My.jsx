@@ -16,6 +16,7 @@ import PageNumbers from './PageNumbers';
 import { useLocalStorage } from 'usehooks-ts';
 
 const Container = styled.div`
+  padding: 1em;
 `;
 
 const List = styled.ul`

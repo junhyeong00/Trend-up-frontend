@@ -37,7 +37,7 @@ describe('ReviewWrite', () => {
     fireEvent.click(screen.getByText('등록하기'));
 
     await waitFor(() => {
-      expect(navigate).toBeCalledWith('/my');
+      expect(navigate).toBeCalled();
     });
   });
 });

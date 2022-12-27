@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 import MyPageNavigation from '../components/MyPageNavigation';
-import OrderDetail from '../components/OrderDetail';
+import ReviewWriteable from '../components/ReviewWriteable';
 
 const Container = styled.div`
   display: grid;
@@ -10,13 +9,13 @@ const Container = styled.div`
   padding: 1em;
 `;
 
-export default function OrderDetailPage() {
+export default function ReviewWriteablePage() {
   const navigate = useNavigate();
 
   return (
     <Container>
       <MyPageNavigation />
-      <OrderDetail
+      <ReviewWriteable
         navigate={navigate}
       />
     </Container>

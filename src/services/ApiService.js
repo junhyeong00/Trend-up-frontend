@@ -158,6 +158,32 @@ export default class ApiService {
       totalRating: data.totalRating,
     };
   }
+
+  async fetchMyReviews(page) {
+    const url = `${baseUrl}/reviews`;
+    const { data } = await axios.get(url, {
+      params: { page }, headers: { Authorization: `Bearer ${this.accessToken}` },
+    });
+
+    return {
+      reviews: data.reviews,
+      totalPageCount: data.totalPageCount,
+    };
+  }
+
+  async fetchReview(reviewId) {
+    const url = `${baseUrl}/reviews/${reviewId}`;
+    const { data } = await axios.get(url);
+
+    return data;
+  }
+
+  async deleteReview(reviewId) {
+    const url = `${baseUrl}/reviews/${reviewId}`;
+    const { data } = await axios.delete(url);
+
+    return data;
+  }
 }
 
 export const apiService = new ApiService();

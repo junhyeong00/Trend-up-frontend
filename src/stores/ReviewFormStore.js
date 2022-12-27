@@ -11,7 +11,7 @@ export default class ReviewFormStore extends Store {
     this.imageUrl = '';
   }
 
-  initialize() {
+  async initialize() {
     this.rating = 5;
     this.content = '';
     this.imageUrl = '';

@@ -50,7 +50,9 @@ export default function MyPageNavigation() {
               <Link to="/my">주문 목록</Link>
             </li>
             <li>개인 정보 관리</li>
-            <li>리뷰 관리</li>
+            <li>
+              <Link to="/my/review/writeable">리뷰 관리</Link>
+            </li>
             <li>찜 리스트</li>
           </ul>
         </Menu>

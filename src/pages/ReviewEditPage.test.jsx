@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import ReviewEditPage from './ReviewEditPage';
 
 const navigate = jest.fn();
@@ -23,6 +23,10 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('ReviewEditPage', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('render screen', () => {
     render(<ReviewEditPage />);
   });

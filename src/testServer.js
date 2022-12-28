@@ -140,15 +140,6 @@ const server = setupServer(
       );
     }
 
-    if (roadAddress === '') {
-      return res(
-        ctx.status(400),
-        ctx.json({
-          message: '주소를 입력해주세요',
-        }),
-      );
-    }
-
     return res(
       ctx.json({
         orderId: 1,
@@ -300,6 +291,8 @@ const server = setupServer(
       productName: '가디건',
     },
   ))),
+
+  rest.patch(`${baseUrl}/reviews/1`, async (req, res, ctx) => res(ctx.status(204))),
 );
 
 export default server;

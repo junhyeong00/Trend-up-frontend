@@ -37,7 +37,7 @@ describe('UserStore', () => {
 
   describe('fetchUserInformation', () => {
     it('유저 정보 확인', async () => {
-      await userStore.fetchUserInformation();
+      await userStore.fetchUser();
 
       expect(userStore.name).toBe('배준형');
       expect(userStore.phoneNumber).toBe('01012341234');

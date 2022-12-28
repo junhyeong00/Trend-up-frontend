@@ -2,7 +2,7 @@ import {
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
 
-import ReviewWrite from './ReviewWirte';
+import ReviewWrite from './ReviewWrite';
 
 const navigate = jest.fn();
 

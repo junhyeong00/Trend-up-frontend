@@ -96,7 +96,6 @@ export default class ApiService {
       deliveryRequest,
     }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
 
-    console.log(data);
     return data;
   }
 

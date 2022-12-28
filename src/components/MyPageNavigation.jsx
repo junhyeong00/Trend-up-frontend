@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import useUserStore from '../hooks/useUserStore';
 
@@ -10,7 +10,7 @@ const Profile = styled.div`
   border: 1px solid black;
 `;
 
-const Menu = styled.div`
+const Menu = styled.nav`
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -22,7 +22,7 @@ const Menu = styled.div`
   }
 `;
 
-const Navigation = styled.nav`
+const Navigation = styled.div`
   width: 10em;
   margin-top: .5em;
 `;

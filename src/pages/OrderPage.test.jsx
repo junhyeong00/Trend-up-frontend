@@ -12,7 +12,9 @@ jest.mock('react-router-dom', () => ({
   ),
   useLocation: () => ({
     state: {
-      orderProducts: [{ name: '가디건' }],
+      orderProducts: [{
+        name: '가디건', price: 1000, optionName: '기본', optionPrice: 0, quantity: 1,
+      }],
     },
   }),
 }));

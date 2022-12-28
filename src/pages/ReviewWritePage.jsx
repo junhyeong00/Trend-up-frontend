@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyPageNavigation from '../components/MyPageNavigation';
-import ReviewWrite from '../components/ReviewWirte';
+import ReviewWrite from '../components/ReviewWrite';
 
 const Container = styled.div`
   display: grid;

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 
 import OrderDetailPage from './OrderDetailPage';
 
@@ -10,10 +10,22 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => (
     navigate
   ),
+  useLocation: () => ({
+    pathname: '/orders/1',
+  }),
+  Link({ children, to }) {
+    return (
+      <a href={to}>
+        {children}
+      </a>
+    );
+  },
 }));
 
 describe('OrderDetailPage', () => {
   it('render screen', () => {
     render(<OrderDetailPage />);
+
+    cleanup();
   });
 });

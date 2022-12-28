@@ -1,4 +1,5 @@
 import {
+  cleanup,
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
 
@@ -7,6 +8,10 @@ import ReviewEdit from './ReviewEdit';
 const navigate = jest.fn();
 
 describe('ReviewEdit', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   function renderReviewEdit(reviewId) {
     render(
       <ReviewEdit

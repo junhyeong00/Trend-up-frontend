@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import useCartStore from '../hooks/useCartStore';
 import useProductStore from '../hooks/useProductStore';
 import { orderFormStore } from '../stores/OrderFormStore';
 import numberFormat from '../utils/NumberFormat';
@@ -13,6 +14,7 @@ const Container = styled.div`
 
 export default function Product({ navigate, productId }) {
   const productStore = useProductStore();
+  const cartStore = useCartStore();
 
   useEffect(() => {
     productStore.fetchProduct(productId);
@@ -35,7 +37,7 @@ export default function Product({ navigate, productId }) {
     quantity: selectedCount,
   }];
 
-  const handlePurchaseClick = () => {
+  const handleClickPurchase = () => {
     if (selectedOptionId === 'none' || !selectedOptionId) {
       productStore.notChoiceOption();
       return;
@@ -50,6 +52,20 @@ export default function Product({ navigate, productId }) {
 
   const handleChangeOption = (e) => {
     productStore.changeOption(e.target.value);
+  };
+
+  const handleClickCart = () => {
+    cartStore.addItem({
+      productId: product.productId,
+      name: product.name,
+      optionId: selectedOptionId,
+      optionName: selectedOptionName,
+      price: product.price,
+      optionPrice: selectedOptionPrice,
+      quantity: selectedCount,
+    });
+
+    navigate('/cart');
   };
 
   return (
@@ -119,13 +135,19 @@ export default function Product({ navigate, productId }) {
         </div>
         <button
           type="button"
-          onClick={handlePurchaseClick}
+          onClick={handleClickPurchase}
         >
           구매하기
         </button>
         <div>
           <button type="button">찜</button>
-          <button type="button">장바구니</button>
+          <button
+            type="button"
+            onClick={handleClickCart}
+          >
+            장바구니
+
+          </button>
         </div>
         <Error>{errorMessage}</Error>
       </div>

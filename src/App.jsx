@@ -21,6 +21,7 @@ import { apiService } from './services/ApiService';
 import ReviewManagementPage from './pages/ReviewManagementPage';
 import ReviewWriteablePage from './pages/ReviewWriteablePage';
 import ReviewEditPage from './pages/ReviewEditPage';
+import CartPage from './pages/CartPage';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/my/review/write" element={<ReviewWritePage />} />
           <Route path="/my/review/edit" element={<ReviewEditPage />} />
           <Route path="/orders/:orderId" element={<OrderDetailPage />} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </main>
     </div>

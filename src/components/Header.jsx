@@ -68,7 +68,7 @@ export default function Header() {
   };
 
   useEffect(() => {
-    userStore.fetchUserInformation();
+    userStore.fetchUser();
   }, []);
 
   const { name } = userStore;
@@ -114,9 +114,7 @@ export default function Header() {
           <button type="button">검색</button>
         </Search>
         <div>
-          <button type="button">
-            장바구니
-          </button>
+          <Link to="/cart">장바구니</Link>
           <Link to="/my">My</Link>
         </div>
       </Menu>

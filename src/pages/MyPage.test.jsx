@@ -1,13 +1,23 @@
 import { cleanup, render } from '@testing-library/react';
 
-import ReviewWriteablePage from './ReviewWriteablePage';
+import MyPage from './MyPage';
 
 const navigate = jest.fn();
 
+const ko = {};
+
 jest.mock('nanoid', () => ({ nanoid: () => '1234' }));
 
+jest.mock('react-datepicker/dist/react-datepicker.css', () => null);
+
+jest.mock('date-fns/esm/locale', () => () => ({
+  ko,
+}));
+
 jest.mock('react-router-dom', () => ({
-  // eslint-disable-next-line react/prop-types
+  useNavigate: () => (
+    navigate
+  ),
   Link({ children, to }) {
     return (
       <a href={to}>
@@ -15,14 +25,12 @@ jest.mock('react-router-dom', () => ({
       </a>
     );
   },
-  useNavigate: () => (
-    navigate
-  ),
 }));
 
-describe('ReviewWriteablePage', () => {
+describe('MyPage', () => {
   it('render screen', () => {
-    render(<ReviewWriteablePage />);
+    render(<MyPage />);
+
     cleanup();
   });
 });

@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { nanoid } from 'nanoid';
 import useOrderFormStore from '../hooks/useOrderFormStore';
@@ -25,24 +24,44 @@ const Title = styled.h2`
 
 const Table = styled.table`
   margin-bottom: 1em;
+  padding: 1em;
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 100%;
+  text-align: center;
+
+  tr {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr ;
+    gap: 3em;
+    width: 100%;
+  }
 `;
 
 const Form = styled.form`
   margin-bottom: 1em;
+  padding: 1em;
+  border: 1px solid black;
+  border-radius: 4px;
 
   div {
     margin-bottom: 1em;
   }
 `;
 
-export default function Order({ navigate }) {
-  const location = useLocation();
+const Product = styled.td`
+  display: flex;
+`;
 
+const PaymentDetail = styled.div`
+  border-top: 1px solid black;
+  padding-top: 1.3em;
+`;
+
+export default function Order({ navigate, orderProducts }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const orderFormStore = useOrderFormStore();
-
-  const orderProducts = location.state;
 
   useEffect(() => {
     orderFormStore.setOrderProducts(orderProducts);
@@ -57,6 +76,7 @@ export default function Order({ navigate }) {
     const {
       receiver, phoneNumber, deliveryRequest,
     } = data;
+
     const { orderId } = await orderFormStore.order({
       receiver,
       phoneNumber,
@@ -81,33 +101,33 @@ export default function Order({ navigate }) {
           </tr>
         </thead>
         <tbody>
-          {orderProducts.map((order) => (
+          {orderProducts.map((product) => (
             <tr key={nanoid()}>
-              <td>
+              <Product>
                 <a href="/products">
-                  <img src="" alt={order.name} />
+                  <img src="" alt={product.name} />
                 </a>
                 <div>
-                  <p>{order.name}</p>
+                  <p>{product.name}</p>
                   <p>
-                    {numberFormat(order.price)}
+                    {numberFormat(product.price)}
                     원
                   </p>
                 </div>
-              </td>
+              </Product>
               <td>
-                {order.optionName}
+                {product.optionName}
                 {' '}
                 (
-                {numberFormat(order.optionPrice)}
+                {numberFormat(product.optionPrice)}
                 원)
               </td>
               <td>
-                {numberFormat(order.quantity)}
+                {numberFormat(product.quantity)}
                 개
               </td>
               <td>
-                {numberFormat((order.price + order.optionPrice) * order.quantity)}
+                {numberFormat((product.price + product.optionPrice) * product.quantity)}
                 원
               </td>
             </tr>
@@ -163,7 +183,7 @@ export default function Order({ navigate }) {
           </div>
           <div />
         </div>
-        <div>
+        <PaymentDetail>
           <h3>결제 상세</h3>
           <dl>
             <dt>결제금액</dt>
@@ -182,7 +202,7 @@ export default function Order({ navigate }) {
               원
             </dd>
           </dl>
-        </div>
+        </PaymentDetail>
         <Error>{errorMessage}</Error>
         <PrimaryButton type="submit">
           결제하기

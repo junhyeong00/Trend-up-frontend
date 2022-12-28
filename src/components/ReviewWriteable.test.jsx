@@ -7,6 +7,8 @@ import ReviewWriteable from './ReviewWriteable';
 
 const navigate = jest.fn();
 
+jest.mock('nanoid', () => ({ nanoid: () => '1234' }));
+
 jest.mock('react-router-dom', () => ({
   // eslint-disable-next-line react/prop-types
   Link({ children, to }) {

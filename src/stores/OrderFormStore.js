@@ -41,7 +41,6 @@ export default class OrderFormStore extends Store {
         deliveryFee: this.deliveryFee,
         deliveryRequest,
       });
-      console.log(data);
       return data;
     } catch (error) {
       this.errorMessage = error.response.data.message;
@@ -54,6 +53,8 @@ export default class OrderFormStore extends Store {
   initialize() {
     this.zipCode = '';
     this.roadAddress = '';
+
+    this.publish();
   }
 
   setOrderProducts(orderProducts) {
@@ -78,11 +79,11 @@ export default class OrderFormStore extends Store {
     this.publish();
   }
 
-  // changeDetailAddress(detailAddress) {
-  //   this.detailAddress = detailAddress;
+  changeDetailAddress(detailAddress) {
+    this.detailAddress = detailAddress;
 
-  //   this.publish();
-  // }
+    this.publish();
+  }
 
   // changePhoneNumber(phoneNumber) {
   //   this.phoneNumber = phoneNumber;

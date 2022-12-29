@@ -1,6 +1,7 @@
 export default class Item {
   constructor({
-    id, productId, name, optionId, optionName, price, optionPrice, quantity,
+    id, productId, name, optionId, optionName,
+    price, optionPrice, quantity, selected,
   }) {
     this.id = id;
     this.productId = productId;
@@ -10,5 +11,6 @@ export default class Item {
     this.price = price;
     this.optionPrice = optionPrice;
     this.quantity = quantity;
+    this.selected = selected;
   }
 }

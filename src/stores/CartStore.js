@@ -18,6 +18,44 @@ export default class CartStore extends Store {
 
     this.publish();
   }
+
+  deleteItem({
+    id,
+  }) {
+    this.cart = this.cart.deleteItem({
+      id,
+    });
+
+    this.publish();
+  }
+
+  togleSelected({
+    id,
+  }) {
+    this.cart = this.cart.togleSelected({
+      id,
+    });
+
+    this.publish();
+  }
+
+  deleteSelectedItem() {
+    const selectedItems = this.cart.items.filter((i) => i.selected);
+
+    selectedItems.forEach((item) => {
+      this.cart = this.cart.deleteItem({ id: item.id });
+    });
+
+    this.publish();
+  }
+
+  deleteOrderProducts(orderProducts) {
+    orderProducts.forEach((item) => {
+      this.cart = this.cart.deleteItem({ id: item.id });
+    });
+
+    this.publish();
+  }
 }
 
 export const cartStore = new CartStore();

@@ -11,6 +11,7 @@ import numberFormat from '../utils/NumberFormat';
 import Postcode from './Postcode';
 import Error from './ui/Error';
 import PrimaryButton from './ui/PrimaryButton';
+import useCartStore from '../hooks/useCartStore';
 
 const Container = styled.div`
   width: 100%;
@@ -53,6 +54,10 @@ const Product = styled.td`
   display: flex;
 `;
 
+const OrderProduct = styled.tr`
+    margin-block: 2em .5em;
+`;
+
 const PaymentDetail = styled.div`
   border-top: 1px solid black;
   padding-top: 1.3em;
@@ -62,6 +67,7 @@ export default function Order({ navigate, orderProducts }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const orderFormStore = useOrderFormStore();
+  const cartStore = useCartStore();
 
   useEffect(() => {
     orderFormStore.setOrderProducts(orderProducts);
@@ -85,6 +91,7 @@ export default function Order({ navigate, orderProducts }) {
 
     if (orderId) {
       navigate('/order/success');
+      cartStore.deleteOrderProducts(orderProducts);
     }
   };
 
@@ -102,7 +109,7 @@ export default function Order({ navigate, orderProducts }) {
         </thead>
         <tbody>
           {orderProducts.map((product) => (
-            <tr key={nanoid()}>
+            <OrderProduct key={nanoid()}>
               <Product>
                 <a href="/products">
                   <img src="" alt={product.name} />
@@ -130,7 +137,7 @@ export default function Order({ navigate, orderProducts }) {
                 {numberFormat((product.price + product.optionPrice) * product.quantity)}
                 원
               </td>
-            </tr>
+            </OrderProduct>
           ))}
         </tbody>
       </Table>

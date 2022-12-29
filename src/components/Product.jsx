@@ -56,7 +56,7 @@ export default function Product({ navigate, productId }) {
 
   const handleClickCart = () => {
     cartStore.addItem({
-      productId: product.productId,
+      productId: product.id,
       name: product.name,
       optionId: selectedOptionId,
       optionName: selectedOptionName,

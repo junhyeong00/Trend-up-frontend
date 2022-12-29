@@ -40,8 +40,39 @@ describe('Cart', () => {
           productId: 1,
           optionId: 1,
           quantity: quantities.reduce((a, b) => a + b),
+          selected: true,
         }),
       ]);
     });
+  });
+
+  it('delete an item', () => {
+    const productIds = [1, 2, 3];
+    const id = 2;
+
+    cart = productIds.reduce((prevCart, productId) => (
+      prevCart.addItem({ productId, quantity: 1 })
+    ), cart);
+
+    expect(cart.items).toHaveLength(3);
+
+    cart = cart.deleteItem({ id });
+
+    expect(cart.items).toHaveLength(2);
+  });
+
+  it('togle selected', () => {
+    const productIds = [1, 2, 3];
+
+    cart = productIds.reduce((prevCart, productId) => (
+      prevCart.addItem({ productId, quantity: 1 })
+    ), cart);
+
+    expect(cart.items).toHaveLength(3);
+
+    cart = cart.togleSelected({ id: 2 });
+
+    expect(cart.items[0].selected).toBeTruthy();
+    expect(cart.items[1].selected).toBeFalsy();
   });
 });

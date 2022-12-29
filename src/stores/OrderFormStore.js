@@ -63,6 +63,7 @@ export default class OrderFormStore extends Store {
     this.totalPrice = this.orderProducts
       .reduce((acc, product) => acc + (product.price + product.optionPrice) * product.quantity, 0);
 
+    this.deliveryFee = this.totalPrice >= 50000 ? 0 : 3000;
     this.payment = this.totalPrice + this.deliveryFee;
 
     this.publish();

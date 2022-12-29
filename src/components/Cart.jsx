@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 
 import useCartStore from '../hooks/useCartStore';
+import useOrderFormStore from '../hooks/useOrderFormStore';
 
 import numberFormat from '../utils/NumberFormat';
 
@@ -51,21 +52,48 @@ const Form = styled.form`
   }
 `;
 
-export default function Cart() {
+export default function Cart({ navigate }) {
   const cartStore = useCartStore();
+  const orderFormStore = useOrderFormStore();
+
   const { cart } = cartStore;
 
-  const onSubmit = async () => {
+  const totalPrice = cart.items.filter((i) => i.selected)
+    .reduce((total, item) => {
+      const price = (item.price + item.optionPrice) * item.quantity;
+      return total + price;
+    }, 0);
 
+  const deliveryFee = totalPrice >= 50000 ? 0 : 3000;
+
+  const handleClickPurchase = () => {
+    orderFormStore.initialize();
+
+    const orderProducts = [...cart.items.filter((i) => i.selected)];
+
+    navigate(
+      '/order',
+      { state: orderProducts },
+    );
   };
 
   return (
     <Container>
       <Title>장바구니</Title>
       <div>
-        <input type="checkbox" />
-        <label>전체 선택</label>
-        <button type="button">❌ 선택 삭제</button>
+        <input
+          id="selectall"
+          type="checkbox"
+          name="product"
+          value="selectall"
+        />
+        <label htmlFor="selectall">전체 선택</label>
+        <button
+          type="button"
+          onClick={() => cartStore.deleteSelectedItem()}
+        >
+          ❌ 선택 삭제
+        </button>
       </div>
       <Table>
         <div>
@@ -82,7 +110,12 @@ export default function Cart() {
               <ul>
                 {cart.items.map((item) => (
                   <li key={item.id}>
-                    <input type="checkbox" />
+                    <input
+                      type="checkbox"
+                      name="product"
+                      checked={item.selected}
+                      onClick={() => cartStore.togleSelected({ id: item.id })}
+                    />
                     <td>
                       {item.name}
                     </td>
@@ -97,7 +130,12 @@ export default function Cart() {
                       {numberFormat((item.price + item.optionPrice) * item.quantity)}
                       원
                     </td>
-                    <button type="button">❌</button>
+                    <button
+                      type="button"
+                      onClick={() => cartStore.deleteItem({ id: item.id })}
+                    >
+                      ❌
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -113,22 +151,25 @@ export default function Cart() {
           <dl>
             <dt>선택 상품 금액</dt>
             <dd>
-              {/* {numberFormat(payment)} */}
+              {numberFormat(totalPrice)}
               원
             </dd>
             <dt>배송비</dt>
             <dd>
-              {numberFormat(3000)}
+              {numberFormat(deliveryFee)}
               원
             </dd>
             <dt>주문 금액</dt>
             <dd>
-              {/* {numberFormat(deliveryFee)} */}
+              {numberFormat(totalPrice + deliveryFee)}
               원
             </dd>
           </dl>
         </div>
-        <PrimaryButton type="submit">
+        <PrimaryButton
+          type="button"
+          onClick={handleClickPurchase}
+        >
           주문하기
         </PrimaryButton>
       </Form>

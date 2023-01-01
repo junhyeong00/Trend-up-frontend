@@ -61,9 +61,11 @@ export default function Header() {
   const userStore = useUserStore();
 
   const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+  const [, setCart] = useLocalStorage('cart', '{"items":[]}');
 
   const handleLogout = () => {
     setAccessToken('');
+    setCart('{"items":[]}');
     navigate('/');
   };
 

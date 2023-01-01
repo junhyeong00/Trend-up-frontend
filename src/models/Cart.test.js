@@ -61,7 +61,7 @@ describe('Cart', () => {
     expect(cart.items).toHaveLength(2);
   });
 
-  it('togle selected', () => {
+  it('toggle selected', () => {
     const productIds = [1, 2, 3];
 
     cart = productIds.reduce((prevCart, productId) => (
@@ -70,7 +70,7 @@ describe('Cart', () => {
 
     expect(cart.items).toHaveLength(3);
 
-    cart = cart.togleSelected({ id: 2 });
+    cart = cart.toggleSelected({ id: 2 });
 
     expect(cart.items[0].selected).toBeTruthy();
     expect(cart.items[1].selected).toBeFalsy();

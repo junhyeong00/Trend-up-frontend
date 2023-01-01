@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { useLocalStorage } from 'usehooks-ts';
+import useCartStore from '../hooks/useCartStore';
 
 import useUserStore from '../hooks/useUserStore';
 
@@ -48,18 +49,25 @@ const Input = styled.input`
 
 export default function LoginForm({ navigate }) {
   const [, setAccessToken] = useLocalStorage('accessToken', '');
+  const [, setCart] = useLocalStorage('cart', '{"items":[]}');
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const userStore = useUserStore();
+  const cartStore = useCartStore();
 
   const { loginError } = userStore;
 
   const onSubmit = async (data) => {
     const { userName, password } = data;
     const accessToken = await userStore.login({ userName, password });
+
     if (accessToken) {
       setAccessToken(accessToken);
+
+      const itmes = await cartStore.fetchCart();
+
+      setCart(itmes);
 
       navigate('/');
     }

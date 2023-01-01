@@ -74,7 +74,7 @@ export default class Cart {
     });
   }
 
-  togleSelected({
+  toggleSelected({
     id,
   }) {
     const index = this.items.findIndex((i) => i.id === id);

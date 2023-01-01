@@ -190,6 +190,23 @@ export default class ApiService {
       rating, content, imageUrl,
     });
   }
+
+  async updateCart(items) {
+    const url = `${baseUrl}/user/cart`;
+    await axios.patch(url, {
+      items,
+    }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
+  }
+
+  async fetchCart() {
+    const url = `${baseUrl}/user/cart`;
+    const { data } = await axios.get(
+      url,
+      { headers: { Authorization: `Bearer ${this.accessToken}` } },
+    );
+
+    return data;
+  }
 }
 
 export const apiService = new ApiService();

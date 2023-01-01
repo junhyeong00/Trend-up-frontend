@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { nanoid } from 'nanoid';
+import { useLocalStorage } from 'usehooks-ts';
 import useOrderFormStore from '../hooks/useOrderFormStore';
 
 import numberFormat from '../utils/NumberFormat';
@@ -14,7 +15,7 @@ import PrimaryButton from './ui/PrimaryButton';
 import useCartStore from '../hooks/useCartStore';
 
 const Container = styled.div`
-  width: 100%;
+  width: 70%;
   margin: 0 auto;
   padding: 1em;
 `;
@@ -66,6 +67,8 @@ const PaymentDetail = styled.div`
 export default function Order({ navigate, orderProducts }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+  const [, setCart] = useLocalStorage('cart', '{"items":[]}');
+
   const orderFormStore = useOrderFormStore();
   const cartStore = useCartStore();
 
@@ -92,6 +95,7 @@ export default function Order({ navigate, orderProducts }) {
     if (orderId) {
       navigate('/order/success');
       cartStore.deleteOrderProducts(orderProducts);
+      setCart(JSON.stringify(cartStore.cart));
     }
   };
 

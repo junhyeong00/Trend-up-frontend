@@ -1,16 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
+import { useState } from 'react';
 import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
 
 import useCartStore from '../hooks/useCartStore';
 import useOrderFormStore from '../hooks/useOrderFormStore';
 
 import numberFormat from '../utils/NumberFormat';
+import Error from './ui/Error';
 
 import PrimaryButton from './ui/PrimaryButton';
 
 const Container = styled.div`
-  width: 100%;
+  width: 70%;
   margin: 0 auto;
   padding: 1em;
 `;
@@ -25,20 +28,20 @@ const Table = styled.table`
   border: 1px solid black;
   border-radius: 4px;
   width: 100%;
+`;
 
-  tr {
-    display: grid;
+const Tr = styled.tr`
+  display: grid;
     grid-template-columns: 3fr 1fr 1fr 1fr .6fr;
     gap: 3em;
     width: 100%;
-  }
+`;
 
-  li {
-    display: grid;
-    grid-template-columns: .5fr 3fr 1fr 1fr 1fr .5fr;
-    gap: 3em;
-    margin-top: 1.4em;
-  }
+const Item = styled.tr`
+  display: grid;
+  grid-template-columns: .5fr 3fr 1fr 1fr 1fr .5fr;
+  gap: 3em;
+  margin-top: 1.4em;
 `;
 
 const Form = styled.form`
@@ -53,12 +56,15 @@ const Form = styled.form`
 `;
 
 export default function Cart({ navigate }) {
+  const [cart, setCart] = useLocalStorage('cart', '{"items":[]}');
   const cartStore = useCartStore();
   const orderFormStore = useOrderFormStore();
 
-  const { cart } = cartStore;
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const totalPrice = cart.items.filter((i) => i.selected)
+  const { items } = JSON.parse(cart);
+
+  const totalPrice = items.filter((i) => i.selected)
     .reduce((total, item) => {
       const price = (item.price + item.optionPrice) * item.quantity;
       return total + price;
@@ -69,7 +75,11 @@ export default function Cart({ navigate }) {
   const handleClickPurchase = () => {
     orderFormStore.initialize();
 
-    const orderProducts = [...cart.items.filter((i) => i.selected)];
+    const orderProducts = items.filter((i) => i.selected);
+    if (!orderProducts.length) {
+      setErrorMessage('선택된 상품이 없습니다');
+      return;
+    }
 
     navigate(
       '/order',
@@ -85,65 +95,76 @@ export default function Cart({ navigate }) {
           id="selectall"
           type="checkbox"
           name="product"
-          value="selectall"
+          onChange={() => {
+            cartStore.toggleAllItemSelected();
+            setCart(JSON.stringify(cartStore.cart));
+          }}
+          checked={cartStore.isAllSelected()}
         />
         <label htmlFor="selectall">전체 선택</label>
         <button
           type="button"
-          onClick={() => cartStore.deleteSelectedItem()}
+          onClick={() => {
+            cartStore.deleteSelectedItem();
+            setCart(JSON.stringify(cartStore.cart));
+          }}
         >
           ❌ 선택 삭제
         </button>
       </div>
       <Table>
-        <div>
-          <thead>
-            <tr>
-              <th>상품 정보</th>
-              <th>옵션</th>
-              <th>수량</th>
-              <th>금액</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.items.length ? (
-              <ul>
-                {cart.items.map((item) => (
-                  <li key={item.id}>
-                    <input
-                      type="checkbox"
-                      name="product"
-                      checked={item.selected}
-                      onClick={() => cartStore.togleSelected({ id: item.id })}
-                    />
-                    <td>
-                      {item.name}
-                    </td>
-                    <td>
-                      {item.optionName}
-                    </td>
-                    <td>
-                      {item.quantity}
-                      개
-                    </td>
-                    <td>
-                      {numberFormat((item.price + item.optionPrice) * item.quantity)}
-                      원
-                    </td>
-                    <button
-                      type="button"
-                      onClick={() => cartStore.deleteItem({ id: item.id })}
-                    >
-                      ❌
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>장바구니가 비어있습니다</p>
-            )}
-          </tbody>
-        </div>
+        <thead>
+          <Tr>
+            <th>상품 정보</th>
+            <th>옵션</th>
+            <th>수량</th>
+            <th>금액</th>
+          </Tr>
+        </thead>
+        <tbody>
+          {items.length ? (
+            <>
+              {items.map((item) => (
+                <Item key={item.id}>
+                  <input
+                    type="checkbox"
+                    name="product"
+                    checked={item.selected}
+                    onChange={() => {
+                      cartStore.toggleSelected({ id: item.id });
+                      setCart(JSON.stringify(cartStore.cart));
+                    }}
+                  />
+                  <td>
+                    {item.name}
+                  </td>
+                  <td>
+                    {item.optionName}
+                  </td>
+                  <td>
+                    {item.quantity}
+                    개
+                  </td>
+                  <td>
+                    {numberFormat((item.price + item.optionPrice) * item.quantity)}
+                    원
+                  </td>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      cartStore.deleteItem({ id: item.id });
+                      setCart(JSON.stringify(cartStore.cart));
+                    }}
+                  >
+                    ❌
+                  </button>
+                </Item>
+              ))}
+            </>
+          ) : (
+            <p>장바구니가 비어있습니다</p>
+          )}
+        </tbody>
       </Table>
       <Form>
         <div>
@@ -172,6 +193,7 @@ export default function Cart({ navigate }) {
         >
           주문하기
         </PrimaryButton>
+        <Error>{errorMessage || null}</Error>
       </Form>
     </Container>
   );

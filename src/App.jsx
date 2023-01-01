@@ -22,12 +22,17 @@ import ReviewManagementPage from './pages/ReviewManagementPage';
 import ReviewWriteablePage from './pages/ReviewWriteablePage';
 import ReviewEditPage from './pages/ReviewEditPage';
 import CartPage from './pages/CartPage';
+import useCartStore from './hooks/useCartStore';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
+  const [cart] = useLocalStorage('cart', '{"items":[]}');
+
+  const cartStore = useCartStore();
 
   useEffect(() => {
     apiService.setAccessToken(accessToken);
+    cartStore.setCart(JSON.parse(cart));
   }, [accessToken]);
 
   return (

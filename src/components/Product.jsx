@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
 import useCartStore from '../hooks/useCartStore';
 import useProductStore from '../hooks/useProductStore';
 import { orderFormStore } from '../stores/OrderFormStore';
 import numberFormat from '../utils/NumberFormat';
 import Error from './ui/Error';
+import PrimaryButton from './ui/PrimaryButton';
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +14,79 @@ const Container = styled.div`
   padding: 1em;
 `;
 
+// const Container = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 90vh;
+// `;
+
+const ProductImage = styled.img`
+  width: 30em;
+  height: auto;
+`;
+
+const ProductDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  height: 30em;
+  width: 30em;
+`;
+
+const Name = styled.p`
+  font-size: 1.5em;
+`;
+
+const Price = styled.span`
+  font-size: 1.8em;
+  font-weight: bold;
+  padding-block: 1em;
+  border-bottom: 1px solid #D9D9D9;
+`;
+
+const Detail = styled.dl`
+  div {
+    display: flex;
+    padding-block: 1.3em;
+    border-bottom: 1px solid #D9D9D9;
+  }
+  dt {
+    width: 20%;
+    
+  }
+  dd {
+    color: #666666;
+  }
+`;
+
+const TotalPrice = styled.span`
+  margin-block: 1.2em .2em;
+  text-align: end;
+  font-size: 1em;
+  span {
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+`;
+
+const CountForm = styled.dd`
+  border: 1px solid #D9D9D9;
+  border-radius: 5px;
+  padding: .4em;
+  button {
+    border: none;
+    background: none;
+    font-weight: bold;
+  }
+  span {
+    padding-inline: .4em;
+  }
+`;
+
 export default function Product({ navigate, productId }) {
+  const [, setCart] = useLocalStorage('cart', '{"items":[]}');
+
   const productStore = useProductStore();
   const cartStore = useCartStore();
 
@@ -55,6 +129,11 @@ export default function Product({ navigate, productId }) {
   };
 
   const handleClickCart = () => {
+    if (selectedOptionId === 'none' || !selectedOptionId) {
+      productStore.notChoiceOption();
+      return;
+    }
+
     cartStore.addItem({
       productId: product.id,
       name: product.name,
@@ -65,19 +144,20 @@ export default function Product({ navigate, productId }) {
       quantity: selectedCount,
     });
 
+    setCart(JSON.stringify(cartStore.cart));
     navigate('/cart');
   };
 
   return (
     <Container>
-      <img src={product.image} alt="product" />
-      <div>
-        <p>{product.name}</p>
-        <p>
+      <ProductImage src={product.image} alt="product" />
+      <ProductDescription>
+        <Name>{product.name}</Name>
+        <Price>
           {numberFormat(product.price)}
           원
-        </p>
-        <div>
+        </Price>
+        <Detail>
           <div>
             <p>옵션</p>
             <select
@@ -105,7 +185,7 @@ export default function Product({ navigate, productId }) {
           </div>
           <div>
             <dt>구매수량</dt>
-            <dd>
+            <CountForm>
               <button
                 type="button"
                 onClick={() => productStore.decreaseCount()}
@@ -122,23 +202,23 @@ export default function Product({ navigate, productId }) {
               >
                 +
               </button>
-            </dd>
+            </CountForm>
           </div>
-          <p>
-            총 상품 금액:
-            {' '}
-            <span>
-              {numberFormat(totalPrice)}
-              원
-            </span>
-          </p>
-        </div>
-        <button
+        </Detail>
+        <TotalPrice>
+          총 상품 금액:
+          {' '}
+          <span>
+            {numberFormat(totalPrice)}
+            원
+          </span>
+        </TotalPrice>
+        <PrimaryButton
           type="button"
           onClick={handleClickPurchase}
         >
           구매하기
-        </button>
+        </PrimaryButton>
         <div>
           <button type="button">찜</button>
           <button
@@ -150,7 +230,7 @@ export default function Product({ navigate, productId }) {
           </button>
         </div>
         <Error>{errorMessage}</Error>
-      </div>
+      </ProductDescription>
     </Container>
   );
 }

@@ -293,6 +293,17 @@ const server = setupServer(
   ))),
 
   rest.patch(`${baseUrl}/reviews/1`, async (req, res, ctx) => res(ctx.status(204))),
+
+  rest.patch(`${baseUrl}/user/cart`, async (req, res, ctx) => res(ctx.status(204))),
+
+  rest.get(`${baseUrl}/user/cart`, async (req, res, ctx) => res(ctx.json(
+    {
+      items:
+      '{"items":[{"id":1,"productId":1,"name":"가디건","optionId":"2",'
+      + '"optionName":"두툼한 가디건","price":50000,"optionPrice":1000,"quantity":1,"selected":false}]}',
+    },
+  ))),
+
 );
 
 export default server;

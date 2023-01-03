@@ -1,3 +1,21 @@
+import styled from 'styled-components';
+
+const Container = styled.ul`
+  margin-bottom: 2em;
+  display: flex;
+  justify-content: center;
+  gap: .4em;
+`;
+
+const PageNumber = styled.button`
+  background: none;
+  border: none;
+  color: #9A9A9A;
+  &:focus {
+    color: #000;
+  }
+`;
+
 export default function PageNumbers({
   totalPageCount, handlePageClick,
 }) {
@@ -5,17 +23,17 @@ export default function PageNumbers({
     .map((element, index) => index + 1);
 
   return (
-    <ul>
+    <Container>
       {pages.map((page) => (
         <li key={page}>
-          <button
+          <PageNumber
             type="button"
             onClick={() => handlePageClick(page)}
           >
             {page}
-          </button>
+          </PageNumber>
         </li>
       ))}
-    </ul>
+    </Container>
   );
 }

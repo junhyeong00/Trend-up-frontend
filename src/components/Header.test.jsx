@@ -63,4 +63,14 @@ describe('Header', () => {
       expect(navigate).toBeCalledWith('/');
     });
   });
+
+  describe('search', () => {
+    it('listens for search event', () => {
+      render(<Header />);
+
+      fireEvent.click(screen.getByText('검색'));
+
+      expect(navigate).toBeCalledWith('/products');
+    });
+  });
 });

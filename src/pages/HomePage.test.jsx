@@ -11,6 +11,6 @@ describe('HomePage', () => {
       </MemoryRouter>,
     );
 
-    screen.getByText('남성 패션');
+    screen.getByText('전체');
   });
 });

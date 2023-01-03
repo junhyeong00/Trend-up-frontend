@@ -1,20 +1,40 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  position: fixed;
-  border: 1px solid black;
-  z-index: 999;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: 3fr 1fr;
+  height: 200px;
+  left: calc(50vw - 200px);
+  position: absolute;
+  text-align: center;
+  top: calc(50vh - 100px);
+  width: 400px;
+`;
 
-  width: 20%;
-  height: 20%;
+const Text = styled.div`
+  line-height: 22px;
+  padding: 30px;
+`;
 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const Buttons = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #e0e0e0;
+  height: 100%;
 
-  background-color: gray;
-  border: 1px solid black;
-  border-radius: 8px;
+  button {
+    background-color: initial;
+    border-inline: 1px solid #e0e0e0;
+    border: 0;
+    font-size: 1.1em;
+  }
+
+  button:first-child {
+   border-right: 1px solid #e0e0e0;
+  }
 `;
 
 export default function Modal({
@@ -22,19 +42,23 @@ export default function Modal({
 }) {
   return (
     <Container>
-      <h3>{titleMessage}</h3>
-      <button
-        type="button"
-        onClick={firstHandleClick}
-      >
-        {firstButtonName}
-      </button>
-      <button
-        type="button"
-        onClick={secondHandleClick}
-      >
-        {secondButtonName}
-      </button>
+      <Text>
+        <h3>{titleMessage}</h3>
+      </Text>
+      <Buttons>
+        <button
+          type="button"
+          onClick={firstHandleClick}
+        >
+          {firstButtonName}
+        </button>
+        <button
+          type="button"
+          onClick={secondHandleClick}
+        >
+          {secondButtonName}
+        </button>
+      </Buttons>
     </Container>
   );
 }

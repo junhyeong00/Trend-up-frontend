@@ -17,10 +17,10 @@ export default class ApiService {
     this.accessToken = accessToken;
   }
 
-  async fetchProducts(page) {
+  async fetchProducts({ page, categoryId, keyword }) {
     const url = `${baseUrl}/products`;
     const { data } = await axios.get(url, {
-      params: { page },
+      params: { page, categoryId, keyword },
     });
 
     return {
@@ -47,7 +47,6 @@ export default class ApiService {
       url,
       {
         headers: { Authorization: `Bearer ${this.accessToken}` },
-
         params: {
           page, size, startDate, endDate, keyword,
         },
@@ -204,6 +203,13 @@ export default class ApiService {
       url,
       { headers: { Authorization: `Bearer ${this.accessToken}` } },
     );
+
+    return data;
+  }
+
+  async fetchCategories() {
+    const url = `${baseUrl}/categories`;
+    const { data } = await axios.get(url);
 
     return data;
   }

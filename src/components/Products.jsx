@@ -7,26 +7,17 @@ import numberFormat from '../utils/NumberFormat';
 import PageNumbers from './PageNumbers';
 
 import useProductsStore from '../hooks/useProductsStore';
+import Overview from './ui/Overview';
 
 const Container = styled.div`
   padding: 1em;
-`;
-
-const List = styled.ul`
-  li {
-    padding-block: 1em;
-  }
-
-  button {
-    padding: 1em;
-  }
 `;
 
 export default function Products() {
   const navigate = useNavigate();
   const productsStore = useProductsStore();
 
-  const { products, totalPageCount } = productsStore;
+  const { products, totalPageCount, keyword } = productsStore;
 
   const { currentPage } = productsStore;
 
@@ -42,15 +33,21 @@ export default function Products() {
     navigate(`/products/${productId}`);
   };
 
+  if (!products.length) {
+    return (<p>상품이 존재하지 않습니다</p>);
+  }
+
   return (
     <Container>
-      <List>
+      {keyword}
+      <Overview>
         {products.map((product) => (
           <li key={product.id}>
             <button
               type="button"
               onClick={() => handleProductClick(product.id)}
             >
+              <img src={product.image} alt={product.name} />
               <p>{product.name}</p>
               <p>
                 {numberFormat(product.price)}
@@ -59,7 +56,7 @@ export default function Products() {
             </button>
           </li>
         ))}
-      </List>
+      </Overview>
       <PageNumbers
         totalPageCount={totalPageCount}
         handlePageClick={handlePageClick}

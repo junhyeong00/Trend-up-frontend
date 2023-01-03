@@ -34,6 +34,16 @@ const Content = styled.div`
   display: grid;
 `;
 
+const ModalBackground = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+`;
+
 export default function MyReviews({ navigate }) {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -135,13 +145,15 @@ export default function MyReviews({ navigate }) {
         handlePageClick={handlePageClick}
       />
       {modalOpen ? (
-        <Modal
-          titleMessage="삭제 시 복구나 재등록이 불가능합니다. 정말 삭제하시겠습니까?"
-          firstButtonName="취소"
-          firstHandleClick={handleCancelClick}
-          secondButtonName="삭제"
-          secondHandleClick={handleReviewDelete}
-        />
+        <ModalBackground>
+          <Modal
+            titleMessage="삭제 시 복구나 재등록이 불가능합니다. 정말 삭제하시겠습니까?"
+            firstButtonName="취소"
+            firstHandleClick={handleCancelClick}
+            secondButtonName="삭제"
+            secondHandleClick={handleReviewDelete}
+          />
+        </ModalBackground>
       ) : null}
     </Container>
   );

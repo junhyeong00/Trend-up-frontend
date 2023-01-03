@@ -1,7 +1,11 @@
+import Category from '../components/Category';
 import Products from '../components/Products';
 
 export default function ProductsPage() {
   return (
-    <Products />
+    <div>
+      <Category />
+      <Products />
+    </div>
   );
 }

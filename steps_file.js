@@ -20,5 +20,13 @@ module.exports = function () {
     setupProducts() {
       this.amOnPage(`${backdoorBaseUrl}/setup-products`);
     },
+
+    setupReviews() {
+      this.amOnPage(`${backdoorBaseUrl}/setup-reivews`);
+    },
+
+    setupOrders() {
+      this.amOnPage(`${backdoorBaseUrl}/setup-orders`);
+    },
   });
 };

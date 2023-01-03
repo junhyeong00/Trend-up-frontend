@@ -304,6 +304,18 @@ const server = setupServer(
     },
   ))),
 
+  rest.get(`${baseUrl}/categories`, async (req, res, ctx) => res(ctx.json({
+    categories: [
+      {
+        id: 1,
+        name: '상의',
+      },
+      {
+        id: 2,
+        name: '하의',
+      },
+    ],
+  }))),
 );
 
 export default server;

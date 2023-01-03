@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useLocalStorage } from 'usehooks-ts';
+import useProductsStore from '../hooks/useProductsStore';
 
 import useUserStore from '../hooks/useUserStore';
 
@@ -48,25 +49,29 @@ const Search = styled.div`
     :focus {
       outline: 1px solid #99CCFF;
     }
-
-    button {
-      
-    }
 }
 `;
 
 export default function Header() {
+  const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+  const [, setCart] = useLocalStorage('cart', '{"items":[]}');
+
   const navigate = useNavigate();
 
   const userStore = useUserStore();
+  const productsStore = useProductsStore();
 
-  const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
-  const [, setCart] = useLocalStorage('cart', '{"items":[]}');
+  const { keyword } = productsStore;
 
   const handleLogout = () => {
     setAccessToken('');
     setCart('{"items":[]}');
     navigate('/');
+  };
+
+  const handClickSearch = () => {
+    productsStore.fetchProducts(1);
+    navigate('/products');
   };
 
   useEffect(() => {
@@ -109,11 +114,25 @@ export default function Header() {
       </ul>
       <Menu>
         <h1>
-          <Link to="/">쇼핑몰</Link>
+          <Link to="/">Trendup</Link>
         </h1>
         <Search>
-          <input />
-          <button type="button">검색</button>
+          <label
+            htmlFor="input-keyword"
+          >
+            search
+          </label>
+          <input
+            id="input-keyword"
+            value={keyword}
+            onChange={(e) => productsStore.changeKeyword(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={handClickSearch}
+          >
+            검색
+          </button>
         </Search>
         <div>
           <Link to="/cart">장바구니</Link>

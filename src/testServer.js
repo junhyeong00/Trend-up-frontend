@@ -316,6 +316,12 @@ const server = setupServer(
       },
     ],
   }))),
+
+  rest.post(`${baseUrl}/inquiry`, async (req, res, ctx) => res(
+    ctx.json({
+      inquiryId: 1,
+    }),
+  )),
 );
 
 export default server;

@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import Product from '../components/Product';
 import Reviews from '../components/Reviews';
+import Inquiries from '../components/Inquiries';
 
 export default function ProductPage() {
   const navigate = useNavigate();
@@ -16,6 +17,9 @@ export default function ProductPage() {
         productId={productId}
       />
       <Reviews
+        productId={productId}
+      />
+      <Inquiries
         productId={productId}
       />
     </div>

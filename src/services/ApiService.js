@@ -213,6 +213,17 @@ export default class ApiService {
 
     return data;
   }
+
+  async createInquiry({
+    productId, title, content, isSecret,
+  }) {
+    const url = `${baseUrl}/inquiry`;
+    const { data } = await axios.post(url, {
+      productId, title, content, isSecret,
+    }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
+
+    return data;
+  }
 }
 
 export const apiService = new ApiService();

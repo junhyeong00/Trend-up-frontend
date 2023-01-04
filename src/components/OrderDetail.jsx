@@ -75,13 +75,17 @@ export default function OrderDetail({ navigate }) {
         <List>
           {products.map((product) => (
             <li key={nanoid()}>
+              <img src={product.image} alt={product.productName} />
               <p>{product.productName}</p>
               <p>{product.productOption}</p>
               <p>
                 {product.productQuantity}
                 개
               </p>
-              <p>{product.productPrice}</p>
+              <p>
+                {numberFormat(product.productPrice)}
+                원
+              </p>
               {product.writable
                 ? (
                   <button

@@ -67,6 +67,7 @@ export default function ReviewWriteable({ navigate }) {
               <List>
                 {order.orderProducts.map((product) => (
                   <li key={nanoid()}>
+                    <img src={product.image} alt={product.productName} />
                     <p>
                       {product.productName}
                       {' '}

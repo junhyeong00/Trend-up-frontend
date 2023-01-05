@@ -322,6 +322,19 @@ const server = setupServer(
       inquiryId: 1,
     }),
   )),
+
+  rest.get(`${baseUrl}/products/1/inquiries`, async (req, res, ctx) => res(ctx.json({
+    inquiries: [
+      {
+        id: 1,
+        title: '재입고 문의',
+        content: '재입고 언제 되나요?',
+        isSecret: false,
+        isMine: false,
+      },
+    ],
+    totalPageCount: 2,
+  }))),
 );
 
 export default server;

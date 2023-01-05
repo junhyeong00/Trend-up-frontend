@@ -224,6 +224,18 @@ export default class ApiService {
 
     return data;
   }
+
+  async fetchInquiries(page, productId) {
+    const url = `${baseUrl}/products/${productId}/inquiries`;
+    const { data } = await axios.get(url, {
+      params: { page }, headers: { Authorization: `Bearer ${this.accessToken}` },
+    });
+
+    return {
+      inquiries: data.inquiries,
+      totalPageCount: data.totalPageCount,
+    };
+  }
 }
 
 export const apiService = new ApiService();

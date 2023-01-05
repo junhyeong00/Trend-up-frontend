@@ -236,6 +236,13 @@ export default class ApiService {
       totalPageCount: data.totalPageCount,
     };
   }
+
+  async deleteInquiry({ inquiryId }) {
+    const url = `${baseUrl}/inquiries/${inquiryId}`;
+    await axios.delete(url, {
+      headers: { Authorization: `Bearer ${this.accessToken}` },
+    });
+  }
 }
 
 export const apiService = new ApiService();

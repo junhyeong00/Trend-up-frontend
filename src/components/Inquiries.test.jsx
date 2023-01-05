@@ -1,4 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 import Inquiries from './Inquiries';
 
 describe('Inquiries', () => {
@@ -11,5 +13,17 @@ describe('Inquiries', () => {
     renderInquiries(1);
 
     screen.getByText('상품 문의');
+  });
+
+  it('listens for delete click event', async () => {
+    renderInquiries(1);
+
+    fireEvent.click(screen.getByText('미답변'));
+
+    fireEvent.click(screen.getByText('삭제'));
+
+    await waitFor(() => {
+      screen.getByText('취소');
+    });
   });
 });

@@ -10,6 +10,7 @@ export default class InquiryFormStore extends Store {
       productId, title, content, isSecret,
     });
 
+    this.publish();
     return inquiryId;
   }
 }

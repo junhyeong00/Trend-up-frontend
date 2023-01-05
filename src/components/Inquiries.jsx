@@ -9,6 +9,7 @@ import useInquiryFormStore from '../hooks/useInquiryFormStore';
 
 import InquiryWrite from './InquiryWrite';
 import Inquiry from './Inquiry';
+import Modal from './Modal';
 
 const Container = styled.div`
   padding: 1em;
@@ -42,7 +43,18 @@ const Thead = styled.summary`
   }
 `;
 
+const ModalBackground = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+`;
+
 export default function Inquiries({ productId }) {
+  const [modalOpen, setModalOpen] = useState(false);
   const [writeable, setWriteable] = useState(false);
 
   const inquiriesStore = useInquiriesStore();
@@ -77,7 +89,23 @@ export default function Inquiries({ productId }) {
 
     if (inquiryId) {
       setWriteable(false);
+      inquiriesStore.fetchInquiries(currentPage, productId);
     }
+  };
+
+  const handleClickDelete = async (inquiryId) => {
+    setModalOpen(true);
+    await inquiriesStore.changeInquiryId(inquiryId);
+  };
+
+  const handleInquiryDelete = () => {
+    inquiriesStore.deleteInquiry();
+
+    setModalOpen(false);
+  };
+
+  const handleCancelClick = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -114,6 +142,7 @@ export default function Inquiries({ productId }) {
             <Inquiry
               key={inquiry.id}
               inquiry={inquiry}
+              handleClickDelete={handleClickDelete}
             />
           ))}
         </List>
@@ -122,6 +151,17 @@ export default function Inquiries({ productId }) {
         totalPageCount={totalPageCount}
         handlePageClick={handlePageClick}
       />
+      {modalOpen ? (
+        <ModalBackground>
+          <Modal
+            titleMessage="삭제 시 복구나 재등록이 불가능합니다. 정말 삭제하시겠습니까?"
+            firstButtonName="취소"
+            firstHandleClick={handleCancelClick}
+            secondButtonName="삭제"
+            secondHandleClick={handleInquiryDelete}
+          />
+        </ModalBackground>
+      ) : null}
     </Container>
   );
 }

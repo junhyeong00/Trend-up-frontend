@@ -327,14 +327,17 @@ const server = setupServer(
     inquiries: [
       {
         id: 1,
+        answerStatus: '미답변',
         title: '재입고 문의',
         content: '재입고 언제 되나요?',
         isSecret: false,
-        isMine: false,
+        isMine: true,
       },
     ],
     totalPageCount: 2,
   }))),
+
+  rest.delete(`${baseUrl}/inquiries/1`, async (req, res, ctx) => res(ctx.status(204))),
 );
 
 export default server;

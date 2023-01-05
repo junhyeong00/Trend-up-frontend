@@ -39,6 +39,8 @@ export default class ReviewsStore extends Store {
   async delete() {
     const { reviewId } = await apiService.deleteReview(this.reviewId);
 
+    this.reviews = this.reviews.filter((review) => review.id !== reviewId);
+
     this.publish();
 
     return reviewId;

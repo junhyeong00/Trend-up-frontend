@@ -26,6 +26,10 @@ const Container = styled.nav`
   li {
     margin-inline: 2em;
   }
+
+  label {
+    display: none;
+  }
 `;
 
 const Menu = styled.div`

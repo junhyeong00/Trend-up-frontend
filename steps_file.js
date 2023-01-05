@@ -28,5 +28,9 @@ module.exports = function () {
     setupOrders() {
       this.amOnPage(`${backdoorBaseUrl}/setup-orders`);
     },
+
+    setupInquiries() {
+      this.amOnPage(`${backdoorBaseUrl}/setup-inquiries`);
+    },
   });
 };

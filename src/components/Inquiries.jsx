@@ -4,10 +4,11 @@ import styled from 'styled-components';
 
 import PageNumbers from './PageNumbers';
 
-import useReviewsStore from '../hooks/useReviewsStore';
+import useInquiriesStore from '../hooks/useInquiriesStore';
 import useInquiryFormStore from '../hooks/useInquiryFormStore';
 
 import InquiryWrite from './InquiryWrite';
+import Inquiry from './Inquiry';
 
 const Container = styled.div`
   padding: 1em;
@@ -22,26 +23,43 @@ const List = styled.ul`
   button {
     padding: 1em;
   }
+
+  p {
+    padding-right: 1em;
+  }
+`;
+
+const Thead = styled.summary`
+  display: grid;
+  width: 100%;
+  margin-top: 1em;
+  padding: 1em;
+  grid-template-columns: 1.2fr 5fr 1.3fr 1.3fr;
+
+  p {
+    text-align: center;
+    vertical-align: middle;
+  }
 `;
 
 export default function Inquiries({ productId }) {
   const [writeable, setWriteable] = useState(false);
 
-  const reviewsStore = useReviewsStore();
+  const inquiriesStore = useInquiriesStore();
   const inquiryFormStore = useInquiryFormStore();
 
   const {
-    reviews, totalPageCount,
-  } = reviewsStore;
+    inquiries, totalPageCount,
+  } = inquiriesStore;
 
-  const { currentPage } = reviewsStore;
+  const { currentPage } = inquiriesStore;
 
   useEffect(() => {
-    reviewsStore.fetchProductReviews(currentPage, productId);
+    inquiriesStore.fetchInquiries(currentPage, productId);
   }, []);
 
   const handlePageClick = (page) => {
-    reviewsStore.changePage(page);
+    inquiriesStore.changePage(page);
   };
 
   const handleClickInquiryWrite = () => {
@@ -61,10 +79,6 @@ export default function Inquiries({ productId }) {
       setWriteable(false);
     }
   };
-
-  if (!reviews.length) {
-    return (<p>작성된 문의가 없습니다</p>);
-  }
 
   return (
     <Container>
@@ -86,24 +100,24 @@ export default function Inquiries({ productId }) {
           />
         )
         : null}
-      <table>
-        <thead>
-          <tr>
-            <th>답변 상태</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
-          </tr>
-        </thead>
-      </table>
-
-      <List>
-        {reviews.map((review) => (
-          <li key={review.id}>
-            .
-          </li>
-        ))}
-      </List>
+      <div>
+        <Thead>
+          <p>답변 상태</p>
+          <p>제목</p>
+          <p>작성자</p>
+          <p>작성일</p>
+        </Thead>
+      </div>
+      {inquiries.length ? (
+        <List>
+          {inquiries.map((inquiry) => (
+            <Inquiry
+              key={inquiry.id}
+              inquiry={inquiry}
+            />
+          ))}
+        </List>
+      ) : <p>작성된 문의가 없습니다</p>}
       <PageNumbers
         totalPageCount={totalPageCount}
         handlePageClick={handlePageClick}

@@ -26,4 +26,14 @@ describe('InquiriesStore', () => {
       expect(inquiriesStore.currentPage).toBe(1);
     });
   });
+
+  describe('changeInquiryId', () => {
+    it('change inquiryId', () => {
+      expect(inquiriesStore.inquiryId).toBe(0);
+
+      inquiriesStore.changeInquiryId(1);
+
+      expect(inquiriesStore.inquiryId).toBe(1);
+    });
+  });
 });

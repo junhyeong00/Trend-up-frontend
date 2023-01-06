@@ -24,6 +24,20 @@ describe('Inquiries', () => {
 
     await waitFor(() => {
       screen.getByText('취소');
+      screen.getAllByText('삭제');
+    });
+  });
+
+  it('listens for edit click event', async () => {
+    renderInquiries(1);
+
+    fireEvent.click(screen.getByText('미답변'));
+
+    fireEvent.click(screen.getByText('수정'));
+
+    await waitFor(() => {
+      screen.getByText('취소');
+      screen.getAllByText('수정');
     });
   });
 });

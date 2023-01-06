@@ -243,6 +243,15 @@ export default class ApiService {
       headers: { Authorization: `Bearer ${this.accessToken}` },
     });
   }
+
+  async updateInquiry({
+    inquiryId, title, content, isSecret,
+  }) {
+    const url = `${baseUrl}/inquiries/${inquiryId}`;
+    await axios.patch(url, {
+      title, content, isSecret,
+    }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
+  }
 }
 
 export const apiService = new ApiService();

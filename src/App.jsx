@@ -23,6 +23,7 @@ import ReviewWriteablePage from './pages/ReviewWriteablePage';
 import ReviewEditPage from './pages/ReviewEditPage';
 import CartPage from './pages/CartPage';
 import useCartStore from './hooks/useCartStore';
+import KaKaoLoginPage from './pages/KaKaoLoginPage';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/order" element={<OrderPage />} />
           <Route path="/order/success" element={<OrderSuccessPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/auth/kakao" element={<KaKaoLoginPage />} />
           <Route path="/my" element={<MyPage />} />
           <Route path="/my/review/writeable" element={<ReviewWriteablePage />} />
           <Route path="/my/reviews" element={<ReviewManagementPage />} />

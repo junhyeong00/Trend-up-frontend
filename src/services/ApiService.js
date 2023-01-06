@@ -252,6 +252,16 @@ export default class ApiService {
       title, content, isSecret,
     }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
   }
+
+  async kakaoLogin(code) {
+    const url = `${baseUrl}/auth/token`;
+
+    const { data } = await axios.get(url, {
+      params: { code },
+    });
+
+    return data;
+  }
 }
 
 export const apiService = new ApiService();

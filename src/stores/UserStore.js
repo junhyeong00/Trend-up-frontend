@@ -36,6 +36,19 @@ export default class UserStore extends Store {
       return '';
     }
   }
+
+  async kakaoLogin(code) {
+    try {
+      const data = await apiService.kakaoLogin(code);
+
+      this.name = data.name;
+      this.publish();
+
+      return data.accessToken;
+    } catch (error) {
+      return '';
+    }
+  }
 }
 
 export const userStore = new UserStore();

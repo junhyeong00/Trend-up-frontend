@@ -11,6 +11,7 @@ import useUserStore from '../hooks/useUserStore';
 
 import Error from './ui/Error';
 import PrimaryButton from './ui/PrimaryButton';
+import kakaoConfig from '../../kakao.config';
 
 const Container = styled.div`
   display: flex;
@@ -44,6 +45,24 @@ const Input = styled.input`
   border: ${(props) => (props.error ? '1px solid #ff0000' : '1px solid #a29f9f')};
   :focus {
     outline: 1px solid #99CCFF;
+  }
+`;
+
+const SNS = styled.div`
+  margin-top: 1.4em;
+`;
+
+const SNSlogin = styled.p`
+  font-size: 0.75em;
+  text-align: center;
+  margin-bottom: 1em;
+  color: #797979;
+`;
+
+const KaKaoButton = styled.a`
+  img {
+      width: 100%;
+      object-fit: cover;
   }
 `;
 
@@ -126,6 +145,12 @@ export default function LoginForm({ navigate }) {
         >
           회원가입
         </button>
+        <SNS>
+          <SNSlogin>SNS계정으로 간편 로그인/회원가입</SNSlogin>
+          <KaKaoButton href={kakaoConfig.kakaoAuthUrl}>
+            <img src="https://user-images.githubusercontent.com/104840243/202971385-ee1b510d-e434-4da4-832a-2de9ebb622a7.png" alt="" />
+          </KaKaoButton>
+        </SNS>
       </Form>
     </Container>
   );

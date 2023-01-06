@@ -10,6 +10,7 @@ import useInquiryFormStore from '../hooks/useInquiryFormStore';
 import InquiryWrite from './InquiryWrite';
 import Inquiry from './Inquiry';
 import Modal from './Modal';
+import InquiryEdit from './InquiryEdit';
 
 const Container = styled.div`
   padding: 1em;
@@ -55,6 +56,7 @@ const ModalBackground = styled.div`
 
 export default function Inquiries({ productId }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [writeable, setWriteable] = useState(false);
 
   const inquiriesStore = useInquiriesStore();
@@ -78,7 +80,7 @@ export default function Inquiries({ productId }) {
     setWriteable(!writeable);
   };
 
-  const onClickCancel = () => {
+  const onClickWriteCancel = () => {
     setWriteable(false);
   };
 
@@ -93,9 +95,9 @@ export default function Inquiries({ productId }) {
     }
   };
 
-  const handleClickDelete = async (inquiryId) => {
+  const handleClickDelete = (inquiryId) => {
     setModalOpen(true);
-    await inquiriesStore.changeInquiryId(inquiryId);
+    inquiriesStore.changeInquiryId(inquiryId);
   };
 
   const handleInquiryDelete = () => {
@@ -106,6 +108,24 @@ export default function Inquiries({ productId }) {
 
   const handleCancelClick = () => {
     setModalOpen(false);
+  };
+
+  const handleClickEdit = (inquiryId) => {
+    setEditModalOpen(true);
+    inquiriesStore.changeInquiryId(inquiryId);
+  };
+
+  const onClickEditCancel = () => {
+    setEditModalOpen(false);
+  };
+
+  const onClickEdit = async ({ title, content, isSecret }) => {
+    await inquiriesStore.updateInquiry({
+      productId, title, content, isSecret,
+    });
+
+    setEditModalOpen(false);
+    inquiriesStore.fetchInquiries(currentPage, productId);
   };
 
   return (
@@ -124,7 +144,7 @@ export default function Inquiries({ productId }) {
         ? (
           <InquiryWrite
             onClickRegister={onClickRegister}
-            onClickCancel={onClickCancel}
+            onClickCancel={onClickWriteCancel}
           />
         )
         : null}
@@ -143,6 +163,7 @@ export default function Inquiries({ productId }) {
               key={inquiry.id}
               inquiry={inquiry}
               handleClickDelete={handleClickDelete}
+              handleClickEdit={handleClickEdit}
             />
           ))}
         </List>
@@ -151,6 +172,14 @@ export default function Inquiries({ productId }) {
         totalPageCount={totalPageCount}
         handlePageClick={handlePageClick}
       />
+      {editModalOpen ? (
+        <ModalBackground>
+          <InquiryEdit
+            onClickEdit={onClickEdit}
+            onClickCancel={onClickEditCancel}
+          />
+        </ModalBackground>
+      ) : null}
       {modalOpen ? (
         <ModalBackground>
           <Modal

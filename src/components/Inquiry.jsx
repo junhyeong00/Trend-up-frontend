@@ -22,7 +22,7 @@ const Detail = styled.div`
   display: ${(props) => (props.open ? '' : 'none')};
 `;
 
-export default function Inquiry({ inquiry, handleClickDelete }) {
+export default function Inquiry({ inquiry, handleClickDelete, handleClickEdit }) {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -44,7 +44,12 @@ export default function Inquiry({ inquiry, handleClickDelete }) {
         <p>{inquiry.content}</p>
         {inquiry.isMine ? (
           <div>
-            <button type="button">수정</button>
+            <button
+              type="button"
+              onClick={() => handleClickEdit((inquiry.id))}
+            >
+              수정
+            </button>
             <button
               type="button"
               onClick={() => handleClickDelete(inquiry.id)}

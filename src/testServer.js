@@ -338,6 +338,8 @@ const server = setupServer(
   }))),
 
   rest.delete(`${baseUrl}/inquiries/1`, async (req, res, ctx) => res(ctx.status(204))),
+
+  rest.patch(`${baseUrl}/inquiries/1`, async (req, res, ctx) => res(ctx.status(204))),
 );
 
 export default server;

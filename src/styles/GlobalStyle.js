@@ -19,6 +19,10 @@ const GlobalStyle = createGlobalStyle`
     ul {
         list-style: none;
     }
+
+    textarea {
+        resize: none;
+    }
 `;
 
 export default GlobalStyle;

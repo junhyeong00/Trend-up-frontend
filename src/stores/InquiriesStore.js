@@ -31,6 +31,14 @@ export default class InquiriesStore extends Store {
     this.publish();
   }
 
+  async updateInquiry({ title, content, isSecret }) {
+    await apiService.updateInquiry({
+      inquiryId: this.inquiryId, title, content, isSecret,
+    });
+
+    this.publish();
+  }
+
   async changePage(page) {
     this.currentPage = page - 1;
 

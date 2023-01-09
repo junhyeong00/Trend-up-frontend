@@ -35,6 +35,7 @@ const Table = styled.table`
   tr {
     display: grid;
     grid-template-columns: 3fr 1fr 1fr 1fr ;
+    align-items: center;
     gap: 3em;
     width: 100%;
   }
@@ -53,6 +54,7 @@ const Form = styled.form`
 
 const Product = styled.td`
   display: flex;
+  align-items: center;
 `;
 
 const OrderProduct = styled.tr`
@@ -62,6 +64,13 @@ const OrderProduct = styled.tr`
 const PaymentDetail = styled.div`
   border-top: 1px solid black;
   padding-top: 1.3em;
+`;
+
+const Image = styled.img`
+  background: center url(${(props) => props.url}) no-repeat;
+  background-size: contain;
+  width: 8em;
+  height: 8em;
 `;
 
 export default function Order({ navigate, orderProducts }) {
@@ -86,17 +95,28 @@ export default function Order({ navigate, orderProducts }) {
       receiver, phoneNumber, deliveryRequest,
     } = data;
 
-    const { orderId } = await orderFormStore.order({
+    const kakaoPayUrl = await orderFormStore.order({
       receiver,
       phoneNumber,
       deliveryRequest,
     });
 
-    if (orderId) {
-      navigate('/order/success');
-      cartStore.deleteOrderProducts(orderProducts);
-      setCart(JSON.stringify(cartStore.cart));
-    }
+    // const kakaoPayUrl = await orderStore.requestOrder({
+    //   recipient,
+    //   phoneNumber,
+    //   orderProducts,
+    //   totalOrderPayment,
+    //   address,
+    //   deliveryRequest,
+    // }, accessToken);
+
+    window.location.href = kakaoPayUrl;
+
+    // if (orderId) {
+    //   navigate('/order/success');
+    cartStore.deleteOrderProducts(orderProducts);
+    setCart(JSON.stringify(cartStore.cart));
+    // }
   };
 
   return (
@@ -115,8 +135,8 @@ export default function Order({ navigate, orderProducts }) {
           {orderProducts.map((product) => (
             <OrderProduct key={nanoid()}>
               <Product>
-                <a href="/products">
-                  <img src="" alt={product.name} />
+                <a href={`products/${product.productId}`}>
+                  <Image src={product.image} alt={product.name} />
                 </a>
                 <div>
                   <p>{product.name}</p>

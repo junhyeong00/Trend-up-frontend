@@ -262,6 +262,45 @@ export default class ApiService {
 
     return data;
   }
+
+  async createOrder({
+    orderProducts, receiver, phoneNumber,
+    zipCode, roadAddress, detailAddress,
+    payment, totalPrice, deliveryFee, deliveryRequest,
+  }) {
+    const url = `${baseUrl}/order`;
+
+    const { data } = await axios.post(url, {
+      orderProducts,
+      receiver,
+      phoneNumber,
+      zipCode,
+      roadAddress,
+      detailAddress,
+      payment,
+      totalPrice,
+      deliveryFee,
+      deliveryRequest,
+    }, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+
+    return data;
+  }
+
+  async fetchPayResult(pgToken) {
+    const url = `${baseUrl}/orders/kakaoPaySuccess`;
+
+    const { data } = await axios.get(url, {
+      params: {
+        pg_token: pgToken,
+      },
+    });
+
+    return data;
+  }
 }
 
 export const apiService = new ApiService();

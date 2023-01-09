@@ -5,6 +5,7 @@ import useCartStore from '../hooks/useCartStore';
 import useProductStore from '../hooks/useProductStore';
 import { orderFormStore } from '../stores/OrderFormStore';
 import numberFormat from '../utils/NumberFormat';
+import optionPriceFormat from '../utils/OptionPriceFormat';
 import Error from './ui/Error';
 import PrimaryButton from './ui/PrimaryButton';
 
@@ -109,6 +110,7 @@ export default function Product({ navigate, productId }) {
     optionPrice: selectedOptionPrice,
     price: product.price,
     quantity: selectedCount,
+    image: product.image,
   }];
 
   const handleClickPurchase = () => {
@@ -142,6 +144,8 @@ export default function Product({ navigate, productId }) {
       price: product.price,
       optionPrice: selectedOptionPrice,
       quantity: selectedCount,
+      // image: product.image,
+      // TODO 이미지 추가
     });
 
     setCart(JSON.stringify(cartStore.cart));
@@ -175,10 +179,7 @@ export default function Product({ navigate, productId }) {
                 <option key={option.id} value={option.id}>
                   {option.name}
                   {' '}
-                  ( +
-                  {option.optionPrice}
-                  원
-                  )
+                  {optionPriceFormat(option.optionPrice)}
                 </option>
               ))}
             </select>
@@ -226,7 +227,6 @@ export default function Product({ navigate, productId }) {
             onClick={handleClickCart}
           >
             장바구니
-
           </button>
         </div>
         <Error>{errorMessage}</Error>

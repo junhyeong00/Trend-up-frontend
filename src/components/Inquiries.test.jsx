@@ -1,4 +1,5 @@
 import {
+  cleanup,
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
 import Inquiries from './Inquiries';
@@ -9,6 +10,11 @@ describe('Inquiries', () => {
       productId={productId}
     />);
   }
+
+  afterEach(() => {
+    cleanup();
+  });
+
   it('renders screen', () => {
     renderInquiries(1);
 

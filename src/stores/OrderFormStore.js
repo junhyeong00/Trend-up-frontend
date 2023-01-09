@@ -21,6 +21,8 @@ export default class OrderFormStore extends Store {
     this.detailAddress = '';
 
     this.errorMessage = '';
+
+    this.paymentResult = {};
   }
 
   async order({
@@ -29,7 +31,21 @@ export default class OrderFormStore extends Store {
     deliveryRequest,
   }) {
     try {
-      const data = await apiService.order({
+    // const data = await apiService.order({
+    //   orderProducts: this.orderProducts,
+    //   receiver,
+    //   phoneNumber,
+    //   zipCode: this.zipCode,
+    //   roadAddress: this.roadAddress,
+    //   detailAddress: this.detailAddress,
+    //   payment: this.payment,
+    //   totalPrice: this.totalPrice,
+    //   deliveryFee: this.deliveryFee,
+    //   deliveryRequest,
+    // });
+    // return data;
+
+      const kakaoPayUrl = await apiService.createOrder({
         orderProducts: this.orderProducts,
         receiver,
         phoneNumber,
@@ -41,7 +57,10 @@ export default class OrderFormStore extends Store {
         deliveryFee: this.deliveryFee,
         deliveryRequest,
       });
-      return data;
+
+      this.publish();
+
+      return kakaoPayUrl;
     } catch (error) {
       this.errorMessage = error.response.data.message;
 
@@ -82,6 +101,38 @@ export default class OrderFormStore extends Store {
 
   changeDetailAddress(detailAddress) {
     this.detailAddress = detailAddress;
+
+    this.publish();
+  }
+
+  async requestOrder({
+    recipient,
+    phoneNumber,
+    orderProducts,
+    totalOrderPayment,
+    address,
+    deliveryRequest,
+  }, accessToken) {
+    const orderInformation = {
+      recipient,
+      phoneNumber,
+      orderProducts,
+      totalOrderPayment,
+      address,
+      deliveryRequest,
+    };
+
+    const kakaoPayUrl = await apiService.createOrder(orderInformation, accessToken);
+
+    this.publish();
+
+    return kakaoPayUrl;
+  }
+
+  async fetchPayResult(pgToken) {
+    const data = await apiService.fetchPayResult(pgToken);
+
+    this.paymentResult = data;
 
     this.publish();
   }

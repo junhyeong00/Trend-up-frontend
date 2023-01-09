@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import HomePage from './HomePage';
@@ -12,5 +12,7 @@ describe('HomePage', () => {
     );
 
     screen.getByText('전체');
+
+    cleanup();
   });
 });

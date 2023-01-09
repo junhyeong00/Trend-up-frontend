@@ -24,6 +24,8 @@ import ReviewEditPage from './pages/ReviewEditPage';
 import CartPage from './pages/CartPage';
 import useCartStore from './hooks/useCartStore';
 import KaKaoLoginPage from './pages/KaKaoLoginPage';
+import OrderCancel from './components/OrderCancel';
+import OrderFail from './components/OrderFail';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -47,6 +49,8 @@ export default function App() {
           <Route path="/products/:productId" element={<ProductPage />} />
           <Route path="/order" element={<OrderPage />} />
           <Route path="/order/success" element={<OrderSuccessPage />} />
+          <Route path="/order/cancel" element={<OrderCancel />} />
+          <Route path="/order/fail" element={<OrderFail />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/auth/kakao" element={<KaKaoLoginPage />} />
           <Route path="/my" element={<MyPage />} />

@@ -88,4 +88,42 @@ export default class Cart {
       ],
     });
   }
+
+  decreaseQuantity({
+    id,
+  }) {
+    const index = this.items.findIndex((i) => i.id === id);
+    const item = this.items[index];
+
+    if (item.quantity < 2) {
+      return new Cart({
+        items: [
+          ...this.items,
+        ],
+      });
+    }
+
+    return new Cart({
+      items: [
+        ...this.items.slice(0, index),
+        new Item({ ...item, quantity: item.quantity - 1 }),
+        ...this.items.slice(index + 1),
+      ],
+    });
+  }
+
+  increaseQuantity({
+    id,
+  }) {
+    const index = this.items.findIndex((i) => i.id === id);
+    const item = this.items[index];
+
+    return new Cart({
+      items: [
+        ...this.items.slice(0, index),
+        new Item({ ...item, quantity: item.quantity + 1 }),
+        ...this.items.slice(index + 1),
+      ],
+    });
+  }
 }

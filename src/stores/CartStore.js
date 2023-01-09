@@ -16,14 +16,14 @@ export default class CartStore extends Store {
 
   async fetchCart() {
     const { items } = await apiService.fetchCart();
-    this.cart = JSON.parse(items);
+    this.cart = new Cart(JSON.parse(items));
     this.publish();
 
     return items;
   }
 
-  setCart(cart) {
-    this.cart = new Cart(cart);
+  setCart(items) {
+    this.cart = new Cart(items);
     this.publish();
   }
 
@@ -94,6 +94,24 @@ export default class CartStore extends Store {
 
     itemsToChange.forEach((item) => {
       this.cart = this.cart.toggleSelected({ id: item.id });
+    });
+
+    this.updateCart();
+    this.publish();
+  }
+
+  decreaseQuantity({ id }) {
+    this.cart = this.cart.decreaseQuantity({
+      id,
+    });
+
+    this.updateCart();
+    this.publish();
+  }
+
+  increaseQuantity({ id }) {
+    this.cart = this.cart.increaseQuantity({
+      id,
     });
 
     this.updateCart();

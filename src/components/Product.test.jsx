@@ -49,8 +49,8 @@ describe('Product', () => {
     // await productStore.fetchOptions(1);
 
     await waitFor(() => {
-      fireEvent.click(screen.getByText('+'));
-      fireEvent.click(screen.getByText('+'));
+      fireEvent.click(screen.getByText('➕'));
+      fireEvent.click(screen.getByText('➕'));
 
       screen.getByText('3');
       screen.getByText('1,500원');
@@ -69,7 +69,7 @@ describe('Product', () => {
     // await productStore.fetchOptions(1);
 
     await waitFor(() => {
-      fireEvent.click(screen.getByText('-'));
+      fireEvent.click(screen.getByText('➖'));
 
       screen.getByText('1');
       screen.getAllByText('500원');

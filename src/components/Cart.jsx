@@ -55,6 +55,20 @@ const Form = styled.form`
   }
 `;
 
+const CountForm = styled.dd`
+  border: 1px solid #D9D9D9;
+  border-radius: 5px;
+  padding: .4em;
+  button {
+    border: none;
+    background: none;
+    font-weight: bold;
+  }
+  span {
+    padding-inline: .4em;
+  }
+`;
+
 export default function Cart({ navigate }) {
   const [cart, setCart] = useLocalStorage('cart', '{"items":[]}');
   const cartStore = useCartStore();
@@ -62,7 +76,9 @@ export default function Cart({ navigate }) {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { items } = JSON.parse(cart);
+  // const { items } = JSON.parse(cart);
+
+  const { items } = cartStore.cart;
 
   const totalPrice = items.filter((i) => i.selected)
     .reduce((total, item) => {
@@ -142,8 +158,24 @@ export default function Cart({ navigate }) {
                     {item.optionName}
                   </td>
                   <td>
-                    {item.quantity}
-                    개
+                    <CountForm>
+                      <button
+                        type="button"
+                        onClick={() => cartStore.decreaseQuantity({ id: item.id })}
+                        disabled={item.quantity < 2}
+                      >
+                        ➖
+                      </button>
+                      <span>
+                        {item.quantity}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => cartStore.increaseQuantity({ id: item.id })}
+                      >
+                        ➕
+                      </button>
+                    </CountForm>
                   </td>
                   <td>
                     {numberFormat((item.price + item.optionPrice) * item.quantity)}

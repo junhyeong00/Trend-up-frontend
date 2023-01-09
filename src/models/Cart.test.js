@@ -75,4 +75,36 @@ describe('Cart', () => {
     expect(cart.items[0].selected).toBeTruthy();
     expect(cart.items[1].selected).toBeFalsy();
   });
+
+  describe('decreaseQuantity', () => {
+    context('when quantity is 1', () => {
+      it('not decrease quantity', () => {
+        cart = cart.addItem({ productId: 1, quantity: 1 });
+
+        cart = cart.decreaseQuantity({ id: 1 });
+
+        expect(cart.items[0].quantity).toBe(1);
+      });
+    });
+
+    context('when quantity is 2', () => {
+      it('decrease quantity', () => {
+        cart = cart.addItem({ productId: 1, quantity: 2 });
+
+        cart = cart.decreaseQuantity({ id: 1 });
+
+        expect(cart.items[0].quantity).toBe(1);
+      });
+    });
+  });
+
+  describe('increaseQuantity', () => {
+    it('increase quantity', () => {
+      cart = cart.addItem({ productId: 1, quantity: 1 });
+
+      cart = cart.increaseQuantity({ id: 1 });
+
+      expect(cart.items[0].quantity).toBe(2);
+    });
+  });
 });

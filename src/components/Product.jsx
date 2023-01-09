@@ -192,7 +192,7 @@ export default function Product({ navigate, productId }) {
                 onClick={() => productStore.decreaseCount()}
                 disabled={selectedCount < 2}
               >
-                -
+                ➖
               </button>
               <span>
                 {selectedCount}
@@ -201,7 +201,7 @@ export default function Product({ navigate, productId }) {
                 type="button"
                 onClick={() => productStore.increaseCount()}
               >
-                +
+                ➕
               </button>
             </CountForm>
           </div>

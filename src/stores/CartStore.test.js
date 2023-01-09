@@ -202,4 +202,36 @@ describe('CartStore', () => {
       });
     });
   });
+
+  describe('decreaseQuantity', () => {
+    context('when quantity is 1', () => {
+      it('not decrease quantity', () => {
+        cartStore.addItem({ productId: 1, optionId: 1, quantity: 1 });
+
+        cartStore.decreaseQuantity({ id: 1 });
+
+        expect(cartStore.cart.items[0].quantity).toBe(1);
+      });
+    });
+
+    context('when quantity is 2', () => {
+      it('decrease quantity', () => {
+        cartStore.addItem({ productId: 1, optionId: 1, quantity: 2 });
+
+        cartStore.decreaseQuantity({ id: 1 });
+
+        expect(cartStore.cart.items[0].quantity).toBe(1);
+      });
+    });
+  });
+
+  describe('increaseQuantity', () => {
+    it('increase quantity', () => {
+      cartStore.addItem({ productId: 1, optionId: 1, quantity: 2 });
+
+      cartStore.increaseQuantity({ id: 1 });
+
+      expect(cartStore.cart.items[0].quantity).toBe(3);
+    });
+  });
 });

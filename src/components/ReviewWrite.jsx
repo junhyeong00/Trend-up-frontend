@@ -123,7 +123,6 @@ export default function ReviewWrite({ navigate }) {
             accept="image/*"
             onChange={handleImageChange}
           />
-          {/* <img src={imageUrl} alt="" /> */}
         </PhotoUpload>
         <button
           type="button"

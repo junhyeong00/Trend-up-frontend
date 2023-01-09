@@ -11,6 +11,6 @@ describe('LoginPage', () => {
   it('render screen', async () => {
     render(<LoginPage />);
 
-    screen.getByText(/로그인/);
+    screen.getByText('로그인');
   });
 });

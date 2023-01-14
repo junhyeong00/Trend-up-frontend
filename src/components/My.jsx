@@ -57,6 +57,14 @@ export default function My({ navigate }) {
     navigate(`/orders/${orderId}`);
   };
 
+  const orderCountFormat = (number) => {
+    if (number === 1) {
+      return '';
+    }
+
+    return ` 외 ${number - 1}건`;
+  };
+
   return (
     <Container>
       <div>
@@ -91,34 +99,32 @@ export default function My({ navigate }) {
             조회
           </button>
         </div>
-        <List>
-          {orders.map((order) => (
-            <li key={order.id}>
-              <div>
-                <p>{order.deliveryStatus}</p>
-                <p>{order.createAt}</p>
-                <button
-                  type="button"
-                  onClick={() => handleOrderClick(order.id)}
-                >
-                  주문 상세보기
-                </button>
-                <p>
-                  {order.orderProducts[0].productName}
-                  {' '}
-                  외
-                  {' '}
-                  {order.orderProducts.length - 1}
-                  건
-                </p>
-                <p>
-                  {numberFormat(order.payment)}
-                  원
-                </p>
-              </div>
-            </li>
-          ))}
-        </List>
+        {orders.length ? (
+          <List>
+            {orders.map((order) => (
+              <li key={order.id}>
+                <div>
+                  <p>{order.deliveryStatus}</p>
+                  <p>{order.createAt}</p>
+                  <button
+                    type="button"
+                    onClick={() => handleOrderClick(order.id)}
+                  >
+                    주문 상세보기
+                  </button>
+                  <p>
+                    {order.orderProducts[0].productName}
+                    {orderCountFormat(order.orderProducts.length)}
+                  </p>
+                  <p>
+                    {numberFormat(order.payment)}
+                    원
+                  </p>
+                </div>
+              </li>
+            ))}
+          </List>
+        ) : <p>주문내역이 없습니다</p>}
       </div>
       <PageNumbers
         totalPageCount={totalPageCount}

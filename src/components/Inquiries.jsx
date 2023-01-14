@@ -25,10 +25,6 @@ const List = styled.ul`
   button {
     padding: 1em;
   }
-
-  p {
-    padding-right: 1em;
-  }
 `;
 
 const Thead = styled.summary`
@@ -36,7 +32,7 @@ const Thead = styled.summary`
   width: 100%;
   margin-top: 1em;
   padding: 1em;
-  grid-template-columns: 1.2fr 5fr 1.3fr 1.3fr;
+  grid-template-columns: 10em 5fr 1.3fr 1fr;
 
   p {
     text-align: center;

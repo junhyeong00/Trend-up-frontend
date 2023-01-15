@@ -101,22 +101,13 @@ export default function Order({ navigate, orderProducts }) {
       deliveryRequest,
     });
 
-    // const kakaoPayUrl = await orderStore.requestOrder({
-    //   recipient,
-    //   phoneNumber,
-    //   orderProducts,
-    //   totalOrderPayment,
-    //   address,
-    //   deliveryRequest,
-    // }, accessToken);
-
     window.location.href = kakaoPayUrl;
 
-    // if (orderId) {
+    if (kakaoPayUrl) {
     //   navigate('/order/success');
-    cartStore.deleteOrderProducts(orderProducts);
-    setCart(JSON.stringify(cartStore.cart));
-    // }
+      cartStore.deleteOrderProducts(orderProducts);
+      setCart(JSON.stringify(cartStore.cart));
+    }
   };
 
   return (

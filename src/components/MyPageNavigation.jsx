@@ -53,7 +53,6 @@ export default function MyPageNavigation() {
             <li>
               <Link to="/my/review/writeable">리뷰 관리</Link>
             </li>
-            <li>찜 리스트</li>
           </ul>
         </Menu>
       </Navigation>

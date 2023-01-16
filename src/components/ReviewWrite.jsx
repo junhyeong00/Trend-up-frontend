@@ -4,6 +4,7 @@ import StarRatings from 'react-star-ratings';
 import styled from 'styled-components';
 
 import useReviewFormStore from '../hooks/useReviewFormStore';
+import PrimaryButton from './ui/PrimaryButton';
 
 const Container = styled.div`
   display: flex;
@@ -124,12 +125,12 @@ export default function ReviewWrite({ navigate }) {
             onChange={handleImageChange}
           />
         </PhotoUpload>
-        <button
+        <PrimaryButton
           type="button"
           onClick={handleClick}
         >
           등록하기
-        </button>
+        </PrimaryButton>
       </div>
     </Container>
   );

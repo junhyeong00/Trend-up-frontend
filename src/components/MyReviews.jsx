@@ -4,9 +4,11 @@ import styled from 'styled-components';
 
 import StarRatings from 'react-star-ratings';
 import { Link } from 'react-router-dom';
+
 import PageNumbers from './PageNumbers';
 
 import useReviewsStore from '../hooks/useReviewsStore';
+
 import Modal from './Modal';
 
 const Container = styled.div`

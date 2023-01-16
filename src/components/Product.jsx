@@ -1,11 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
+
 import { useLocalStorage } from 'usehooks-ts';
+
 import useCartStore from '../hooks/useCartStore';
 import useProductStore from '../hooks/useProductStore';
-import { orderFormStore } from '../stores/OrderFormStore';
+import useOrderFormStore from '../hooks/useOrderFormStore';
+
 import numberFormat from '../utils/NumberFormat';
 import optionPriceFormat from '../utils/OptionPriceFormat';
+
+import Modal from './Modal';
+
 import Error from './ui/Error';
 import PrimaryButton from './ui/PrimaryButton';
 
@@ -14,13 +21,6 @@ const Container = styled.div`
   justify-content: center;
   padding: 1em;
 `;
-
-// const Container = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 90vh;
-// `;
 
 const ProductImage = styled.img`
   width: 30em;
@@ -65,6 +65,7 @@ const TotalPrice = styled.span`
   margin-block: 1.2em .2em;
   text-align: end;
   font-size: 1em;
+
   span {
     font-size: 1.8em;
     font-weight: bold;
@@ -75,21 +76,36 @@ const CountForm = styled.dd`
   border: 1px solid #D9D9D9;
   border-radius: 5px;
   padding: .4em;
+
   button {
     border: none;
     background: none;
     font-weight: bold;
   }
+
   span {
     padding-inline: .4em;
   }
 `;
 
+const ModalBackground = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+`;
+
 export default function Product({ navigate, productId }) {
   const [, setCart] = useLocalStorage('cart', '{"items":[]}');
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   const productStore = useProductStore();
   const cartStore = useCartStore();
+  const orderFormStore = useOrderFormStore();
 
   useEffect(() => {
     productStore.fetchProduct(productId);
@@ -144,11 +160,19 @@ export default function Product({ navigate, productId }) {
       price: product.price,
       optionPrice: selectedOptionPrice,
       quantity: selectedCount,
-      // image: product.image,
-      // TODO 이미지 추가
+      image: product.image,
     });
 
     setCart(JSON.stringify(cartStore.cart));
+    setModalOpen(true);
+  };
+
+  const handleClickStay = () => {
+    setModalOpen(false);
+  };
+
+  const handleClickMove = () => {
+    setModalOpen(false);
     navigate('/cart');
   };
 
@@ -231,6 +255,17 @@ export default function Product({ navigate, productId }) {
         </div>
         <Error>{errorMessage}</Error>
       </ProductDescription>
+      {modalOpen ? (
+        <ModalBackground>
+          <Modal
+            titleMessage="장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?"
+            firstButtonName="계속 쇼핑하기"
+            firstHandleClick={handleClickStay}
+            secondButtonName="장바구니로 이동"
+            secondHandleClick={handleClickMove}
+          />
+        </ModalBackground>
+      ) : null}
     </Container>
   );
 }

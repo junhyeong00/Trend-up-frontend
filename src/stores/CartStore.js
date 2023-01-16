@@ -28,10 +28,10 @@ export default class CartStore extends Store {
   }
 
   addItem({
-    productId, name, optionId, optionName, price, optionPrice, quantity,
+    productId, name, image, optionId, optionName, price, optionPrice, quantity,
   }) {
     this.cart = this.cart.addItem({
-      productId, name, optionId, optionName, price, optionPrice, quantity,
+      productId, name, image, optionId, optionName, price, optionPrice, quantity,
     });
 
     this.updateCart();

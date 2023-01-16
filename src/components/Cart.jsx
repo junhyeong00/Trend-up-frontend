@@ -32,9 +32,13 @@ const Table = styled.table`
 
 const Tr = styled.tr`
   display: grid;
-    grid-template-columns: 3fr 1fr 1fr 1fr .6fr;
-    gap: 3em;
-    width: 100%;
+  grid-template-columns: .5fr 3fr 1fr 1fr 1fr .6fr;
+  gap: 3em;
+  width: 100%;
+
+  label {
+    display: none;
+  }
 `;
 
 const Item = styled.tr`
@@ -42,6 +46,10 @@ const Item = styled.tr`
   grid-template-columns: .5fr 3fr 1fr 1fr 1fr .5fr;
   gap: 3em;
   margin-top: 1.4em;
+
+  td {
+    display: flex;
+  }
 `;
 
 const Form = styled.form`
@@ -69,8 +77,15 @@ const CountForm = styled.dd`
   }
 `;
 
+const Image = styled.img`
+  background: center url(${(props) => props.url}) no-repeat;
+  background-size: contain;
+  width: 8em;
+  height: 8em;
+`;
+
 export default function Cart({ navigate }) {
-  const [cart, setCart] = useLocalStorage('cart', '{"items":[]}');
+  const [, setCart] = useLocalStorage('cart', '{"items":[]}');
   const cartStore = useCartStore();
   const orderFormStore = useOrderFormStore();
 
@@ -107,17 +122,6 @@ export default function Cart({ navigate }) {
     <Container>
       <Title>장바구니</Title>
       <div>
-        <input
-          id="selectall"
-          type="checkbox"
-          name="product"
-          onChange={() => {
-            cartStore.toggleAllItemSelected();
-            setCart(JSON.stringify(cartStore.cart));
-          }}
-          checked={cartStore.isAllSelected()}
-        />
-        <label htmlFor="selectall">전체 선택</label>
         <button
           type="button"
           onClick={() => {
@@ -131,6 +135,17 @@ export default function Cart({ navigate }) {
       <Table>
         <thead>
           <Tr>
+            <input
+              id="selectall"
+              type="checkbox"
+              name="product"
+              onChange={() => {
+                cartStore.toggleAllItemSelected();
+                setCart(JSON.stringify(cartStore.cart));
+              }}
+              checked={cartStore.isAllSelected()}
+            />
+            <label htmlFor="selectall">전체 선택</label>
             <th>상품 정보</th>
             <th>옵션</th>
             <th>수량</th>
@@ -152,7 +167,10 @@ export default function Cart({ navigate }) {
                     }}
                   />
                   <td>
-                    {item.name}
+                    <a href={`products/${item.productId}`}>
+                      <Image src={item.image} alt={item.name} />
+                    </a>
+                    <p>{item.name}</p>
                   </td>
                   <td>
                     {item.optionName}

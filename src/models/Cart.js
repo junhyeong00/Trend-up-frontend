@@ -9,7 +9,7 @@ export default class Cart {
 
   addItem({
     productId, name, optionId, optionName,
-    price, optionPrice, quantity,
+    price, optionPrice, quantity, image,
   }) {
     const index = this.items
       .findIndex((i) => i.productId === productId && i.optionId === optionId);
@@ -18,6 +18,7 @@ export default class Cart {
       ? this.insertItem({
         productId,
         name,
+        image,
         optionId,
         optionName,
         price,
@@ -29,7 +30,7 @@ export default class Cart {
   }
 
   insertItem({
-    productId, name, optionId, optionName,
+    productId, name, image, optionId, optionName,
     price, optionPrice, quantity, selected,
   }) {
     const id = Math.max(0, ...this.items.map((i) => i.id)) + 1;
@@ -37,6 +38,7 @@ export default class Cart {
       id,
       productId,
       name,
+      image,
       optionId,
       optionName,
       price,

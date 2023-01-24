@@ -11,7 +11,11 @@ import useUserStore from '../hooks/useUserStore';
 
 import Error from './ui/Error';
 import PrimaryButton from './ui/PrimaryButton';
+import Input from './ui/Input';
+
 import kakaoConfig from '../../kakao.config';
+
+import logo from '../images/TRENDUP.png';
 
 const Container = styled.div`
   display: flex;
@@ -26,30 +30,33 @@ const Container = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 2em;
+  font-size: 1.7em;
   font-weight: bold;
+  text-align: center;
+
+  img {
+    width: 90%;
+  }
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  border-top: 2px solid #99CCFF;
+  /* border-top: 2px solid #000000; */
   padding-top: 2em;
-  width: 25%;
-`;
 
-const Input = styled.input`
-  margin-bottom: .6em;
-  padding: 1em 1.5em;
-  width: 100%;
-  border: ${(props) => (props.error ? '1px solid #ff0000' : '1px solid #a29f9f')};
-  :focus {
-    outline: 1px solid #99CCFF;
+  input {
+    width: 100%;
+    padding: 1em 1em;
   }
 `;
 
 const SNS = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 1.4em;
+  margin-inline: auto;
+  width: 70%;
 `;
 
 const SNSlogin = styled.p`
@@ -63,6 +70,25 @@ const KaKaoButton = styled.a`
   img {
       width: 100%;
       object-fit: cover;
+  }
+`;
+
+const Signup = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: .7em;
+  margin-top: 1em;
+
+  p {
+    color: #A0A0A0;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    color: #000000;
+    font-weight: bold;
+    font-size: 1em;
   }
 `;
 
@@ -88,7 +114,7 @@ export default function LoginForm({ navigate }) {
 
       setCart(itmes);
 
-      navigate('/');
+      navigate(-1);
     }
   };
 
@@ -98,7 +124,9 @@ export default function LoginForm({ navigate }) {
 
   return (
     <Container>
-      <Title>USER LOGIN</Title>
+      <Title>
+        <img src={logo} alt="trendup" />
+      </Title>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="input-userName">
@@ -108,6 +136,7 @@ export default function LoginForm({ navigate }) {
             id="input-userName"
             type="text"
             placeholder="아이디"
+            error={errors.userName}
             {...register(
               'userName',
               { required: { value: true, message: '아이디를 입력해주세요' } },
@@ -122,6 +151,7 @@ export default function LoginForm({ navigate }) {
             id="input-password"
             type="password"
             placeholder="비밀번호"
+            error={errors.password}
             {...register(
               'password',
               { required: { value: true, message: '비밀번호를 입력해주세요' } },
@@ -139,18 +169,21 @@ export default function LoginForm({ navigate }) {
         <PrimaryButton type="submit">
           로그인
         </PrimaryButton>
-        <button
-          type="button"
-          onClick={handleClickSignUp}
-        >
-          회원가입
-        </button>
         <SNS>
           <SNSlogin>SNS계정으로 간편 로그인/회원가입</SNSlogin>
           <KaKaoButton href={kakaoConfig.kakaoAuthUrl}>
             <img src="https://user-images.githubusercontent.com/104840243/202971385-ee1b510d-e434-4da4-832a-2de9ebb622a7.png" alt="" />
           </KaKaoButton>
         </SNS>
+        <Signup>
+          <p>아직 회원이 아니신가요?</p>
+          <button
+            type="button"
+            onClick={handleClickSignUp}
+          >
+            회원가입
+          </button>
+        </Signup>
       </Form>
     </Container>
   );

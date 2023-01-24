@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -7,27 +7,28 @@ import useProductsStore from '../hooks/useProductsStore';
 import useCategoriesStore from '../hooks/useCategoriesStore';
 
 const Container = styled.nav`
-  padding: .8em 1em;
-  border-bottom: 1px solid rgb(217,217,217);
-
   ul {
     display: flex;
+    justify-content: flex-start;
   }
 
   li {
-    margin-left: 2em;
+    margin: 0;
   }
+`;
 
-  button {
-    border: 0;
-    background: none;
-    font-size: 1.1em;
-    /* font-weight: bold; */
-  }
+const Button = styled.button`
+  border: 0;
+  background: none;
+  margin-left: .5em;
+  font-size: 1em;
+  font-weight: 500;
+  color: ${({ isActive }) => (isActive ? '#303030' : '#808080')};
 `;
 
 export default function Category() {
   const navigate = useNavigate();
+  const location = useLocation();
   const productsStore = useProductsStore();
   const categoriesStore = useCategoriesStore();
 
@@ -40,28 +41,34 @@ export default function Category() {
   const handleClickCategory = (id) => {
     productsStore.changeCategoryId(id);
     productsStore.fetchProducts(1);
-    navigate('/products');
+    navigate(`/products?categoryId=${id}`);
   };
+
+  function isActive(categoryId) {
+    return Number(location.search.split('=')[1]) === categoryId;
+  }
 
   return (
     <Container>
       <ul>
         <li>
-          <button
+          <Button
             type="button"
+            isActive={isActive(0)}
             onClick={() => handleClickCategory(0)}
           >
             전체
-          </button>
+          </Button>
         </li>
         {categories.map((category) => (
           <li key={category.id}>
-            <button
+            <Button
               type="button"
+              isActive={isActive(category.id)}
               onClick={() => handleClickCategory(category.id)}
             >
               {category.name}
-            </button>
+            </Button>
           </li>
         ))}
       </ul>

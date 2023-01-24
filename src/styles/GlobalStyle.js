@@ -7,6 +7,10 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
     }
 
+    body {
+        min-width: 1024px;
+    }
+
     a {
         text-decoration: none;
         color: black;
@@ -22,6 +26,10 @@ const GlobalStyle = createGlobalStyle`
 
     textarea {
         resize: none;
+    }
+
+    input {
+        accent-color: #000000;
     }
 `;
 

@@ -14,6 +14,13 @@ export default class CategoriesStore extends Store {
     this.categories = categories;
     this.publish();
   }
+
+  getCategory(categoryId) {
+    if (!categoryId) {
+      return '전체';
+    }
+    return this.categories.find((category) => category.id === categoryId).name;
+  }
 }
 
 export const categoriesStore = new CategoriesStore();

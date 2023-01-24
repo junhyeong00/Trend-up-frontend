@@ -11,15 +11,17 @@ import InquiryWrite from './InquiryWrite';
 import Inquiry from './Inquiry';
 import Modal from './Modal';
 import InquiryEdit from './InquiryEdit';
+import PrimaryButton from './ui/PrimaryButton';
+import SecondaryButton from './ui/SecondaryButton';
 
 const Container = styled.div`
-  padding: 1em;
+  margin: 0 auto;
 `;
 
 const List = styled.ul`
+  border-block: 1px solid #D9D9D9;
   li {
     padding: 1em;
-    border: 1px solid black;
   }
 
   button {
@@ -27,16 +29,18 @@ const List = styled.ul`
   }
 `;
 
-const Thead = styled.summary`
+const Thead = styled.div`
   display: grid;
   width: 100%;
   margin-top: 1em;
+  border-top: 2px solid #000000;
   padding: 1em;
   grid-template-columns: 10em 5fr 1.3fr 1fr;
 
   p {
     text-align: center;
     vertical-align: middle;
+    font-weight: bold;
   }
 `;
 
@@ -50,7 +54,17 @@ const ModalBackground = styled.div`
   z-index: 999;
 `;
 
-export default function Inquiries({ productId }) {
+const Buttons = styled.div`
+  display: flex;
+  gap: .7em;
+
+  button {
+    border-radius: 4px;
+    padding: .9em 3em;
+  }
+`;
+
+export default function Inquiries({ productId, ref }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [writeable, setWriteable] = useState(false);
@@ -125,17 +139,21 @@ export default function Inquiries({ productId }) {
   };
 
   return (
-    <Container>
+    <Container
+      id="inquiries"
+    >
       <h3>상품 문의</h3>
-      <div>
-        <button
+      <Buttons>
+        <PrimaryButton
           type="button"
           onClick={handleClickInquiryWrite}
         >
           상품 문의 작성
-        </button>
-        <button type="button">나의 문의 찾기</button>
-      </div>
+        </PrimaryButton>
+        <SecondaryButton type="button">
+          나의 문의 조회
+        </SecondaryButton>
+      </Buttons>
       {writeable
         ? (
           <InquiryWrite

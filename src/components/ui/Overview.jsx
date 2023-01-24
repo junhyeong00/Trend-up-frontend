@@ -6,26 +6,30 @@ const Overview = styled.ul`
     grid-template-rows: repeat(2, 1fr);
     column-gap: 1em;
     row-gap: 1.5em;
-    margin-bottom: 2em;
-    margin-inline: 18vw;
+    margin-top: 1em;
+    margin-inline: auto;
+
     li {
         height: 18em;
     }
+
     button {
         height: 100%;
         background: none;
         border: none;
         text-align: left;
     }
+
     p {
-        margin-block: .1em .4em;
+        margin-block: .5em .4em;
+        color: #444444;
     }
+
     img {
-        width: 16em;
-        height: 16em;
+        width: 17em;
+        height: 13em;
         object-fit: cover;
-        border-radius: 1em;
-        margin-bottom: 1em;
+        border-radius: 8px;
     }
 `;
 

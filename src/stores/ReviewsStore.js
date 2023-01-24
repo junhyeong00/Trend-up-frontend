@@ -25,6 +25,11 @@ export default class ReviewsStore extends Store {
     this.totalPageCount = totalPageCount;
     this.totalReviewCount = totalReviewCount;
     this.totalRating = totalRating;
+
+    if (!reviews.length) {
+      this.totalReviewCount = 0;
+      this.totalRating = 0;
+    }
     this.publish();
   }
 

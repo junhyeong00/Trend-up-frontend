@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import MyPageNavigation from '../components/MyPageNavigation';
 import OrderDetail from '../components/OrderDetail';
+import Profile from '../components/Profile';
 
 const Container = styled.div`
   display: grid;
@@ -16,7 +17,10 @@ export default function OrderDetailPage() {
 
   return (
     <Container>
-      <MyPageNavigation />
+      <div>
+        <Profile />
+        <MyPageNavigation />
+      </div>
       <OrderDetail
         navigate={navigate}
       />

@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
+
 import MyPageNavigation from '../components/MyPageNavigation';
 import MyReviews from '../components/MyReviews';
+import Profile from '../components/Profile';
 
 const Container = styled.div`
   display: grid;
@@ -14,7 +17,10 @@ export default function ReviewManagementPage() {
 
   return (
     <Container>
-      <MyPageNavigation />
+      <div>
+        <Profile />
+        <MyPageNavigation />
+      </div>
       <MyReviews
         navigate={navigate}
       />

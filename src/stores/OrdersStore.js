@@ -13,6 +13,9 @@ export default class OrdersStore extends Store {
 
     this.totalPageCount = 0;
     this.currentPage = 0;
+
+    this.shippedCount = 0;
+    this.inTransitCount = 0;
   }
 
   setDateRange(update) {
@@ -21,11 +24,15 @@ export default class OrdersStore extends Store {
   }
 
   async fetchOrders(currentPage) {
-    const { orders, totalPageCount } = await apiService
+    const {
+      orders, totalPageCount, shippedCount, inTransitCount,
+    } = await apiService
       .fetchOrders(currentPage, 8, this.dateRange[0], this.dateRange[1], this.keyword);
 
     this.orders = orders;
     this.totalPageCount = totalPageCount;
+    this.shippedCount = shippedCount;
+    this.inTransitCount = inTransitCount;
     this.publish();
   }
 

@@ -4,7 +4,10 @@ import StarRatings from 'react-star-ratings';
 import styled from 'styled-components';
 
 import useReviewFormStore from '../hooks/useReviewFormStore';
+
 import PrimaryButton from './ui/PrimaryButton';
+import SecondaryButton from './ui/SecondaryButton';
+import Textarea from './ui/Textarea';
 
 const Container = styled.div`
   display: flex;
@@ -23,10 +26,15 @@ const Container = styled.div`
   label {
     display: block;
     margin-right: .5em;
+    margin-bottom: .3em;
   }
 
   span {
     margin-left: 1em;
+  }
+
+  textarea {
+    width: 100%;
   }
 `;
 
@@ -34,11 +42,12 @@ const PhotoUpload = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
-  height: 20em;
+  align-items: center;
+  gap:.5em;
+  height: 15em;
 
   input {
-    /* display: none; */
+    display: none;
   }
 
   button {
@@ -47,19 +56,36 @@ const PhotoUpload = styled.div`
     height: 30px;
     border-radius: 10px;
   }
+
+  label {
+    width: 150px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid rgb(77,77,77);
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const Box = styled.img`
   background: center url(${(props) => props.url}) no-repeat;
   background-size: contain;
   width: 12em;
-  height: 17em;
-  /* padding: 10px; */
+  height: 12em;
 `;
 
-const Input = styled.input`
-  width: 40vw;
-  padding: 1em;
+const Buttons = styled.div`
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+
+  button {
+    border-radius: 4px;
+  }
 `;
 
 export default function ReviewWrite({ navigate }) {
@@ -84,6 +110,10 @@ export default function ReviewWrite({ navigate }) {
     reviewFormStore.uploadImage(e.target.files[0]);
   };
 
+  const handleClickCancel = () => {
+    navigate(-1);
+  };
+
   return (
     <Container>
       <div>
@@ -97,7 +127,8 @@ export default function ReviewWrite({ navigate }) {
         </p>
         <StarRatings
           rating={rating}
-          starRatedColor="blue"
+          starRatedColor="#ffc501"
+          starHoverColor="#ffe899"
           starDimension="40px"
           starSpacing="15px"
           changeRating={(value) => reviewFormStore.changeRating(value)}
@@ -108,16 +139,20 @@ export default function ReviewWrite({ navigate }) {
           점
         </span>
         <div>
-          <label htmlFor="input-content">내용</label>
-          <Input
+          <label htmlFor="input-content">리뷰</label>
+          <Textarea
             id="input-content"
+            rows="12"
+            cols="55"
+            maxLength="200"
+            placeholder="리뷰를 작성해주세요"
             value={content}
             onChange={(e) => reviewFormStore.changeContent(e.target.value)}
           />
         </div>
         <PhotoUpload>
-          <label htmlFor="input-image">이미지 추가</label>
           {imageUrl ? <Box url={imageUrl} /> : <p>사진을 업로드 해주세요</p>}
+          <label htmlFor="input-image">이미지 업로드</label>
           <input
             id="input-image"
             type="file"
@@ -125,12 +160,20 @@ export default function ReviewWrite({ navigate }) {
             onChange={handleImageChange}
           />
         </PhotoUpload>
-        <PrimaryButton
-          type="button"
-          onClick={handleClick}
-        >
-          등록하기
-        </PrimaryButton>
+        <Buttons>
+          <SecondaryButton
+            type="button"
+            onClick={handleClickCancel}
+          >
+            취소
+          </SecondaryButton>
+          <PrimaryButton
+            type="button"
+            onClick={handleClick}
+          >
+            등록
+          </PrimaryButton>
+        </Buttons>
       </div>
     </Container>
   );

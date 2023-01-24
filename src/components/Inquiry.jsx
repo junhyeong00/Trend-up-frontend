@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import { useState } from 'react';
 
+import lock from '../images/lock.png';
+
 const Tbody = styled.li`
   display: grid;
   width: 100%;
@@ -22,6 +24,8 @@ const Detail = styled.div`
   display: ${(props) => (props.open ? '' : 'none')};
   width: 100%;
   padding-left: 10em;
+  background-color: #F8F8F8;
+  border-bottom: 1px solid #D9D9D9;
 
   > div {
     padding: 1em;
@@ -32,7 +36,7 @@ const Answer = styled.div`
   display: grid;
   grid-template-columns: 5fr 1.3fr 1fr;
   align-items: center;
-  border-top: 1px solid gray;
+  border-top: 1px solid #D9D9D9;
 
   p {
     text-align: center;
@@ -51,6 +55,21 @@ const Answer = styled.div`
   }
 `;
 
+const My = styled.div`
+  display: grid;
+  grid-template-columns: 8.8fr 1fr;
+  align-items: center;
+`;
+
+const Buttons = styled.div`
+  button {
+    background: none;
+    color: #808080;
+    border: 0;
+    padding: .2em .4em;
+  }
+`;
+
 export default function Inquiry({ inquiry, handleClickDelete, handleClickEdit }) {
   const [open, setOpen] = useState(false);
 
@@ -64,16 +83,18 @@ export default function Inquiry({ inquiry, handleClickDelete, handleClickEdit })
         <p>{inquiry.answerStatus ? '답변완료' : '미답변'}</p>
         <p>
           {inquiry.title}
-          {inquiry.isSecret && !inquiry.isMine ? ' 🔒' : ''}
+          {' '}
+          {inquiry.isSecret && !inquiry.isMine
+            ? <img src={lock} alt="비공개" /> : null}
         </p>
         <p>{inquiry.userName}</p>
         <p>{inquiry.createAt}</p>
       </Tbody>
       <Detail open={open}>
-        <div>
+        <My>
           <pre>{inquiry.content}</pre>
           {inquiry.isMine ? (
-            <div>
+            <Buttons>
               <button
                 type="button"
                 onClick={() => handleClickEdit((inquiry.id))}
@@ -86,10 +107,10 @@ export default function Inquiry({ inquiry, handleClickDelete, handleClickEdit })
               >
                 삭제
               </button>
-            </div>
+            </Buttons>
           ) : null}
-        </div>
-        {inquiry.answerStatus ? (
+        </My>
+        {inquiry.answerStatus && !inquiry.isSecret ? (
           <Answer>
             <div>
               <h4>답변</h4>

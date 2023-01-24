@@ -6,13 +6,37 @@ import styled from 'styled-components';
 
 import useOrderFormStore from '../hooks/useOrderFormStore';
 import Error from './ui/Error';
+import Input from './ui/Input';
 
-const Container = styled.div`
-  
+const Search = styled.button`
+  background: #E9E9E9;
+  margin-left: .6em;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  padding: .7em 1em;
 `;
 
 const Label = styled.label`
   display: none;
+`;
+
+const Address = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    width: 100%;
+  }
+
+  input {
+    width: 98%;
+  }
+`;
+
+const ZipCode = styled.div`
+  input {
+    width: 10em;
+  }
 `;
 
 export default function Postcode({ register, errors }) {
@@ -45,50 +69,52 @@ export default function Postcode({ register, errors }) {
   };
 
   const {
-    zipCode, roadAddress, detailAddress,
+    zipCode, roadAddress, detailAddress, addressErrorMessage,
   } = orderFormStore;
 
   return (
-    <Container>
-      <div>
+    <>
+      <ZipCode>
         <Label htmlFor="input-zip-code">우편번호</Label>
-        <input
+        <Input
           id="input-zip-code"
           placeholder="우편번호"
           readOnly
+          error={addressErrorMessage}
           value={zipCode}
           {...register('zipCode')}
         />
-        <button type="button" onClick={handleClick}>
+        <Search type="button" onClick={handleClick}>
           우편번호 찾기
-        </button>
-      </div>
-      <div>
-        <Label htmlFor="input-road-address">도로명주소</Label>
-        <input
-          id="input-road-address"
-          placeholder="도로명주소"
-          readOnly
-          value={roadAddress}
-          {...register(
-            'roadAddress',
-            { required: { value: true, message: '주소를 입력해주세요' } },
-          )}
-        />
-        <Error>{errors.roadAddress ? errors.roadAddress.message : null}</Error>
-      </div>
-      <div>
-        <Label htmlFor="input-detail-address">상세주소</Label>
-        <input
-          id="input-detail-address"
-          placeholder="상세주소"
-          value={detailAddress}
-          onChange={(event) => (
-            orderFormStore.changeDetailAddress(event.target.value)
-          )}
-          {...register('detailAddress')}
-        />
-      </div>
-    </Container>
+        </Search>
+      </ZipCode>
+      <Address>
+        <div>
+          <Label htmlFor="input-road-address">도로명주소</Label>
+          <Input
+            id="input-road-address"
+            placeholder="도로명주소"
+            readOnly
+            error={addressErrorMessage}
+            value={roadAddress}
+            {...register(
+              'roadAddress',
+            )}
+          />
+        </div>
+        <div>
+          <Label htmlFor="input-detail-address">상세주소</Label>
+          <Input
+            id="input-detail-address"
+            placeholder="상세주소"
+            value={detailAddress}
+            onChange={(event) => (
+              orderFormStore.changeDetailAddress(event.target.value)
+            )}
+          />
+        </div>
+      </Address>
+      <Error>{addressErrorMessage}</Error>
+    </>
   );
 }

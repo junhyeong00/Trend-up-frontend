@@ -1,6 +1,6 @@
 import numberFormat from './NumberFormat';
 
-export default function OptionPriceFormat(optionPrice) {
+export default function optionPriceFormat(optionPrice) {
   if (!optionPrice) {
     return '';
   }

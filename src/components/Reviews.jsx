@@ -8,22 +8,34 @@ import PageNumbers from './PageNumbers';
 import useReviewsStore from '../hooks/useReviewsStore';
 
 const Container = styled.div`
-  padding: 1em;
+  margin: 0 auto 2.5em;
 `;
 
 const List = styled.ul`
   li {
-    padding: 1em;
-    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: .6em;
+    margin-bottom: .7em;
+    padding: 1.1em 2.2em;
+    background-color: #F8F8F8;
   }
 
   button {
     padding: 1em;
   }
+
+  img {
+    width: 8em;
+    height: 8em;
+  }
 `;
 
 const Content = styled.div`
   display: grid;
+  grid-template-columns: 8fr 1fr;
+
+  min-height: 4em;
 `;
 
 const ReviewsInformation = styled.div`
@@ -73,6 +85,28 @@ const TotalReviews = styled.div`
   }
 `;
 
+const Rating = styled.div`
+  display: flex;
+  align-items: center;
+  gap: .5em;
+  font-weight: bold;
+`;
+
+const ReviewInformaion = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: .6em;
+  }
+
+  div:first-child {
+    gap: 1.4em;
+  }
+`;
+
 export default function Reviews({ productId }) {
   const reviewsStore = useReviewsStore();
 
@@ -90,12 +124,10 @@ export default function Reviews({ productId }) {
     reviewsStore.changePage(page);
   };
 
-  if (!reviews.length) {
-    return (<p>작성된 리뷰가 없습니다</p>);
-  }
-
   return (
-    <Container>
+    <Container
+      id="reviews"
+    >
       <h3>상품 리뷰</h3>
       <ReviewsInformation>
         <TotalRating>
@@ -104,7 +136,8 @@ export default function Reviews({ productId }) {
           </p>
           <StarRatings
             rating={totalRating}
-            starRatedColor="blue"
+            starRatedColor="#ffc501"
+            starEmptyColor="#ffe899"
             starDimension="20px"
             starSpacing="3px"
           />
@@ -125,41 +158,50 @@ export default function Reviews({ productId }) {
           </p>
         </TotalReviews>
       </ReviewsInformation>
-      <List>
-        {reviews.map((review) => (
-          <li key={review.id}>
-            <Content>
-              <div>
-                <StarRatings
-                  rating={review.rating}
-                  starRatedColor="blue"
-                  starDimension="20px"
-                  starSpacing="3px"
-                />
-                <p>{review.rating}</p>
-              </div>
-              <div>
-                <p>{review.userName}</p>
-                <p>{review.createAt}</p>
-              </div>
-              <div>
-                <p>{review.productName}</p>
-                <span>
-                  -
-                  {' '}
-                  {review.productOption}
-                </span>
-              </div>
-              <p>{review.content}</p>
-            </Content>
-            <img src={review.image} alt="" />
-          </li>
-        ))}
-      </List>
-      <PageNumbers
-        totalPageCount={totalPageCount}
-        handlePageClick={handlePageClick}
-      />
+      {reviews.length ? (
+        <>
+          <List>
+            {reviews.map((review) => (
+              <li key={review.id}>
+                <div>
+                  <ReviewInformaion>
+                    <div>
+                      <p>{review.userName}</p>
+                      <p>{review.createAt}</p>
+                      <p>
+                        {review.productName}
+                        {' '}
+                        -
+                        {' '}
+                        {review.productOption}
+                      </p>
+                    </div>
+                    <Rating>
+                      <StarRatings
+                        rating={review.rating}
+                        starRatedColor="#ffc501"
+                        starEmptyColor="#ffe899"
+                        starDimension="18px"
+                        starSpacing="2px"
+                      />
+                      <p>{review.rating}</p>
+                    </Rating>
+                  </ReviewInformaion>
+                </div>
+                <Content>
+                  <pre>{review.content}</pre>
+                  {review.image
+                    ? <img src={review.image} alt="" /> : null }
+                </Content>
+              </li>
+            ))}
+          </List>
+          <PageNumbers
+            totalPageCount={totalPageCount}
+            handlePageClick={handlePageClick}
+          />
+        </>
+      ) : <p>작성된 리뷰가 없습니다</p>}
     </Container>
   );
 }

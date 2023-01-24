@@ -4,9 +4,14 @@ const PrimaryButton = styled.button`
     margin-top: 1em;
     padding: 1.2em 3em;
     border: none;
-    border-radius: 10px;    
-    background-color: #99CCFF;
+    background-color: #000000;
+
     color: #FFF;
+
+    :hover {
+    background-color: #222428;
+
+    }
 `;
 
 export default PrimaryButton;

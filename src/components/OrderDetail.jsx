@@ -5,9 +5,14 @@ import { nanoid } from 'nanoid';
 import styled from 'styled-components';
 
 import useOrderStore from '../hooks/useOrderStore';
+import useReviewFormStore from '../hooks/useReviewFormStore';
 
 import numberFormat from '../utils/NumberFormat';
-import useReviewFormStore from '../hooks/useReviewFormStore';
+import phoneNumberFormat from '../utils/PhoneNumberFormat';
+
+import SecondaryButton from './ui/SecondaryButton';
+
+import defaultTheme from '../styles/DefaultTheme';
 
 const Container = styled.div`
   display: flex;
@@ -18,23 +23,76 @@ const Container = styled.div`
 
 const List = styled.ul`
   li {
-    width: 60%;
-    margin-top: .3em;
-    padding: .5em;
-    border: 1px solid black;
+    margin-top: .8em;
+    padding-bottom: .8em;
+    border-bottom: 1px solid #D9D9D9;
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr 1fr;
+    align-items: center;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: .3em
+    }
+
+    button {
+      margin: 0;
+      border-radius: 4px;
+      padding: 1em 1em;
+    }
   }
 `;
 
-const ReceiverInformation = styled.dl`
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    row-gap: .5em;
+const Price = styled.p`
+  text-align: end;
+  padding-right: 2em;
+  font-weight: bold;
 `;
 
-const PaymentInformation = styled.dl`
+const ReceiverInformation = styled.div`
+ h4 {
+    border-bottom: 2px solid #000000;
+    padding-block: 1.5em;
+  }
+
+  dl {
     display: grid;
     grid-template-columns: 1fr 5fr;
-    row-gap: .5em;
+    row-gap: .7em;
+    padding-block: 1.5em;
+  }
+`;
+
+const PaymentInformation = styled.div`
+  h4 {
+    border-bottom: 2px solid #000000;
+    padding-block: 1.5em;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    row-gap: .7em;
+    padding-block: 1.5em;
+  }
+`;
+
+const OrderProducts = styled.div`
+  h4 {
+    border-top: 2px solid #000000;
+    border-bottom: 1px solid #D9D9D9;
+    padding-block: 1em;
+  }
+`;
+
+const Image = styled.img`
+  width: 6em;
+  height: 6em;
+  margin-right: 1em;
+  display: flex;
+  align-items: center;
+  border: 1px solid ${defaultTheme.colors.fourth};
 `;
 
 export default function OrderDetail({ navigate }) {
@@ -70,42 +128,49 @@ export default function OrderDetail({ navigate }) {
   return (
     <Container>
       <h3>주문 상세정보</h3>
-      <div>
+      <OrderProducts>
         <h4>주문 상품</h4>
         <List>
           {products.map((product) => (
             <li key={nanoid()}>
-              <img src={product.image} alt={product.productName} />
-              <p>{product.productName}</p>
-              <p>{product.productOption}</p>
-              <p>
-                {product.productQuantity}
-                개
-              </p>
-              <p>
+              <Image src={product.productImage} alt={product.productName} />
+              <div>
+                <p>
+                  {product.productName}
+                  {' '}
+                  -
+                  {' '}
+                  {product.productOption}
+                </p>
+                <p>
+                  {product.productQuantity}
+                  개
+                </p>
+              </div>
+              <Price>
                 {numberFormat(product.productPrice)}
                 원
-              </p>
+              </Price>
               {product.writable
                 ? (
-                  <button
+                  <SecondaryButton
                     type="button"
                     onClick={() => handleReviewWriteClick(product)}
                   >
                     리뷰 작성
-                  </button>
+                  </SecondaryButton>
                 ) : null}
             </li>
           ))}
         </List>
-      </div>
-      <div>
-        <h4>받는 사람 정보</h4>
-        <ReceiverInformation>
+      </OrderProducts>
+      <ReceiverInformation>
+        <h4>배송 정보</h4>
+        <dl>
           <dt>받는 사람</dt>
           <dd>{order.receiver}</dd>
           <dt>연락처</dt>
-          <dd>{order.phoneNumber}</dd>
+          <dd>{phoneNumberFormat(order.phoneNumber)}</dd>
           <dt>받는 주소</dt>
           <dd>
             (
@@ -118,11 +183,11 @@ export default function OrderDetail({ navigate }) {
           </dd>
           <dt>배송 요청 사항</dt>
           <dd>{order.deliveryRequest}</dd>
-        </ReceiverInformation>
-      </div>
-      <div>
+        </dl>
+      </ReceiverInformation>
+      <PaymentInformation>
         <h4>결제 정보</h4>
-        <PaymentInformation>
+        <dl>
           <dt>결제금액</dt>
           <dd>
             {numberFormat(order.payment)}
@@ -138,8 +203,8 @@ export default function OrderDetail({ navigate }) {
             {numberFormat(order.deliveryFee)}
             원
           </dd>
-        </PaymentInformation>
-      </div>
+        </dl>
+      </PaymentInformation>
     </Container>
   );
 }

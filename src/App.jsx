@@ -1,11 +1,16 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import styled, { ThemeProvider } from 'styled-components';
+
 import { useLocalStorage } from 'usehooks-ts';
-import { useEffect } from 'react';
 
 import GlobalStyle from './styles/GlobalStyle';
+import defaultTheme from './styles/DefaultTheme';
 
-import Header from './components/Header';
+import useCartStore from './hooks/useCartStore';
+
+import { apiService } from './services/ApiService';
 
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -16,16 +21,25 @@ import OrderSuccessPage from './pages/OrderSuccessPage';
 import MyPage from './pages/MyPage';
 import OrderDetailPage from './pages/OrderDetailPage';
 import ReviewWritePage from './pages/ReviewWritePage';
-
-import { apiService } from './services/ApiService';
 import ReviewManagementPage from './pages/ReviewManagementPage';
 import ReviewWriteablePage from './pages/ReviewWriteablePage';
 import ReviewEditPage from './pages/ReviewEditPage';
 import CartPage from './pages/CartPage';
-import useCartStore from './hooks/useCartStore';
 import KaKaoLoginPage from './pages/KaKaoLoginPage';
+
+import Header from './components/Header';
 import OrderCancel from './components/OrderCancel';
 import OrderFail from './components/OrderFail';
+
+const Main = styled.main`
+  display: flex;
+  justify-content: center;
+  min-width: 1024px;
+  max-width: 1980px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 500px;
+`;
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -39,10 +53,10 @@ export default function App() {
   }, [accessToken]);
 
   return (
-    <div>
+    <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
       <Header />
-      <main>
+      <Main>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
@@ -61,7 +75,7 @@ export default function App() {
           <Route path="/orders/:orderId" element={<OrderDetailPage />} />
           <Route path="/cart" element={<CartPage />} />
         </Routes>
-      </main>
-    </div>
+      </Main>
+    </ThemeProvider>
   );
 }

@@ -7,24 +7,30 @@ import useProductsStore from '../hooks/useProductsStore';
 
 import useUserStore from '../hooks/useUserStore';
 
+import Category from './Category';
+
+import logo from '../images/TRENDUP.png';
+import search from '../images/search.png';
+import cart from '../images/cart.png';
+import my from '../images/my.png';
+
 const Container = styled.nav`
+  min-width: 1200px;
   width: 100%;
-  padding: 1em 1.5em;
-  border-bottom: 1px solid rgb(217,217,217);
+  margin: 0 auto;
+  border-bottom: 1px solid #D9D9D9;
 
-  ul {
-    display: flex;
-    align-items: center;
-    justify-content: end;
+  div > ul button{
+    color: #808080;
+  } 
 
-    button {
-      border: none;
-      background: none;
-    }
+  button {
+    border: none;
+    background: none;
   }
-
+ 
   li {
-    margin-inline: 2em;
+    margin-inline: 1em;
   }
 
   label {
@@ -32,28 +38,70 @@ const Container = styled.nav`
   }
 `;
 
+const Wrapper = styled.div`
+  min-width: 1024px;
+  width: 65%;
+  margin: 0 auto;
+  padding-block: .6em;
+
+  > ul {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
+    a {
+      color: #808080;
+      font-size: .9em;
+    }
+
+    img {
+      width: 1.5em;
+    }
+  }
+`;
+
 const Menu = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 
   button {
-    padding: .6em .8em;
+    padding: .4em .8em;
   }
 `;
 
 const Search = styled.div`
   display: flex;
 
+  border: 1px solid #000000;
+  border-radius: 8px;
+  background: #FFFFFF;
+
   input {
-    margin-bottom: .6em;
-    padding: 1em 1.5em;
+    background: none;
+    border: none;
+    margin-block: .1em;
+    padding: .3em 1.3em;
     width: 80%;
     :focus {
-      outline: 1px solid #99CCFF;
+      outline: none;
     }
 }
+`;
+
+const H1 = styled.h1`
+  display: flex;
+  justify-content: center;
+  margin-block: .2em .6em;
+
+  img {
+    width: 13.5em;
+  }
+`;
+
+const Cart = styled.button`
+  font-size: 1em;
 `;
 
 export default function Header() {
@@ -75,7 +123,20 @@ export default function Header() {
 
   const handClickSearch = () => {
     productsStore.fetchProducts(1);
-    navigate('/products');
+    navigate(`/products?categoryId=&keyword=${keyword}`);
+  };
+
+  const handleClickHome = () => {
+    productsStore.reset();
+    navigate('/');
+  };
+
+  const handleClickCart = () => {
+    if (!accessToken) {
+      navigate('/login');
+      return;
+    }
+    navigate('/cart');
   };
 
   useEffect(() => {
@@ -92,57 +153,77 @@ export default function Header() {
 
   return (
     <Container>
-      <ul>
-        {accessToken ? (
-          <>
-            <li>
-              <p>
-                {name}
-                님
-              </p>
-            </li>
-            <li>
-              <button type="button" onClick={handleLogout}>로그아웃</button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link to="/signup">회원가입</Link>
-            </li>
-            <li>
-              <Link to="/login">로그인</Link>
-            </li>
-          </>
-        )}
-      </ul>
-      <Menu>
-        <h1>
-          <Link to="/">Trendup</Link>
-        </h1>
-        <Search>
-          <label
-            htmlFor="input-keyword"
-          >
-            search
-          </label>
-          <input
-            id="input-keyword"
-            value={keyword}
-            onChange={(e) => productsStore.changeKeyword(e.target.value)}
-          />
-          <button
-            type="button"
-            onClick={handClickSearch}
-          >
-            검색
-          </button>
-        </Search>
+      <Wrapper>
+        <ul>
+          {accessToken ? (
+            <>
+              <li>
+                <button type="button" onClick={handleLogout}>로그아웃</button>
+              </li>
+              <li>
+                <Cart type="button" onClick={handleClickCart}>
+                  <img src={cart} alt="장바구니" />
+                </Cart>
+              </li>
+              <li>
+                <Link to="/my">
+                  <img src={my} alt="마이페이지" />
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link to="/signup">회원가입</Link>
+              </li>
+              <li>
+                <Link to="/login">로그인</Link>
+              </li>
+              <li>
+                <Cart type="button" onClick={handleClickCart}>
+                  <img src={cart} alt="장바구니" />
+                </Cart>
+              </li>
+              <li>
+                <Link to="/login">
+                  <img src={my} alt="마이페이지" />
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
         <div>
-          <Link to="/cart">장바구니</Link>
-          <Link to="/my">My</Link>
+          <H1>
+            <button
+              type="button"
+              onClick={handleClickHome}
+            >
+              <img src={logo} alt="trendup" />
+            </button>
+          </H1>
         </div>
-      </Menu>
+        <Menu>
+          <Category />
+          <Search>
+            <label
+              htmlFor="input-keyword"
+            >
+              search
+            </label>
+            <input
+              id="input-keyword"
+              value={keyword}
+              onChange={(e) => productsStore.changeKeyword(e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={handClickSearch}
+            >
+              <img src={search} alt="검색" />
+            </button>
+          </Search>
+        </Menu>
+      </Wrapper>
     </Container>
   );
 }

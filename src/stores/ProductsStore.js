@@ -37,12 +37,14 @@ export default class ProductsStore extends Store {
   }
 
   async changeKeyword(keyword) {
+    this.categoryId = 0;
     this.keyword = keyword;
 
     this.publish();
   }
 
   async changeCategoryId(categoryId) {
+    this.keyword = '';
     this.categoryId = categoryId;
 
     this.publish();

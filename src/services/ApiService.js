@@ -55,6 +55,8 @@ export default class ApiService {
     return {
       orders: data.orders,
       totalPageCount: data.totalPageCount,
+      shippedCount: data.shippedCount,
+      inTransitCount: data.inTransitCount,
     };
   }
 

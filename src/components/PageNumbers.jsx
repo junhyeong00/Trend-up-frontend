@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.ul`
-  margin-bottom: 2em;
+  margin-block: 2em;
   display: flex;
   justify-content: center;
   gap: .4em;

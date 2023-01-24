@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
+
 import MyPageNavigation from '../components/MyPageNavigation';
+import Profile from '../components/Profile';
 import ReviewWrite from '../components/ReviewWrite';
 
 const Container = styled.div`
@@ -14,7 +17,10 @@ export default function ReviewWritePage() {
 
   return (
     <Container>
-      <MyPageNavigation />
+      <div>
+        <Profile />
+        <MyPageNavigation />
+      </div>
       <ReviewWrite
         navigate={navigate}
       />

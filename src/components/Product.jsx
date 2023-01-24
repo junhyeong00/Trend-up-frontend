@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { useLocalStorage } from 'usehooks-ts';
 
+import StarRatings from 'react-star-ratings';
 import useCartStore from '../hooks/useCartStore';
 import useProductStore from '../hooks/useProductStore';
 import useOrderFormStore from '../hooks/useOrderFormStore';
@@ -15,24 +16,26 @@ import Modal from './Modal';
 
 import Error from './ui/Error';
 import PrimaryButton from './ui/PrimaryButton';
+import useReviewsStore from '../hooks/useReviewsStore';
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  padding: 1em;
+  justify-content: space-between;
+  margin: 1em auto;
 `;
 
 const ProductImage = styled.img`
-  width: 30em;
-  height: auto;
+  width: 32em;
+  height: 25em;
+  object-fit: cover;
 `;
 
 const ProductDescription = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1em;
-  height: 30em;
-  width: 30em;
+  width: 32em;
+  margin-bottom: 4em;
 `;
 
 const Name = styled.p`
@@ -50,14 +53,27 @@ const Detail = styled.dl`
   div {
     display: flex;
     padding-block: 1.3em;
-    border-bottom: 1px solid #D9D9D9;
   }
+
   dt {
     width: 20%;
     
   }
+
   dd {
     color: #666666;
+  }
+
+  select {
+    width: 100%;
+    border-color: #CCCCCC;
+    padding: .5em;
+  }
+
+  div:last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 `;
 
@@ -73,9 +89,15 @@ const TotalPrice = styled.span`
 `;
 
 const CountForm = styled.dd`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 27%;
+  height: 2.5em;
   border: 1px solid #D9D9D9;
   border-radius: 5px;
   padding: .4em;
+  text-align: center;
+  align-items: center;
 
   button {
     border: none;
@@ -98,7 +120,31 @@ const ModalBackground = styled.div`
   z-index: 999;
 `;
 
+const Buttons = styled.div`
+  display: flex;
+  gap: 1em;
+  justify-content: space-around;
+
+  button {
+    width: 48%;
+  }
+`;
+
+const CartButton = styled.button`
+  margin-top: 1em;
+  padding: 1.2em 3em;
+  border: 1px solid #CCCCCC;
+  background: none;
+`;
+
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
 export default function Product({ navigate, productId }) {
+  const [accessToken] = useLocalStorage('accessToken', '');
   const [, setCart] = useLocalStorage('cart', '{"items":[]}');
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -106,6 +152,9 @@ export default function Product({ navigate, productId }) {
   const productStore = useProductStore();
   const cartStore = useCartStore();
   const orderFormStore = useOrderFormStore();
+  const reviewsStore = useReviewsStore();
+
+  const { totalRating } = reviewsStore;
 
   useEffect(() => {
     productStore.fetchProduct(productId);
@@ -130,6 +179,11 @@ export default function Product({ navigate, productId }) {
   }];
 
   const handleClickPurchase = () => {
+    if (!accessToken) {
+      navigate('/login');
+      return;
+    }
+
     if (selectedOptionId === 'none' || !selectedOptionId) {
       productStore.notChoiceOption();
       return;
@@ -147,6 +201,11 @@ export default function Product({ navigate, productId }) {
   };
 
   const handleClickCart = () => {
+    if (!accessToken) {
+      navigate('/login');
+      return;
+    }
+
     if (selectedOptionId === 'none' || !selectedOptionId) {
       productStore.notChoiceOption();
       return;
@@ -180,14 +239,22 @@ export default function Product({ navigate, productId }) {
     <Container>
       <ProductImage src={product.image} alt="product" />
       <ProductDescription>
-        <Name>{product.name}</Name>
+        <Title>
+          <Name>{product.name}</Name>
+          <StarRatings
+            rating={totalRating}
+            starRatedColor="#ffc501"
+            starEmptyColor="#ffe899"
+            starDimension="1.15em"
+            starSpacing="2px"
+          />
+        </Title>
         <Price>
           {numberFormat(product.price)}
           원
         </Price>
         <Detail>
           <div>
-            <p>옵션</p>
             <select
               id="options"
               onChange={handleChangeOption}
@@ -196,7 +263,7 @@ export default function Product({ navigate, productId }) {
                 value="none"
               >
                 {' '}
-                선택
+                옵션 선택(필수)
                 {' '}
               </option>
               {options.map((option) => (
@@ -209,7 +276,6 @@ export default function Product({ navigate, productId }) {
             </select>
           </div>
           <div>
-            <dt>구매수량</dt>
             <CountForm>
               <button
                 type="button"
@@ -228,31 +294,30 @@ export default function Product({ navigate, productId }) {
                 ➕
               </button>
             </CountForm>
+            <TotalPrice>
+              총 상품 금액:
+              {' '}
+              <span>
+                {numberFormat(totalPrice)}
+                원
+              </span>
+            </TotalPrice>
           </div>
         </Detail>
-        <TotalPrice>
-          총 상품 금액:
-          {' '}
-          <span>
-            {numberFormat(totalPrice)}
-            원
-          </span>
-        </TotalPrice>
-        <PrimaryButton
-          type="button"
-          onClick={handleClickPurchase}
-        >
-          구매하기
-        </PrimaryButton>
-        <div>
-          <button type="button">찜</button>
-          <button
+        <Buttons>
+          <PrimaryButton
+            type="button"
+            onClick={handleClickPurchase}
+          >
+            구매하기
+          </PrimaryButton>
+          <CartButton
             type="button"
             onClick={handleClickCart}
           >
             장바구니
-          </button>
-        </div>
+          </CartButton>
+        </Buttons>
         <Error>{errorMessage}</Error>
       </ProductDescription>
       {modalOpen ? (

@@ -11,6 +11,9 @@ import useReviewsStore from '../hooks/useReviewsStore';
 
 import Modal from './Modal';
 
+import defaultTheme from '../styles/DefaultTheme';
+import SecondaryButton from './ui/SecondaryButton';
+
 const Container = styled.div`
   padding: 1em;
 `;
@@ -18,22 +21,54 @@ const Container = styled.div`
 const List = styled.ul`
   li {
     padding: 1em;
-    border: 1px solid black;
+    border-bottom: 1px solid #D9D9D9;
+    display: grid;
+    grid-template-columns: 1.2fr 6fr 1fr;
+    align-items: center;
   }
 
   button {
     padding: 1em;
   }
+`;
 
-  img {
-    background-size: contain;
-    width: 9em;
-    height: 9em;
+const Image = styled.img`
+  width: 7em;
+  height: 7em;
+  margin-right: 1em;
+  display: flex;
+  align-items: center;
+  border: 1px solid ${defaultTheme.colors.fourth};
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  width: 100%;
+  border-bottom: 1.7px solid #000000;
+  padding-bottom: 1em;
+
+  a:first-child {
+    width: 50%;
+    border: 1px solid #CCCCCC;
+    padding-block: .4em;
+    text-align: center;
+    color: #808080;
+  }
+
+  a:last-child {
+    width: 50%;
+    border: 1px solid #17181B;
+    background: #17181B;
+    padding-block: .4em;
+    text-align: center;
+    color: #FFFFFF;
   }
 `;
 
 const Content = styled.div`
   display: grid;
+  gap: .5em;
+  color: #727272;
 `;
 
 const ModalBackground = styled.div`
@@ -44,6 +79,36 @@ const ModalBackground = styled.div`
   top: 0;
   background: rgba(0,0,0,.5);
   z-index: 999;
+`;
+
+const Empty = styled.p`
+  padding-block: 1em;
+`;
+
+const Rating = styled.div`
+  display: flex;
+  align-items: center;
+  gap: .6em;
+  font-weight: 600;
+  color: #000000;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  font-size: .9em;
+`;
+
+const ProductInfo = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: .9em;
+`;
+
+const Common = styled.p`
+  text-align: center;
+  padding-right: 1em;
 `;
 
 export default function MyReviews({ navigate }) {
@@ -88,64 +153,70 @@ export default function MyReviews({ navigate }) {
     setModalOpen(false);
   };
 
-  if (!reviews.length) {
-    return (<p>작성된 리뷰가 없습니다</p>);
-  }
-
   return (
     <Container>
       <h3>리뷰 관리</h3>
-      <Link to="/my/review/writeable">리뷰 작성</Link>
-      <Link to="/my/reviews">작성한 리뷰</Link>
-      <List>
-        {reviews.map((review) => (
-          <li key={review.id}>
-            <Content>
-              <div>
-                <StarRatings
-                  rating={review.rating}
-                  starRatedColor="blue"
-                  starDimension="20px"
-                  starSpacing="3px"
-                />
-                <p>{review.rating}</p>
-              </div>
-              <div>
-                <p>{review.userName}</p>
-                <p>{review.createAt}</p>
-              </div>
-              <div>
-                <p>{review.productName}</p>
-                <span>
-                  -
-                  {' '}
-                  {review.productOption}
-                </span>
-              </div>
-              <p>{review.content}</p>
-            </Content>
-            <img src={review.image} alt="" />
-            <div>
-              <button
-                type="button"
-                onClick={() => handleClickEdit(review.id)}
-              >
-                수정
-              </button>
-              <button
-                type="button"
-                onClick={() => handleClickDelete(review.id)}
-              >
-                삭제
-              </button>
-            </div>
-          </li>
-        ))}
-      </List>
-      <PageNumbers
-        totalPageCount={totalPageCount}
-        handlePageClick={handlePageClick}
-      />
+      <Buttons>
+        <Link to="/my/review/writeable">리뷰 작성</Link>
+        <Link to="/my/reviews">작성한 리뷰</Link>
+      </Buttons>
+      {reviews.length
+        ? (
+          <>
+            <List>
+              {reviews.map((review) => (
+                <li key={review.id}>
+                  {review.image ? <Image src={review.image} alt="일반리뷰" />
+                    : <Common>일반리뷰</Common>}
+                  <Content>
+                    <Rating>
+                      <StarRatings
+                        rating={review.rating}
+                        starRatedColor="#ffc501"
+                        starEmptyColor="#ffe899"
+                        starDimension="20px"
+                        starSpacing="2px"
+                      />
+                      <p>{review.rating}</p>
+                    </Rating>
+                    <UserInfo>
+                      <p>{review.userName}</p>
+                      <p>{review.createAt}</p>
+                    </UserInfo>
+                    <ProductInfo>
+                      <p>{review.productName}</p>
+                      <span>
+                        -
+                        {' '}
+                        {review.productOption}
+                      </span>
+                    </ProductInfo>
+                    <pre>{review.content}</pre>
+                  </Content>
+                  <div>
+                    <SecondaryButton
+                      type="button"
+                      onClick={() => handleClickEdit(review.id)}
+                    >
+                      수정
+                    </SecondaryButton>
+                    <SecondaryButton
+                      type="button"
+                      onClick={() => handleClickDelete(review.id)}
+                    >
+                      삭제
+                    </SecondaryButton>
+                  </div>
+                </li>
+              ))}
+            </List>
+            <PageNumbers
+              totalPageCount={totalPageCount}
+              handlePageClick={handlePageClick}
+            />
+          </>
+        )
+        : <Empty>작성된 리뷰가 없습니다</Empty>}
       {modalOpen ? (
         <ModalBackground>
           <Modal

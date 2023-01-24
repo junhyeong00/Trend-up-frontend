@@ -1,6 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
+
 import MyPageNavigation from '../components/MyPageNavigation';
+import Profile from '../components/Profile';
 import ReviewEdit from '../components/ReviewEdit';
 
 const Container = styled.div`
@@ -18,7 +21,10 @@ export default function ReviewEditPage() {
 
   return (
     <Container>
-      <MyPageNavigation />
+      <div>
+        <Profile />
+        <MyPageNavigation />
+      </div>
       <ReviewEdit
         navigate={navigate}
         reviewId={reviewId}

@@ -21,6 +21,7 @@ export default class OrderFormStore extends Store {
     this.detailAddress = '';
 
     this.errorMessage = '';
+    this.addressErrorMessage = '';
 
     this.paymentResult = {};
   }
@@ -45,6 +46,11 @@ export default class OrderFormStore extends Store {
     // });
     // return data;
 
+      if (!this.zipCode || !this.roadAddress) {
+        this.addressErrorMessage = '주소를 입력해주세요';
+        return '';
+      }
+
       const kakaoPayUrl = await apiService.createOrder({
         orderProducts: this.orderProducts,
         receiver,
@@ -57,6 +63,8 @@ export default class OrderFormStore extends Store {
         deliveryFee: this.deliveryFee,
         deliveryRequest,
       });
+
+      this.initialize();
 
       this.publish();
 
@@ -72,6 +80,9 @@ export default class OrderFormStore extends Store {
   initialize() {
     this.zipCode = '';
     this.roadAddress = '';
+
+    this.errorMessage = '';
+    this.addressErrorMessage = '';
 
     this.publish();
   }
@@ -105,36 +116,17 @@ export default class OrderFormStore extends Store {
     this.publish();
   }
 
-  async requestOrder({
-    recipient,
-    phoneNumber,
-    orderProducts,
-    totalOrderPayment,
-    address,
-    deliveryRequest,
-  }, accessToken) {
-    const orderInformation = {
-      recipient,
-      phoneNumber,
-      orderProducts,
-      totalOrderPayment,
-      address,
-      deliveryRequest,
-    };
-
-    const kakaoPayUrl = await apiService.createOrder(orderInformation, accessToken);
-
-    this.publish();
-
-    return kakaoPayUrl;
-  }
-
   async fetchPayResult(pgToken) {
-    const data = await apiService.fetchPayResult(pgToken);
+    try {
+      const data = await apiService.fetchPayResult(pgToken);
 
-    this.paymentResult = data;
+      this.paymentResult = data;
 
-    this.publish();
+      this.publish();
+    } catch (e) {
+      this.paymentResult = '잘못된 접근입니다';
+      this.publish();
+    }
   }
 
   // changePhoneNumber(phoneNumber) {

@@ -11,6 +11,9 @@ export default class InquiriesStore extends Store {
     this.currentPage = 0;
 
     this.inquiryId = 0;
+    this.wroteTitle = '';
+    this.wroteContent = '';
+    this.wroteSecret = false;
   }
 
   async fetchInquiries(currentPage, productId) {
@@ -47,6 +50,12 @@ export default class InquiriesStore extends Store {
 
   changeInquiryId(inquiryId) {
     this.inquiryId = inquiryId;
+
+    const index = this.inquiries.findIndex((inquiry) => inquiryId === inquiry.id);
+
+    this.wroteTitle = this.inquiries[index].title;
+    this.wroteContent = this.inquiries[index].content;
+    this.wroteSecret = this.inquiries[index].isSecret;
     this.publish();
   }
 }

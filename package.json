@@ -1,7 +1,7 @@
 {
-  "name": "shopping-mall-frontend",
+  "name": "trend-up-frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "shopping-mall-project",
   "scripts": {
     "start": "parcel index.html --port 8080",
     "test": "jest --watchAll",
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/junhyeong00/shopping-mall-frontend.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "배준형",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/junhyeong00/shopping-mall-frontend/issues"

@@ -5,6 +5,7 @@
   "scripts": {
     "start": "parcel index.html --port 8080",
     "test": "jest --watchAll",
+    "build": "react-scripts build",
     "codeceptjs": "codeceptjs run --steps",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
     "codeceptjs:ui": "codecept-ui --app"

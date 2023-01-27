@@ -11,7 +11,7 @@
     "codeceptjs:ui": "codecept-ui --app"
   },
   "engine": {
-    "node": "16.15.1",
+    "node": "v16.15.1",
     "npm": "8.19.2"
   },
   "repository": {

@@ -35,7 +35,7 @@ const Main = styled.main`
   display: flex;
   justify-content: center;
   min-width: 1024px;
-  max-width: 1980px;
+  max-width: 2048px;
   width: 100%;
   margin: 0 auto;
   min-height: 500px;

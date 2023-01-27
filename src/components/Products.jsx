@@ -79,26 +79,28 @@ export default function Products() {
                   onClick={() => handleProductClick(product.id)}
                 >
                   <img src={product.image} alt={product.name} />
-                  <p>{product.name}</p>
                   <div>
-                    <StarRatings
-                      rating={product.totalRating}
-                      starRatedColor="#ffc501"
-                      starEmptyColor="#ffe899"
-                      starDimension="1.3em"
-                      starSpacing="2px"
-                    />
-                    <span>
-                      {' '}
-                      (
-                      {product.totalReviewCount}
-                      )
-                    </span>
+                    <p>{product.name}</p>
+                    <div>
+                      <StarRatings
+                        rating={product.totalRating}
+                        starRatedColor="#ffc501"
+                        starEmptyColor="#ffe899"
+                        starDimension="1.3em"
+                        starSpacing="2px"
+                      />
+                      <span>
+                        {' '}
+                        (
+                        {product.totalReviewCount}
+                        )
+                      </span>
+                    </div>
+                    <p>
+                      <strong>{numberFormat(product.price)}</strong>
+                      원
+                    </p>
                   </div>
-                  <p>
-                    <strong>{numberFormat(product.price)}</strong>
-                    원
-                  </p>
                 </button>
               </li>
             ))}

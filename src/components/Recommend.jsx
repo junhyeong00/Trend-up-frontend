@@ -39,7 +39,7 @@ const Overview = styled.ul`
 
     img {
         width: 90%;
-        height: 12em;
+        height: 14em;
         object-fit: cover;
         border-radius: 8px;
     }

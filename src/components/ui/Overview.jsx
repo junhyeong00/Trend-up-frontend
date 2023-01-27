@@ -10,7 +10,7 @@ const Overview = styled.ul`
     margin-inline: auto;
 
     li {
-        height: 18em;
+        min-height: 18em;
     }
 
     button {
@@ -18,6 +18,12 @@ const Overview = styled.ul`
         background: none;
         border: none;
         text-align: left;
+        display: flex;
+        flex-direction: column;
+
+        > div {
+            margin-top: auto;
+        }
     }
 
     p {
@@ -26,9 +32,11 @@ const Overview = styled.ul`
     }
 
     img {
-        width: 17em;
-        height: 13em;
+        min-width: 17em;
+        min-height: 13em;
+        max-width: 22em;
         object-fit: cover;
+        margin-block: auto;
         border-radius: 8px;
     }
 `;

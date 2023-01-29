@@ -9,7 +9,6 @@
     "codeceptjs": "codeceptjs run --steps",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
     "codeceptjs:ui": "codecept-ui --app",
-    "heroku-postbuild": "parcel build index.html",
     "heroku-prebuild": "npm install"
   },
   "engines": {

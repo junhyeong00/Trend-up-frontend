@@ -11,7 +11,7 @@
     "codeceptjs:ui": "codecept-ui --app",
     "heroku-postbuild": "parcel build index.html"
   },
-  "engine": {
+  "engines": {
     "node": "16.15.1",
     "npm": "8.19.2"
   },

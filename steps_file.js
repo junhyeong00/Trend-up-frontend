@@ -1,4 +1,4 @@
-const backdoorBaseUrl = 'http://localhost:8000/backdoor';
+const backdoorBaseUrl = 'https://trend-up-backend.herokuapp.com/backdoor';
 
 module.exports = function () {
   return actor({

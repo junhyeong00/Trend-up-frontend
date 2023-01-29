@@ -10,6 +10,10 @@
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
     "codeceptjs:ui": "codecept-ui --app"
   },
+  "engine": {
+    "node": "16.15.1",
+    "npm": "8.19.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/junhyeong00/shopping-mall-frontend.git"

@@ -8,12 +8,7 @@
     "build": "parcel build index.html --public-url /",
     "codeceptjs": "codeceptjs run --steps",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
-    "codeceptjs:ui": "codecept-ui --app",
-    "heroku-postbuild": "parcel build index.html"
-  },
-  "engines": {
-    "node": "16.15.1",
-    "npm": "8.19.2"
+    "codeceptjs:ui": "codecept-ui --app"
   },
   "repository": {
     "type": "git",

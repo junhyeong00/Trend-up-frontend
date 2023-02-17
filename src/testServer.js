@@ -340,6 +340,23 @@ const server = setupServer(
   rest.delete(`${baseUrl}/inquiries/1`, async (req, res, ctx) => res(ctx.status(204))),
 
   rest.patch(`${baseUrl}/inquiries/1`, async (req, res, ctx) => res(ctx.status(204))),
+
+  rest.post(`${baseUrl}/user`, async (req, res, ctx) => {
+    const { name, userName } = await req.json();
+
+    if (userName === 'exist123') {
+      return res(
+        ctx.status(400),
+        ctx.json({
+          errorMessage: '이미 존재하는 아이디입니다',
+        }),
+      );
+    }
+
+    return res(ctx.json({
+      name,
+    }));
+  }),
 );
 
 export default server;

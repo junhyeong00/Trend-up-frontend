@@ -20,7 +20,7 @@ jest.mock('react-router-dom', () => ({
   },
 }));
 
-describe('Reviews', () => {
+describe('ReviewWriteable', () => {
   afterEach(() => {
     cleanup();
   });
@@ -36,19 +36,11 @@ describe('Reviews', () => {
   it('render screen', async () => {
     renderReviewWriteable();
 
-    // reviewsStore.fetchReviews(1, 1);
+    reviewsStore.fetchReviews(1, 1);
 
     await waitFor(() => {
       screen.getByText('리뷰 관리');
       screen.getByText('작성한 리뷰');
-    });
-  });
-
-  it('listens for review write event', async () => {
-    renderReviewWriteable();
-
-    await waitFor(() => {
-      // TODO
     });
   });
 });

@@ -303,6 +303,23 @@ export default class ApiService {
 
     return data;
   }
+
+  async signUp({
+    name, userName, phoneNumber,
+    password, confirmPassword,
+  }) {
+    const url = `${baseUrl}/user`;
+
+    const { data } = await axios.post(url, {
+      name,
+      userName,
+      phoneNumber,
+      password,
+      confirmPassword,
+    });
+
+    return data;
+  }
 }
 
 export const apiService = new ApiService();

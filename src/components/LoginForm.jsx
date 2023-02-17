@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { useLocalStorage } from 'usehooks-ts';
-import useCartStore from '../hooks/useCartStore';
 
+import useCartStore from '../hooks/useCartStore';
 import useUserStore from '../hooks/useUserStore';
 
 import Error from './ui/Error';
@@ -114,7 +114,7 @@ export default function LoginForm({ navigate }) {
 
       setCart(itmes);
 
-      navigate(-1);
+      navigate('-1');
     }
   };
 

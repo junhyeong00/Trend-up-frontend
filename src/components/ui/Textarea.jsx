@@ -11,6 +11,7 @@ const Textarea = styled.textarea`
   )
 };
   :focus {
+    border-color: #000000;
     outline: none;
   }
   ::placeholder {

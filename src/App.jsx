@@ -17,6 +17,7 @@ import ProductsPage from './pages/ProductsPage';
 import ProductPage from './pages/ProductPage';
 import OrderPage from './pages/OrderPage';
 import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import MyPage from './pages/MyPage';
 import OrderDetailPage from './pages/OrderDetailPage';
@@ -26,6 +27,7 @@ import ReviewWriteablePage from './pages/ReviewWriteablePage';
 import ReviewEditPage from './pages/ReviewEditPage';
 import CartPage from './pages/CartPage';
 import KaKaoLoginPage from './pages/KaKaoLoginPage';
+import SignupSuccessPage from './pages/SignupSuccessPage';
 
 import Header from './components/Header';
 import OrderCancel from './components/OrderCancel';
@@ -67,6 +69,8 @@ export default function App() {
           <Route path="/order/fail" element={<OrderFail />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/auth/kakao" element={<KaKaoLoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/signup/success" element={<SignupSuccessPage />} />
           <Route path="/my" element={<MyPage />} />
           <Route path="/my/review/writeable" element={<ReviewWriteablePage />} />
           <Route path="/my/reviews" element={<ReviewManagementPage />} />

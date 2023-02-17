@@ -24,12 +24,3 @@ Scenario('상품 주문 완료', ({ I }) => {
 
   // Then
 });
-
-Scenario('', ({ I }) => {
-  // Given
-
-  // When
-
-  // Then
-
-});

@@ -27,7 +27,6 @@ Scenario('메인화면 - 로그인 후', ({ I }) => {
   I.amOnPage('/');
 
   // Then
-  // I.see(/인기 상품/);
   I.see(/장바구니/);
   I.see(/My/);
   I.see(/로그아웃/);

@@ -11,6 +11,7 @@ const Input = styled.input`
   )
 };
   :focus {
+    border-color: #000000;
     outline: none;
   }
   ::placeholder {

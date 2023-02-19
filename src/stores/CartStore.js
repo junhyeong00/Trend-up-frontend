@@ -14,7 +14,9 @@ export default class CartStore extends Store {
     apiService.updateCart(JSON.stringify(this.cart));
   }
 
-  async fetchCart() {
+  async fetchCart(accessToken) {
+    apiService.setAccessToken(accessToken);
+
     const { items } = await apiService.fetchCart();
     this.cart = new Cart(JSON.parse(items));
     this.publish();

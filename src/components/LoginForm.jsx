@@ -110,11 +110,11 @@ export default function LoginForm({ navigate }) {
     if (accessToken) {
       setAccessToken(accessToken);
 
-      const itmes = await cartStore.fetchCart();
+      const itmes = await cartStore.fetchCart(accessToken);
 
       setCart(itmes);
 
-      navigate('-1');
+      navigate(-1);
     }
   };
 

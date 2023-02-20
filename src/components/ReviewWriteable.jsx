@@ -118,35 +118,37 @@ export default function ReviewWriteable({ navigate }) {
           {orders.map((order) => (
             <li key={order.id}>
               <List>
-                {order.orderProducts.map((product) => (
-                  <li key={nanoid()}>
-                    <Image src={product.productImage} alt={product.productName} />
-                    <div>
-                      <p>
-                        {product.productName}
-                        {' '}
-                        -
-                        {' '}
-                        {product.productOption}
-                        ,
-                        {' '}
-                        {product.productQuantity}
-                        개
-                      </p>
-                      <p>
-                        주문일:
-                        {' '}
-                        {order.createAt}
-                      </p>
-                    </div>
-                    <SecondaryButton
-                      type="button"
-                      onClick={() => handleReviewWriteClick(product, order)}
-                    >
-                      리뷰 작성
-                    </SecondaryButton>
-                  </li>
-                ))}
+                {order.orderProducts
+                  .filter((product) => product.writable)
+                  .map((product) => (
+                    <li key={nanoid()}>
+                      <Image src={product.productImage} alt={product.productName} />
+                      <div>
+                        <p>
+                          {product.productName}
+                          {' '}
+                          -
+                          {' '}
+                          {product.productOption}
+                          ,
+                          {' '}
+                          {product.productQuantity}
+                          개
+                        </p>
+                        <p>
+                          주문일:
+                          {' '}
+                          {order.createAt}
+                        </p>
+                      </div>
+                      <SecondaryButton
+                        type="button"
+                        onClick={() => handleReviewWriteClick(product, order)}
+                      >
+                        리뷰 작성
+                      </SecondaryButton>
+                    </li>
+                  ))}
               </List>
             </li>
           ))}

@@ -1,5 +1,7 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
 
 const Container = styled.div`
   display: flex;
@@ -29,6 +31,16 @@ const H1 = styled.h1`
 `;
 
 export default function SignupSuccessPage() {
+  const [accessToken] = useLocalStorage('accessToken', '');
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate('/');
+    }
+  }, []);
+
   return (
     <Container>
       <H1>회원가입 완료</H1>

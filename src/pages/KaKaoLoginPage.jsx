@@ -28,7 +28,7 @@ export default function KaKaoLoginPage() {
     apiService.setAccessToken(accessToken);
 
     if (accessToken) {
-      const itmes = await cartStore.fetchCart();
+      const itmes = await cartStore.fetchCart(accessToken);
 
       setCart(itmes);
 

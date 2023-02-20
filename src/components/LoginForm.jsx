@@ -16,6 +16,7 @@ import Input from './ui/Input';
 import kakaoConfig from '../../kakao.config';
 
 import logo from '../images/TRENDUP.png';
+import SecondaryButton from './ui/SecondaryButton';
 
 const Container = styled.div`
   display: flex;
@@ -92,6 +93,10 @@ const Signup = styled.div`
   }
 `;
 
+const TesterLoginButton = styled(SecondaryButton)`
+  margin-top: 2em;
+`;
+
 export default function LoginForm({ navigate }) {
   const [, setAccessToken] = useLocalStorage('accessToken', '');
   const [, setCart] = useLocalStorage('cart', '{"items":[]}');
@@ -120,6 +125,22 @@ export default function LoginForm({ navigate }) {
 
   const handleClickSignUp = () => {
     navigate('/signup');
+  };
+
+  const handleClickTesterLogin = async () => {
+    const accessToken = await userStore.login(
+      { userName: 'tester123', password: 'Password123!' },
+    );
+
+    if (accessToken) {
+      setAccessToken(accessToken);
+
+      const itmes = await cartStore.fetchCart(accessToken);
+
+      setCart(itmes);
+
+      navigate(-1);
+    }
   };
 
   return (
@@ -185,6 +206,12 @@ export default function LoginForm({ navigate }) {
           </button>
         </Signup>
       </Form>
+      <TesterLoginButton
+        type="button"
+        onClick={handleClickTesterLogin}
+      >
+        테스트용 계정으로 로그인
+      </TesterLoginButton>
     </Container>
   );
 }

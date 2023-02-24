@@ -124,17 +124,19 @@ export default function ReviewWriteable({ navigate }) {
                     <li key={nanoid()}>
                       <Image src={product.productImage} alt={product.productName} />
                       <div>
-                        <p>
-                          {product.productName}
-                          {' '}
-                          -
-                          {' '}
-                          {product.productOption}
-                          ,
-                          {' '}
-                          {product.productQuantity}
-                          개
-                        </p>
+                        <Link to={`/products/${product.productId}`}>
+                          <p>
+                            {product.productName}
+                            {' '}
+                            -
+                            {' '}
+                            {product.productOption}
+                            ,
+                            {' '}
+                            {product.productQuantity}
+                            개
+                          </p>
+                        </Link>
                         <p>
                           주문일:
                           {' '}

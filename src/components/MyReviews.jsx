@@ -186,6 +186,7 @@ export default function MyReviews({ navigate }) {
                     <ProductInfo>
                       <p>{review.productName}</p>
                       <span>
+                        {' '}
                         -
                         {' '}
                         {review.productOption}

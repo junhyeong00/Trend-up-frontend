@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 
 import styled from 'styled-components';
@@ -135,13 +135,15 @@ export default function OrderDetail({ navigate }) {
             <li key={nanoid()}>
               <Image src={product.productImage} alt={product.productName} />
               <div>
-                <p>
-                  {product.productName}
-                  {' '}
-                  -
-                  {' '}
-                  {product.productOption}
-                </p>
+                <Link to={`/products/${product.productId}`}>
+                  <p>
+                    {product.productName}
+                    {' '}
+                    -
+                    {' '}
+                    {product.productOption}
+                  </p>
+                </Link>
                 <p>
                   {product.productQuantity}
                   개

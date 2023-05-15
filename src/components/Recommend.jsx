@@ -51,10 +51,8 @@ export default function Recommend() {
 
   const { products } = productsStore;
 
-  const { currentPage } = productsStore;
-
   useEffect(() => {
-    productsStore.fetchProducts(currentPage);
+    productsStore.fetchRecommendProducts();
   }, []);
 
   const handleProductClick = (productId) => {

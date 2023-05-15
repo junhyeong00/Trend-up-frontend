@@ -24,6 +24,15 @@ export default class ProductsStore extends Store {
     this.publish();
   }
 
+  async fetchRecommendProducts() {
+    const { products, totalPageCount } = await apiService
+      .fetchProducts({ page: 1, keyword: '', categoryId: 0 });
+
+    this.products = products;
+    this.totalPageCount = totalPageCount;
+    this.publish();
+  }
+
   reset() {
     this.keyword = '';
     this.categoryId = 0;

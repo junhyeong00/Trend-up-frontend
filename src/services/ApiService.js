@@ -83,7 +83,7 @@ export default class ApiService {
     zipCode, roadAddress, detailAddress,
     payment, totalPrice, deliveryFee, deliveryRequest,
   }) {
-    const url = `${baseUrl}/order`;
+    const url = `${baseUrl}/orders`;
     const { data } = await axios.post(url, {
       orderProducts,
       receiver,
@@ -101,7 +101,7 @@ export default class ApiService {
   }
 
   async fetchUserInformation() {
-    const url = `${baseUrl}/user/me`;
+    const url = `${baseUrl}/users/me`;
     const { data } = await axios.get(url, {
       headers: { Authorization: `Bearer ${this.accessToken}` },
     });
@@ -114,7 +114,7 @@ export default class ApiService {
   async createReview({
     rating, content, orderId, orderProduct, imageUrl,
   }) {
-    const url = `${baseUrl}/review`;
+    const url = `${baseUrl}/reviews`;
     const { data } = await axios.post(url, {
       rating,
       content,
@@ -193,14 +193,14 @@ export default class ApiService {
   }
 
   async updateCart(items) {
-    const url = `${baseUrl}/user/cart`;
+    const url = `${baseUrl}/users/cart`;
     await axios.patch(url, {
       items,
     }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
   }
 
   async fetchCart() {
-    const url = `${baseUrl}/user/cart`;
+    const url = `${baseUrl}/users/cart`;
     const { data } = await axios.get(
       url,
       { headers: { Authorization: `Bearer ${this.accessToken}` } },
@@ -219,7 +219,7 @@ export default class ApiService {
   async createInquiry({
     productId, title, content, isSecret,
   }) {
-    const url = `${baseUrl}/inquiry`;
+    const url = `${baseUrl}/inquiries`;
     const { data } = await axios.post(url, {
       productId, title, content, isSecret,
     }, { headers: { Authorization: `Bearer ${this.accessToken}` } });
@@ -270,7 +270,7 @@ export default class ApiService {
     zipCode, roadAddress, detailAddress,
     payment, totalPrice, deliveryFee, deliveryRequest,
   }) {
-    const url = `${baseUrl}/order`;
+    const url = `${baseUrl}/orders`;
 
     const { data } = await axios.post(url, {
       orderProducts,
@@ -308,7 +308,7 @@ export default class ApiService {
     name, userName, phoneNumber,
     password, confirmPassword,
   }) {
-    const url = `${baseUrl}/user`;
+    const url = `${baseUrl}/users`;
 
     const { data } = await axios.post(url, {
       name,

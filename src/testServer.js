@@ -115,7 +115,7 @@ const server = setupServer(
     return res(ctx.status(400));
   }),
 
-  rest.post(`${baseUrl}/order`, async (req, res, ctx) => {
+  rest.post(`${baseUrl}/orders`, async (req, res, ctx) => {
     const {
       orderProducts, receiver, phoneNumber,
       zipCode, roadAddress, detailAddress,
@@ -223,7 +223,7 @@ const server = setupServer(
     },
   ))),
 
-  rest.get(`${baseUrl}/user/me`, async (req, res, ctx) => res(ctx.json({
+  rest.get(`${baseUrl}/users/me`, async (req, res, ctx) => res(ctx.json({
     name: '배준형',
     phoneNumber: '01012341234',
     userName: 'test123',
@@ -317,7 +317,7 @@ const server = setupServer(
     ],
   }))),
 
-  rest.post(`${baseUrl}/inquiry`, async (req, res, ctx) => res(
+  rest.post(`${baseUrl}/inquiries`, async (req, res, ctx) => res(
     ctx.json({
       inquiryId: 1,
     }),
